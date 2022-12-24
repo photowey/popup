@@ -7,35 +7,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.0</version>
+        <groupId>com.photowey</groupId>
+        <artifactId>popup</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.photowey</groupId>
     <artifactId>popup-bom</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <java.version>17</java.version>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
-        <maven-license-plugin.version>3.0</maven-license-plugin.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
-        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-
-        <!-- spring boot -->
-        <spring.boot.version>3.0.0</spring.boot.version>
-        <spring.boot.admin.version>3.0.0-M8</spring.boot.admin.version>
-        <!-- spring cloud -->
-        <spring.cloud.version>2022.0.0</spring.cloud.version>
-        <!-- spring cloud alibaba -->
-        <spring.cloud.alibaba.version>2022.0.0.0-RC1</spring.cloud.alibaba.version>
         <!-- spring cloud alibaba nacos -->
         <nacos.version>2.2.0</nacos.version>
         <!-- spring cloud alibaba seata -->
@@ -69,8 +49,6 @@
         <bouncycastle-jdk16.version>1.46</bouncycastle-jdk16.version>
         <bouncycastle-jdk15on.version>1.70</bouncycastle-jdk15on.version>
         <commons-codec.version>1.15</commons-codec.version>
-
-        <popup.version>1.0.0-SNAPSHOT</popup.version>
     </properties>
 
     <dependencies>
@@ -81,98 +59,8 @@
         </dependencies>
     </dependencyManagement>
 
-    <distributionManagement>
-        <repository>
-            <id>dev</id>
-            <name>local</name>
-            <!-- win11 -->
-            <url>file:///${env.MAVEN_REPO}</url>
-        </repository>
-    </distributionManagement>
-
-    <scm>
-        <url>https://github.com/photowey/popup</url>
-        <connection>scm:git@github.com:photowey/popup.git</connection>
-        <developerConnection>scm:git@github.com:photowey/popup.git
-        </developerConnection>
-    </scm>
-
     <build>
-        <finalName>${project.artifactId}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <compilerArgument>-Xlint:unchecked</compilerArgument>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>${maven-release-plugin.version}</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <generateReleasePoms>false</generateReleasePoms>
-                    <tagNameFormat>@{project.version}</tagNameFormat>
-                    <arguments>-DskipTests</arguments>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>${maven-license-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>remove</goal>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <quiet>true</quiet>
-                    <header>
-                        com/mycila/maven/plugin/license/templates/APACHE-2.txt
-                    </header>
-                    <properties>
-                        <owner>the original author or authors</owner>
-                        <email>photowey@gmail.com</email>
-                    </properties>
-                    <excludes>
-                        <exclude>.gitignore</exclude>
-                        <exclude>LICENSE</exclude>
-                        <exclude>**/*.properties</exclude>
-                        <exclude>**/*.yml</exclude>
-                        <exclude>**/*.md</exclude>
-                        <exclude>**/*.xml</exclude>
-                        <exclude>**/*.png</exclude>
-                        <exclude>**/*.jpg</exclude>
-                        <exclude>**/*.sql</exclude>
-                        <exclude>**/*.pub</exclude>
-                        <exclude>**/*.pri</exclude>
-                        <exclude>**/*.crt</exclude>
-                        <exclude>**/*.pem</exclude>
-                        <exclude>**/*.pfx</exclude>
-                        <exclude>**/*.p12</exclude>
-                        <exclude>**/*.jks</exclude>
-                        <exclude>**/*.txt</exclude>
-                        <exclude>**/*.dll</exclude>
-                        <exclude>**/*.sh</exclude>
-                        <exclude>**/.mvn/**</exclude>
-                    </excludes>
-                    <strictCheck>true</strictCheck>
-                    <mapping>
-                        <java>SLASHSTAR_STYLE</java>
-                    </mapping>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
