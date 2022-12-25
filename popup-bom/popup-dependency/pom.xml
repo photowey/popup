@@ -58,6 +58,80 @@
                 <version>${seata.version}</version>
             </dependency>
 
+            <!-- *************************************************************** popup.app -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-client</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-core</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-database</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-database-mysql</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-database-pgsql</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-nacos</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-persistence</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-repository</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-seata</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-service</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-app-web</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+
             <!-- *************************************************************** core -->
 
             <dependency>

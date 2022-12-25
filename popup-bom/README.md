@@ -1,3 +1,3 @@
 # `popup-bom`
 
-> `BOM`
+> `BOM` module

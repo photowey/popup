@@ -15,6 +15,11 @@
     <artifactId>popup-bom</artifactId>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>popup-dependency</module>
+        <module>popup-parent</module>
+    </modules>
+
     <properties>
         <!-- spring cloud alibaba nacos -->
         <nacos.version>2.2.0</nacos.version>

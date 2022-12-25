@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.photowey</groupId>
+        <artifactId>popup-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>popup-app</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>popup-app-client</module>
+        <module>popup-app-core</module>
+        <module>popup-app-database</module>
+        <module>popup-app-database-mysql</module>
+        <module>popup-app-database-pgsql</module>
+        <module>popup-app-nacos</module>
+        <module>popup-app-persistence</module>
+        <module>popup-app-repository</module>
+        <module>popup-app-seata</module>
+        <module>popup-app-service</module>
+        <module>popup-app-web</module>
+    </modules>
+
+    <properties>
+    </properties>
+
+    <dependencies>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+        </plugins>
+    </build>
+
+</project>
