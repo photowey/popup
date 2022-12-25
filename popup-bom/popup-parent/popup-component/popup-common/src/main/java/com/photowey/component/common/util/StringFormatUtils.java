@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.app.persistence.cache;
+package com.photowey.component.common.util;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MessageFormatter;
 
 /**
- * {@code PopupCacheAutoConfigure}
- * popup platform cache auto-configuration
+ * {@code StringFormatUtils}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupCacheAutoConfigure {
+public final class StringFormatUtils {
+
+    private StringFormatUtils() {
+        // utility class; can't create
+        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+    }
+
+    public static String format(String text, Object... args) {
+        assert null != text;
+        FormattingTuple formattingTuple = MessageFormatter.arrayFormat(text, args);
+        return formattingTuple.getMessage();
+    }
 }

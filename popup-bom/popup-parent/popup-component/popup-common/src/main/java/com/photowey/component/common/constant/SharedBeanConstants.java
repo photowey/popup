@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.app.persistence.cache;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+package com.photowey.component.common.constant;
 
 /**
- * {@code PopupCacheAutoConfigure}
- * popup platform cache auto-configuration
+ * {@code SharedBeanConstants}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupCacheAutoConfigure {
+public interface SharedBeanConstants {
+
+    String SHARED_OBJECT_MAPPER_BEAN_NAME = "com.fasterxml.jackson.databind.ObjectMapper#Jdk8Module&JavaTimeModule";
+    String SHARED_FEIGN_CODEC_DECODER_BEAN_NAME = "feign.codec.Decoder";
 }
+

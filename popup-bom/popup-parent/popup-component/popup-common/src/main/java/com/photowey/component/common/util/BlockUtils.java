@@ -13,18 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.app.persistence.cache;
+package com.photowey.component.common.util;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import java.util.concurrent.TimeUnit;
 
 /**
- * {@code PopupCacheAutoConfigure}
- * popup platform cache auto-configuration
+ * {@code BlockUtils}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupCacheAutoConfigure {
+public final class BlockUtils {
+
+    private BlockUtils() {
+        // utility class; can't create
+        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+    }
+
+    public static void shortly() {
+        block(100L);
+    }
+
+    public static void block(final long millis) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(millis);
+        } catch (Exception e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }

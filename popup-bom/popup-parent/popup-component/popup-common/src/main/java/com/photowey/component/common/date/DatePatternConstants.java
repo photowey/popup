@@ -13,18 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.app.persistence.cache;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+package com.photowey.component.common.date;
 
 /**
- * {@code PopupCacheAutoConfigure}
- * popup platform cache auto-configuration
+ * {@code DatePatternConstants}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupCacheAutoConfigure {
+public interface DatePatternConstants {
+
+    String yyyy_MM_dd = "yyyy-MM-dd ";
+    String HH_mm_ss = "HH:mm:ss";
+    String yyyyMMdd = "yyyyMMdd";
+    String yyMMdd = "yyMMdd";
+    String HHmmss = "HHmmss";
+
+    String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
+    String yyyy_MM_dd_HH_mm_ss_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
+
+    String yyyyMMddHHmmss = "yyyyMMddHHmmss";
+    String yyyyMMddHHmmssSSS = "yyyyMMddHHmmssSSS";
+
+    /**
+     * {@code ES} default data pattern
+     */
+    String yyyy_MM_dd_T_HH_mm_ss_Z = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 }

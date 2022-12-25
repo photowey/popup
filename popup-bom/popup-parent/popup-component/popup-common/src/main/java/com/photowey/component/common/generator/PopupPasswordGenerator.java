@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.app.persistence.cache;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+package com.photowey.component.common.generator;
 
 /**
- * {@code PopupCacheAutoConfigure}
- * popup platform cache auto-configuration
+ * {@code PopupPasswordGenerator}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupCacheAutoConfigure {
+public class PopupPasswordGenerator implements PasswordGenerator {
+
+    private final RandomGenerator randomGenerator;
+
+    public PopupPasswordGenerator() {
+        this.randomGenerator = new RandomGenerator();
+    }
+
+    @Override
+    public RandomGenerator randomGenerator() {
+        return this.randomGenerator;
+    }
 }

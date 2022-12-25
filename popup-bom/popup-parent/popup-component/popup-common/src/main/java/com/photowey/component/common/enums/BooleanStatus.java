@@ -13,18 +13,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.app.persistence.cache;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+package com.photowey.component.common.enums;
 
 /**
- * {@code PopupCacheAutoConfigure}
- * popup platform cache auto-configuration
+ * {@code BooleanStatus}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupCacheAutoConfigure {
+public enum BooleanStatus {
+
+    /**
+     * DEFAULT
+     * for placeholder
+     */
+    DEFAULT("-1", -1, false),
+    /**
+     * FALSE
+     */
+    FALSE("0", 0, false),
+    /**
+     * TRUE
+     */
+    TRUE("1", 1, true);
+
+    private final String name;
+    private final int value;
+    private final boolean bv;
+
+    BooleanStatus(String name, int value, boolean bv) {
+        this.name = name;
+        this.value = value;
+        this.bv = bv;
+    }
+
+    public int value() {
+        return value;
+    }
+
+    public String string() {
+        return name;
+    }
+
+    public boolean booleanValue() {
+        return bv;
+    }
 }

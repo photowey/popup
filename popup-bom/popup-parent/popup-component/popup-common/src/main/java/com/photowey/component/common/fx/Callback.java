@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.app.persistence.cache;
+package com.photowey.component.common.fx;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import java.util.function.Consumer;
 
 /**
- * {@code PopupCacheAutoConfigure}
- * popup platform cache auto-configuration
+ * {@code Callback}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupCacheAutoConfigure {
+@FunctionalInterface
+public interface Callback<T> extends Consumer<T> {
 }

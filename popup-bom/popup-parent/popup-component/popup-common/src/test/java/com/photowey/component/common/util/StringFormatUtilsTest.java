@@ -13,18 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.app.persistence.cache;
+package com.photowey.component.common.util;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
- * {@code PopupCacheAutoConfigure}
- * popup platform cache auto-configuration
+ * {@code StringFormatUtilsTest}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupCacheAutoConfigure {
+class StringFormatUtilsTest {
+
+    @Test
+    void testFormat() {
+        String template_123 = "1 {} 3";
+        String template_13 = "1 3";
+
+        String format_123 = StringFormatUtils.format(template_123, "2");
+        String format_13 = StringFormatUtils.format(template_13, "2");
+
+        Assertions.assertEquals("1 2 3", format_123);
+        Assertions.assertEquals("1 3", format_13);
+    }
+
 }

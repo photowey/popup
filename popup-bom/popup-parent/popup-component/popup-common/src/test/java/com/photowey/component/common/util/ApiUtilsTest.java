@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.app.persistence.cache;
+package com.photowey.component.common.util;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
- * {@code PopupCacheAutoConfigure}
- * popup platform cache auto-configuration
+ * {@code ApiUtilsTest}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupCacheAutoConfigure {
+class ApiUtilsTest {
+
+    @Test
+    void testPopulateApi() {
+        String host = "https://www.google.com/hello/";
+        String api = "/world";
+
+        String api_hw = ApiUtils.populateApi(host, api);
+
+        Assertions.assertEquals("https://www.google.com/hello/world", api_hw);
+    }
+
 }

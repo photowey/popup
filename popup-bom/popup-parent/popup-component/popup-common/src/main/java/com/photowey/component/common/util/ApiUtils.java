@@ -13,18 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.app.persistence.cache;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+package com.photowey.component.common.util;
 
 /**
- * {@code PopupCacheAutoConfigure}
- * popup platform cache auto-configuration
+ * {@code ApiUtils}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupCacheAutoConfigure {
+public final class ApiUtils {
+
+    private ApiUtils() {
+        // utility class; can't create
+        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+    }
+
+    public static String populateApi(String domain, String api) {
+        return StringFormatUtils.format("{}{}",
+                domain.endsWith("/") ? domain.substring(0, domain.length() - 1) : domain,
+                api.startsWith("/") ? api : "/" + api
+        );
+    }
+
+    public static String populateArgs(String url, Object... args) {
+        return StringFormatUtils.format(url, args);
+    }
+
 }
