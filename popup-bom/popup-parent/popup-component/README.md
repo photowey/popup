@@ -1,3 +1,3 @@
 # `popup-component`
 
-> `Popup`  platform components module
+> `Popup` platform components module

@@ -1,3 +1,3 @@
 # `popup-starter`
 
-> `Popup`  platform starters module
+> `Popup` platform starters module

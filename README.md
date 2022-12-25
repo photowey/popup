@@ -63,7 +63,7 @@ English | [中文](./README_CN.md)
         
           - >  `Nacos` support
             >
-            > Used to manage the version dependency between `Nacos ` client and starter
+            > Used to manage the version dependency between `Nacos` client and starter
           
         - `popup-seata`
         

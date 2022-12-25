@@ -13,6 +13,12 @@
     <artifactId>popup-component</artifactId>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>popup-common</module>
+        <module>popup-core</module>
+        <module>popup-crypto</module>
+    </modules>
+
     <dependencies>
     </dependencies>
 
