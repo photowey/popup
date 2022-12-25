@@ -72,7 +72,7 @@ class LambdaUtilsTest {
 
     @Test
     void testToList_flatMap() {
-        List<Long> ids = LambdaUtils.toListm(studentList, stu -> stu.getHobbies().stream(), Hobby::getId);
+        List<Long> ids = LambdaUtils.toListm(studentList, stu -> stu.getHobbies().stream(), Hobby::id);
 
         Assertions.assertEquals(5, ids.size());
         Assertions.assertTrue(ids.contains(1L));
@@ -91,7 +91,7 @@ class LambdaUtilsTest {
 
     @Test
     void testToSet_flatMap() {
-        Set<String> names = LambdaUtils.toSetm(studentList, stu -> stu.getHobbies().stream(), Hobby::getName);
+        Set<String> names = LambdaUtils.toSetm(studentList, stu -> stu.getHobbies().stream(), Hobby::name);
 
         Assertions.assertEquals(3, names.size());
         Assertions.assertTrue(names.contains("PingPang"));
@@ -167,11 +167,7 @@ class LambdaUtilsTest {
         }
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    private static class Hobby implements Serializable {
-        private Long id;
-        private String name;
+    private record Hobby(Long id, String name) {
+
     }
 }
