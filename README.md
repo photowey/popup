@@ -8,13 +8,27 @@ English | [中文](./README_CN.md)
 
 ## `Popctl`
 
-> [`Popctl`](https://github.com/photowey/popctl) development scaffold cmd tools.
+> [`Popctl`](https://github.com/photowey/popctl) development scaffold `cmd` tools.
+
+
+
+## `Run local`
+
+> Add `maven` `MAVEN_REPO` `env`
+>
+>
+> `E.g.`: 
+>
+> `MAVEN_REPO` = `D:\software\maven\nexus-maven\repo\repository`
+>
+> `MAVEN_REPO` = `/Users/photowey/xxx/maven/repo/repository`
 
 
 
 ## 一、`Structure`
 
 - `popup-bom`
+  
   - `popup-dependency`
   - `popup-parent`
     - `popup-app`

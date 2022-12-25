@@ -12,6 +12,18 @@
 
 
 
+## 本地运行
+
+> 添加一个指向 `maven` 本地仓库的环境变量 `MAVEN_REPO`
+>
+> 比如: 
+>
+> `MAVEN_REPO` = `D:\software\maven\repo\repository`
+>
+> `MAVEN_REPO` = `/Users/photowey/xxx/maven/repo/repository`
+
+
+
 ## 一、结构
 
 - `popup-bom`
