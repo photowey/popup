@@ -24,6 +24,12 @@
 
 
 
+## 扩展项目
+
+> [mybatis-plus-ext](https://github.com/photowey/mybatis-plus-ext) 是 `Mybatis-plus` 的扩展项目, 本项目将使用它来增强 `Repository`（`Mapper`），从而更大化简化开发。
+
+
+
 ## 一、结构
 
 - `popup-bom`

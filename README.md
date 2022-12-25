@@ -25,6 +25,12 @@ English | [中文](./README_CN.md)
 
 
 
+## `Ext project`
+
+> [mybatis-plus-ext](https://github.com/photowey/mybatis-plus-ext) is an extension project of `Mybatis-plus`, this project will use it to enhance `Repository` (`Mapper`), This greatly simplifies development.
+
+
+
 ## 一、`Structure`
 
 - `popup-bom`
