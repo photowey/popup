@@ -132,6 +132,58 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- *************************************************************** component -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-common</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-crypto</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-exception-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-exception-handler</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** starter -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-elasticsearch</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-mongo</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** core -->
 
             <dependency>
