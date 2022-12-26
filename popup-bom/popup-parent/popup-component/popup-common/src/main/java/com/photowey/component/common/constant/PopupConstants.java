@@ -69,7 +69,7 @@ public interface PopupConstants {
      * @param responseCode the response code
      * @return {@code boolean}
      */
-    default boolean isSuccessfully(String responseCode) {
+    static boolean isSuccessfully(String responseCode) {
         return API_OK.equalsIgnoreCase(responseCode);
     }
 }

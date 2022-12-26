@@ -17,6 +17,7 @@
         <module>popup-common</module>
         <module>popup-core</module>
         <module>popup-crypto</module>
+        <module>popup-exception</module>
     </modules>
 
     <dependencies>
