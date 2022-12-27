@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -94,6 +95,20 @@ public final class ObjectUtils {
         return isCollectionOrMap
                 || isEnumerationOrIterator
                 || target.getClass().isArray();
+    }
+
+    // -------------------------------------------------------------------------
+
+    public static <T> void callbackEmpty(T target, Consumer<T> fx) {
+        if (isNullOrEmpty(target)) {
+            fx.accept(target);
+        }
+    }
+
+    public static <T> void callbackNotEmpty(T target, Consumer<T> fx) {
+        if (isNotNullOrEmpty(target)) {
+            fx.accept(target);
+        }
     }
 
     // -------------------------------------------------------------------------
