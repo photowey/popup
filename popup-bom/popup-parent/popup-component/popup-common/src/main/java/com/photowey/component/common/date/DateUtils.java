@@ -41,6 +41,15 @@ public final class DateUtils {
 
     // ------------------------------------------------------------------------- Formatter
 
+    public static DateTimeFormatter rfc3339FormatterGMT8() {
+        return RFC3339DateTimeFormatter.rfc3339FormatterGMT8();
+    }
+
+    public static DateTimeFormatter rfc3339Formatter(String zone) {
+        return RFC3339DateTimeFormatter.rfc3339Formatter(zone);
+    }
+
+
     public static DateTimeFormatter formatter() {
         return formatter(DatePatternConstants.yyyy_MM_dd_HH_mm_ss);
     }
@@ -57,6 +66,15 @@ public final class DateUtils {
         }
 
         return format(dateTime, DatePatternConstants.yyyy_MM_dd_HH_mm_ss);
+    }
+
+    public static String formatRfc3339(LocalDateTime dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+            return null;
+        }
+
+        DateTimeFormatter formatter = rfc3339FormatterGMT8();
+        return formatter.format(dateTime);
     }
 
     public static String format(LocalDateTime dateTime, String pattern) {
@@ -188,6 +206,14 @@ public final class DateUtils {
         }
 
         return LocalDateTime.parse(dateTime, formatter(pattern));
+    }
+
+    public static LocalDateTime toLocalDateTimeRfc3339(String dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+            return null;
+        }
+
+        return LocalDateTime.parse(dateTime, rfc3339FormatterGMT8());
     }
 
     // ------------------------------------------------------------------------- Timestamp
