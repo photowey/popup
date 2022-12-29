@@ -10,18 +10,18 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>popup-starter</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>popup-starter-cache</module>
-        <module>popup-starter-cache-redis</module>
-        <module>popup-starter-elasticsearch</module>
-        <module>popup-starter-mongo</module>
-        <module>popup-starter-reader</module>
-    </modules>
+    <artifactId>popup-starter-reader</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
 </project>
