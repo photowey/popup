@@ -90,6 +90,12 @@ English | [中文](./README_CN.md)
           - `Seata` support
           - `repeat`
       
+    - `popup-cloud-alibaba`
+    
+      - `popup-cloud-alibaba-nacos`
+      - `popup-cloud-alibaba-seata`
+      - `popup-cloud-alibaba-sentinel`
+    
     - `popup-component`
     
       - > `components`:
@@ -110,6 +116,8 @@ English | [中文](./README_CN.md)
     
       - `Elasticsearch`
     
+      - `Classpath reader`
+      
       - `...`
 
 ## 二、`Application structure`

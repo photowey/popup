@@ -88,7 +88,14 @@
         
           - `Seata` 支持
           - 同 `Nacos`
+          - 
       
+    - `popup-cloud-alibaba`
+    
+      - `popup-cloud-alibaba-nacos`
+      - `popup-cloud-alibaba-seata`
+      - `popup-cloud-alibaba-sentinel`
+    
     - `popup-component`
     
       - > `components`:
@@ -109,6 +116,8 @@
     
       - `Elasticsearch`
     
+      - `Classpath reader`
+      
       - `...`
 
 
