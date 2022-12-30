@@ -161,6 +161,33 @@
                 <version>${popup.version}</version>
             </dependency>
 
+            <!-- *************************************************************** cloud-alibaba -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-alibaba</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-alibaba-nacos</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-alibaba-seata</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-alibaba-sentinel</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+
             <!-- *************************************************************** starter -->
 
             <dependency>
@@ -181,6 +208,11 @@
             <dependency>
                 <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-mongo</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-reader</artifactId>
                 <version>${popup.version}</version>
             </dependency>
 
