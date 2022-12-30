@@ -157,6 +157,8 @@
                         <exclude>**/*.xls</exclude>
                         <exclude>**/*.xlsx</exclude>
                         <exclude>**/.mvn/**</exclude>
+                        <!-- shared code -->
+                        <exclude>**/shared/*.java</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>
