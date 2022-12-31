@@ -1,0 +1,6 @@
+server:
+  port: 5080
+
+spring:
+  application:
+    name: "monitor"

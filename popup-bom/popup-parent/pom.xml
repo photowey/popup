@@ -17,6 +17,7 @@
 
     <modules>
         <module>popup-app</module>
+        <module>popup-cloud</module>
         <module>popup-cloud-alibaba</module>
         <module>popup-component</module>
         <module>popup-starter</module>
