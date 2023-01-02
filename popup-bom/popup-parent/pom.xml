@@ -20,6 +20,7 @@
         <module>popup-cloud</module>
         <module>popup-cloud-alibaba</module>
         <module>popup-component</module>
+        <module>popup-http</module>
         <module>popup-starter</module>
     </modules>
 
