@@ -18,16 +18,15 @@ package com.photowey.popup.http.transport.okhttp.interceptor;
 import com.photowey.popup.http.api.model.context.RequestContext;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.springframework.core.Ordered;
 
 /**
- * {@code RequestInterceptor}
+ * {@code CompositeInterceptor}
  *
  * @author photowey
  * @date 2023/01/03
  * @since 1.0.0
  */
-public interface RequestInterceptor extends Ordered {
+public interface CompositeInterceptor extends OkhttpInterceptor, RequestInterceptor {
 
     /**
      * {@code PRE} handle
@@ -35,7 +34,10 @@ public interface RequestInterceptor extends Ordered {
      * @param context {@link RequestContext}
      * @param builder {@link Request.Builder}
      */
-    void preHandle(RequestContext context, Request.Builder builder);
+    @Override
+    default void preHandle(RequestContext context, Request.Builder builder) {
+
+    }
 
     /**
      * {@code POST} handle
@@ -43,17 +45,9 @@ public interface RequestInterceptor extends Ordered {
      * @param context  {@link RequestContext}
      * @param response {@link Response}
      */
+    @Override
     default void postHandle(RequestContext context, Response response) {
 
     }
 
-    /**
-     * {@code ORDER}
-     *
-     * @return {@code order}
-     */
-    @Override
-    default int getOrder() {
-        return 0;
-    }
 }
