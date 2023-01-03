@@ -49,6 +49,8 @@
 
         <!-- netty -->
         <netty.version>4.1.73.Final</netty.version>
+        <!-- okhttp -->
+        <okhttp.version>4.10.0</okhttp.version>
 
         <!-- codec -->
         <bouncycastle-jdk16.version>1.46</bouncycastle-jdk16.version>

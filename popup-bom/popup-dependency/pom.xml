@@ -161,6 +161,29 @@
                 <version>${popup.version}</version>
             </dependency>
 
+            <!-- *************************************************************** http -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-http</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-http-api</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-http-protocol</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-http-transport</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** cloud-alibaba -->
 
             <dependency>
@@ -309,6 +332,14 @@
                 <version>${jsoup.version}</version>
             </dependency>
 
+            <!-- *************************************************************** okhttp -->
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
+
             <!-- *************************************************************** codec -->
 
             <dependency>
@@ -328,7 +359,6 @@
                 <artifactId>bcprov-jdk15on</artifactId>
                 <version>${bouncycastle-jdk15on.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
