@@ -18,12 +18,19 @@ package com.photowey.popup.http.transport.config;
 import com.photowey.popup.http.transport.okhttp.interceptor.DefaultRequestInterceptor;
 import com.photowey.popup.http.transport.okhttp.interceptor.RequestInterceptor;
 import com.photowey.popup.http.transport.property.PopupHttpProperties;
+import com.photowey.popup.http.transport.trustany.TrustAnyHostnameVerifier;
+import com.photowey.popup.http.transport.trustany.TrustAnyTrustManager;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import javax.net.ssl.*;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 /**
  * {@code PopupHttpAutoConfigure}
@@ -36,6 +43,7 @@ import org.springframework.context.annotation.Import;
 @Import(value = {
         PopupHttpAutoConfigure.PropertyConfigure.class,
         PopupHttpAutoConfigure.BeanConfigure.class,
+        PopupHttpAutoConfigure.TrustAnyConfigure.class,
 })
 public class PopupHttpAutoConfigure {
 
@@ -54,6 +62,34 @@ public class PopupHttpAutoConfigure {
         @ConditionalOnMissingBean
         public RequestInterceptor requestInterceptor() {
             return new DefaultRequestInterceptor();
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        public SSLSocketFactory sslSocketFactory(X509TrustManager trustManager) {
+            try {
+                SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, new TrustManager[]{trustManager}, new SecureRandom());
+                return sslContext.getSocketFactory();
+            } catch (NoSuchAlgorithmException | KeyManagementException e) {
+                throw new RuntimeException("build the ssl context instance exception", e);
+            }
+        }
+    }
+
+    @Configuration
+    static class TrustAnyConfigure {
+
+        @Bean
+        @ConditionalOnMissingBean
+        public X509TrustManager trustManager() {
+            return new TrustAnyTrustManager();
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        public HostnameVerifier hostnameVerifier() {
+            return new TrustAnyHostnameVerifier();
         }
     }
 }
