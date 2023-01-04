@@ -48,11 +48,13 @@ public final class IOUtils {
     public static byte[] toBytes(InputStream input) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
 
-        int read;
+        int nread = 0;
         byte[] data = new byte[DEFAULT_BUFFER_SIZE];
-        while ((read = input.read(data, 0, data.length)) != -1) {
-            buf.write(data, 0, read);
+        while ((nread = input.read(data, 0, data.length)) != -1) {
+            buf.write(data, 0, nread);
         }
+
+        // input.readAllBytes();
 
         return buf.toByteArray();
     }

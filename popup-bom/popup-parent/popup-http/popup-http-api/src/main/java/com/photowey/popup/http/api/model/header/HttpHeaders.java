@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * {@code HttpHeaders}
  *
@@ -32,7 +34,38 @@ public class HttpHeaders implements Serializable {
 
     private final Map<String, String> headers = new HashMap<>();
 
+    public HttpHeaders() {
+    }
+
     public HttpHeaders(Map<String, String> headers) {
         this.headers.putAll(headers);
+    }
+
+    public static HttpHeaders empty() {
+        return new HttpHeaders();
+    }
+
+    public void addHeader(String name, String value) {
+        this.headers.put(requireNonNull(name), requireNonNull(value));
+    }
+
+    public String getHeader(String name) {
+        return this.headers.get(name);
+    }
+
+    public Map<String, String> getHeaders() {
+        return new HashMap<>(this.headers);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder buf = new StringBuilder();
+        this.headers.forEach((k, v) -> {
+            buf.append(k).append("=").append(v).append("&");
+        });
+
+        String text = buf.toString().replaceAll("&*$", "");
+
+        return text;
     }
 }
