@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.util.Objects;
 
 /**
- * {@code OkHttpClientExecutor}
+ * {@code OkHttpExecutor}
  *
  * {@code OkHttp} executor of {@link com.photowey.popup.http.api.client.HttpClient}
  *
@@ -35,11 +35,11 @@ import java.util.Objects;
  * @date 2023/01/08
  * @since 1.0.0
  */
-public class OkHttpClientExecutor extends OkHttpClientExecutorAdaptor {
+public class OkHttpExecutor extends OkHttpExecutorAdaptor {
 
     private final okhttp3.OkHttpClient okHttpClient;
 
-    public OkHttpClientExecutor() {
+    public OkHttpExecutor() {
         // TODO
         this.okHttpClient = new OkHttpClient();
     }

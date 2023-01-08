@@ -26,13 +26,13 @@ import static java.net.HttpURLConnection.HTTP_MULT_CHOICE;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
- * {@code OkHttpClientExecutorAdaptor}
+ * {@code OkHttpExecutorAdaptor}
  *
  * @author photowey
  * @date 2023/01/07
  * @since 1.0.0
  */
-public abstract class OkHttpClientExecutorAdaptor implements HttpClient {
+public abstract class OkHttpExecutorAdaptor implements HttpClient {
 
     @Override
     public InputStream download(String url) {
