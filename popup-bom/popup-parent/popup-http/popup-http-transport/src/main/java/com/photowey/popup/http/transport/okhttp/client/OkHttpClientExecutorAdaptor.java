@@ -22,17 +22,26 @@ import com.photowey.popup.http.api.request.HttpRequest;
 
 import java.io.InputStream;
 
+import static java.net.HttpURLConnection.HTTP_MULT_CHOICE;
+import static java.net.HttpURLConnection.HTTP_OK;
+
 /**
- * {@code OkHttpClientAdaptor}
+ * {@code OkHttpClientExecutorAdaptor}
  *
  * @author photowey
  * @date 2023/01/07
  * @since 1.0.0
  */
-public abstract class OkHttpClientAdaptor implements HttpClient {
+public abstract class OkHttpClientExecutorAdaptor implements HttpClient {
 
     @Override
     public InputStream download(String url) {
+        HttpRequest httpRequest = this.buildDownloadRequest(url);
+
+        return this.doDownload(httpRequest);
+    }
+
+    protected HttpRequest buildDownloadRequest(String url) {
         HttpRequest originRequest = HttpRequest
                 .builder()
                 .httpMethod(HttpMethod.GET)
@@ -50,13 +59,23 @@ public abstract class OkHttpClientAdaptor implements HttpClient {
         HttpRequest httpRequest = builder.build();
         this.postBuild(originRequest, httpRequest);
 
-        return this.doDownload(httpRequest);
+        return httpRequest;
     }
 
     private String determineUserAgent() {
         String ua = HttpConstants.determineUserAgent();
 
         return ua;
+    }
+
+    // -------------------------------------------------------------------------
+
+    protected boolean isFailure(int httpStatus) {
+        return this.isSuccessful(httpStatus);
+    }
+
+    protected boolean isSuccessful(int httpStatus) {
+        return httpStatus >= HTTP_OK && httpStatus < HTTP_MULT_CHOICE;
     }
 
     // -------------------------------------------------------------------------
