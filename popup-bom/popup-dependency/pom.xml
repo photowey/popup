@@ -340,6 +340,14 @@
                 <version>${okhttp.version}</version>
             </dependency>
 
+            <!-- *************************************************************** guava -->
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
             <!-- *************************************************************** codec -->
 
             <dependency>
