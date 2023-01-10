@@ -15,6 +15,12 @@
  */
 package com.photowey.component.eventbus.guava.subscriber;
 
+import com.google.common.eventbus.Subscribe;
+import com.photowey.component.eventbus.guava.factory.NamedThreadFactory;
+import jakarta.annotation.PreDestroy;
+
+import java.util.concurrent.*;
+
 /**
  * {@code Subscriber}
  *
@@ -22,5 +28,55 @@ package com.photowey.component.eventbus.guava.subscriber;
  * @date 2023/01/09
  * @since 1.0.0
  */
-public interface Subscriber<EVENT> {
+public interface Subscriber<E> {
+
+    int CORE_HANDLER_THREAD = 1;
+    int MAX_HANDLER_THREAD = 1;
+
+    ExecutorService DEFAULT_EXECUTOR = new ThreadPoolExecutor(
+            CORE_HANDLER_THREAD,
+            MAX_HANDLER_THREAD,
+            Integer.MAX_VALUE,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(),
+            NamedThreadFactory.createNameFormat("eventbus-%d")
+    );
+
+    default boolean async() {
+        return true;
+    }
+
+    default void beforeEvent() {
+
+    }
+
+    void handleEvent(E event);
+
+    @Subscribe
+    default void onEvent(E event) {
+        if (this.async()) {
+            CompletableFuture.runAsync(() -> this.execute(event), this.asyncExecutor());
+        } else {
+            this.execute(event);
+        }
+    }
+
+    default void execute(E event) {
+        this.beforeEvent();
+        this.handleEvent(event);
+        this.afterEvent();
+    }
+
+    default void afterEvent() {
+
+    }
+
+    @PreDestroy
+    default void onShutdown() {
+        this.asyncExecutor().shutdownNow();
+    }
+
+    default ExecutorService asyncExecutor() {
+        return DEFAULT_EXECUTOR;
+    }
 }

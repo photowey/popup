@@ -15,6 +15,8 @@
  */
 package com.photowey.component.eventbus.guava.factory;
 
+import com.photowey.component.common.shared.google.guava.concurrent.ThreadFactoryBuilder;
+
 import java.util.concurrent.ThreadFactory;
 
 /**
@@ -24,9 +26,9 @@ import java.util.concurrent.ThreadFactory;
  * @date 2023/01/09
  * @since 1.0.0
  */
-public class NamedThreadFactory implements ThreadFactory {
+public class NamedThreadFactory {
 
-    public Thread newThread(Runnable r) {
-        return null;
+    public static ThreadFactory createNameFormat(String nameFormat) {
+        return ThreadFactoryBuilder.namedThreadFactory(nameFormat);
     }
 }
