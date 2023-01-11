@@ -19,7 +19,10 @@ import com.google.common.eventbus.Subscribe;
 import com.photowey.component.eventbus.guava.factory.NamedThreadFactory;
 import jakarta.annotation.PreDestroy;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * {@code Subscriber}
@@ -33,15 +36,6 @@ public interface Subscriber<E> {
     int CORE_HANDLER_THREAD = 1;
     int MAX_HANDLER_THREAD = 1;
 
-    ExecutorService DEFAULT_EXECUTOR = new ThreadPoolExecutor(
-            CORE_HANDLER_THREAD,
-            MAX_HANDLER_THREAD,
-            Integer.MAX_VALUE,
-            TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue<>(),
-            NamedThreadFactory.createNameFormat("eventbus-%d")
-    );
-
     default boolean async() {
         return true;
     }
@@ -51,6 +45,10 @@ public interface Subscriber<E> {
     }
 
     void handleEvent(E event);
+
+    ExecutorService asyncExecutor();
+
+    RejectedExecutionHandler rejectedExecutionHandler();
 
     @Subscribe
     default void onEvent(E event) {
@@ -76,7 +74,7 @@ public interface Subscriber<E> {
         this.asyncExecutor().shutdownNow();
     }
 
-    default ExecutorService asyncExecutor() {
-        return DEFAULT_EXECUTOR;
+    default ThreadFactory threadFactory() {
+        return NamedThreadFactory.createNameFormat("eventbus-%d");
     }
 }
