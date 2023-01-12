@@ -34,6 +34,7 @@ public class GuavaEventBus implements EventBus {
 
     protected static final int CORE_THREAD = 1;
     protected static final int MAX_THREAD = 1;
+    protected static final int DEFAULT_KEEP_ALIVE_TIME = 5_000;
     protected static int DEFAULT_CAPACITY = 1024 << 1;
     protected final com.google.common.eventbus.EventBus eventBus;
 
@@ -41,25 +42,25 @@ public class GuavaEventBus implements EventBus {
         this(identifier, false);
     }
 
-    public GuavaEventBus(String identifier, boolean async) {
-        this(identifier, DEFAULT_CAPACITY, async);
+    public GuavaEventBus(String identifier, boolean asyncEnabled) {
+        this(identifier, DEFAULT_CAPACITY, asyncEnabled);
     }
 
-    public GuavaEventBus(String identifier, int capacity, boolean async) {
-        this(identifier, CORE_THREAD, MAX_THREAD, capacity, async);
+    public GuavaEventBus(String identifier, int capacity, boolean asyncEnabled) {
+        this(identifier, CORE_THREAD, MAX_THREAD, capacity, asyncEnabled);
     }
 
-    public GuavaEventBus(String identifier, int corePoolSize, int maximumPoolSize, int capacity, boolean async) {
-        ExecutorService eventExecutor = this.eventExecutor(identifier, corePoolSize, maximumPoolSize, capacity);
-        if (async) {
+    public GuavaEventBus(String identifier, int corePoolSize, int maximumPoolSize, int capacity, boolean asyncEnabled) {
+        if (asyncEnabled) {
+            ExecutorService eventExecutor = this.eventExecutor(identifier, corePoolSize, maximumPoolSize, capacity);
             this.eventBus = new com.google.common.eventbus.AsyncEventBus(identifier, eventExecutor);
         } else {
             this.eventBus = new com.google.common.eventbus.EventBus(identifier);
         }
     }
 
-    public GuavaEventBus(String identifier, boolean async, ExecutorService eventExecutor) {
-        if (async) {
+    public GuavaEventBus(String identifier, boolean asyncEnabled, ExecutorService eventExecutor) {
+        if (asyncEnabled) {
             this.eventBus = new com.google.common.eventbus.AsyncEventBus(identifier, eventExecutor);
         } else {
             this.eventBus = new com.google.common.eventbus.EventBus(identifier);
@@ -82,17 +83,20 @@ public class GuavaEventBus implements EventBus {
     }
 
     public ExecutorService eventExecutor(String identifier, int corePoolSize, int maximumPoolSize, int capacity) {
-        String nameFormat = identifier + "-%d";
         return new ThreadPoolExecutor(
                 corePoolSize,
                 maximumPoolSize,
-                1 << 3L,
-                TimeUnit.SECONDS,
-                // TODO LinkedBlockingDeque?
+                DEFAULT_KEEP_ALIVE_TIME,
+                TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<>(capacity),
-                NamedThreadFactory.createNameFormat(nameFormat),
+                this.threadFactory(identifier),
                 this.rejectedExecutionHandler()
         );
+    }
+
+    public ThreadFactory threadFactory(String identifier) {
+        String nameFormat = identifier + "-%d";
+        return NamedThreadFactory.createNameFormat(nameFormat);
     }
 
     public RejectedExecutionHandler rejectedExecutionHandler() {
