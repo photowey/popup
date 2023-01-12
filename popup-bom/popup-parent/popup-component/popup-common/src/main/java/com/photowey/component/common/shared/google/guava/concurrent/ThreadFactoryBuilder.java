@@ -107,29 +107,29 @@ public final class ThreadFactoryBuilder {
         final Boolean daemon = builder.daemon;
         final Integer priority = builder.priority;
         final Thread.UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
-        final ThreadFactory backingThreadFactory =
-                (builder.backingThreadFactory != null)
-                        ? builder.backingThreadFactory
-                        : Executors.defaultThreadFactory();
-        final AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
-        return new ThreadFactory() {
-            @Override
-            public Thread newThread(Runnable runnable) {
-                Thread thread = backingThreadFactory.newThread(runnable);
-                if (nameFormat != null) {
-                    thread.setName(format(nameFormat, count.getAndIncrement()));
-                }
-                if (daemon != null) {
-                    thread.setDaemon(daemon);
-                }
-                if (priority != null) {
-                    thread.setPriority(priority);
-                }
-                if (uncaughtExceptionHandler != null) {
-                    thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);
-                }
-                return thread;
+
+        // @formatter:off
+        final ThreadFactory backingThreadFactory = (builder.backingThreadFactory != null)
+                ? builder.backingThreadFactory
+                : Executors.defaultThreadFactory();
+        final AtomicLong counter = (nameFormat != null) ? new AtomicLong(0) : null;
+        // @formatter:on
+
+        return (runnable) -> {
+            Thread thread = backingThreadFactory.newThread(runnable);
+            if (nameFormat != null) {
+                thread.setName(format(nameFormat, counter.getAndIncrement()));
             }
+            if (daemon != null) {
+                thread.setDaemon(daemon);
+            }
+            if (priority != null) {
+                thread.setPriority(priority);
+            }
+            if (uncaughtExceptionHandler != null) {
+                thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);
+            }
+            return thread;
         };
     }
 
