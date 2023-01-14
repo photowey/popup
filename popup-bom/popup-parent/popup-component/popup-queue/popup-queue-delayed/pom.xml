@@ -6,23 +6,21 @@
 
     <parent>
         <groupId>com.photowey</groupId>
-        <artifactId>popup-parent</artifactId>
+        <artifactId>popup-queue</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>popup-component</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>popup-queue-delayed</artifactId>
 
-    <modules>
-        <module>popup-common</module>
-        <module>popup-core</module>
-        <module>popup-crypto</module>
-        <module>popup-exception</module>
-        <module>popup-eventbus</module>
-        <module>popup-queue</module>
-    </modules>
+    <properties>
+    </properties>
 
     <dependencies>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
