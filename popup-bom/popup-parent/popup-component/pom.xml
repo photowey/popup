@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>com.photowey</groupId>
-        <artifactId>popup-app</artifactId>
+        <artifactId>popup-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
@@ -18,6 +18,8 @@
         <module>popup-core</module>
         <module>popup-crypto</module>
         <module>popup-exception</module>
+        <module>popup-eventbus</module>
+        <module>popup-queue</module>
     </modules>
 
     <dependencies>

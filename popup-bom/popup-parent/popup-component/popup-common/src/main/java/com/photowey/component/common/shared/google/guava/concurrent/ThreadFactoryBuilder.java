@@ -41,6 +41,10 @@ public final class ThreadFactoryBuilder {
     private Thread.UncaughtExceptionHandler uncaughtExceptionHandler = null;
     private ThreadFactory backingThreadFactory = null;
 
+    public static ThreadFactoryBuilder create() {
+        return new ThreadFactoryBuilder();
+    }
+
     /**
      * Fast build {@link ThreadFactory} by nameFormat
      * <p>
@@ -53,7 +57,7 @@ public final class ThreadFactoryBuilder {
      * @return {@link ThreadFactory}
      */
     public static ThreadFactory namedThreadFactory(String nameFormat) {
-        return new ThreadFactoryBuilder().nameFormat(nameFormat).build();
+        return create().nameFormat(nameFormat).build();
     }
 
     public ThreadFactoryBuilder nameFormat(String nameFormat) {
@@ -103,29 +107,29 @@ public final class ThreadFactoryBuilder {
         final Boolean daemon = builder.daemon;
         final Integer priority = builder.priority;
         final Thread.UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
-        final ThreadFactory backingThreadFactory =
-                (builder.backingThreadFactory != null)
-                        ? builder.backingThreadFactory
-                        : Executors.defaultThreadFactory();
-        final AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
-        return new ThreadFactory() {
-            @Override
-            public Thread newThread(Runnable runnable) {
-                Thread thread = backingThreadFactory.newThread(runnable);
-                if (nameFormat != null) {
-                    thread.setName(format(nameFormat, count.getAndIncrement()));
-                }
-                if (daemon != null) {
-                    thread.setDaemon(daemon);
-                }
-                if (priority != null) {
-                    thread.setPriority(priority);
-                }
-                if (uncaughtExceptionHandler != null) {
-                    thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);
-                }
-                return thread;
+
+        // @formatter:off
+        final ThreadFactory backingThreadFactory = (builder.backingThreadFactory != null)
+                ? builder.backingThreadFactory
+                : Executors.defaultThreadFactory();
+        final AtomicLong counter = (nameFormat != null) ? new AtomicLong(0) : null;
+        // @formatter:on
+
+        return (runnable) -> {
+            Thread thread = backingThreadFactory.newThread(runnable);
+            if (nameFormat != null) {
+                thread.setName(format(nameFormat, counter.getAndIncrement()));
             }
+            if (daemon != null) {
+                thread.setDaemon(daemon);
+            }
+            if (priority != null) {
+                thread.setPriority(priority);
+            }
+            if (uncaughtExceptionHandler != null) {
+                thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);
+            }
+            return thread;
         };
     }
 
