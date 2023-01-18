@@ -13,26 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.queue.delayed.listener;
+package com.photowey.component.queue.delayed.publisher;
 
 import com.photowey.component.queue.delayed.event.DelayedEvent;
-import org.springframework.core.Ordered;
+
+import java.util.concurrent.DelayQueue;
 
 /**
- * {@code DelayedQueueListener}
+ * {@code DefaultDelayedQueueEventPublisher}
  *
  * @author photowey
- * @date 2023/01/17
+ * @date 2023/01/18
  * @since 1.0.0
  */
-public interface DelayedQueueListener<E extends DelayedEvent> extends Ordered {
+public class DefaultDelayedQueueEventPublisher implements DelayedQueueEventPublisher {
 
-    Class<E> getEvent();
+    private final DelayQueue<DelayedEvent> delayQueue;
 
-    void onEvent(E event);
+    public DefaultDelayedQueueEventPublisher(DelayQueue<DelayedEvent> delayQueue) {
+        this.delayQueue = delayQueue;
+    }
 
     @Override
-    default int getOrder() {
-        return 0;
+    public <E extends DelayedEvent> void publishEvent(E event) {
+        this.delayQueue.offer(event);
     }
 }
