@@ -70,11 +70,7 @@ public class DefaultDelayedQueueHandler implements DelayedQueueHandler, SmartIni
                     List<DelayedQueueListener<DelayedEvent>> delayedQueueListeners = listenerRegistry.getDelayedQueueListeners(delayedEvent);
                     AnnotationAwareOrderComparator.sort(delayedQueueListeners);
 
-                    delayedQueueListeners.forEach(listener -> {
-                        delayedTaskExecutor.submit(() -> {
-                            listener.onEvent(delayedEvent);
-                        });
-                    });
+                    delayedQueueListeners.forEach(listener -> delayedTaskExecutor.submit(() -> listener.onEvent(delayedEvent)));
                 } else {
                     TimeUnit.MILLISECONDS.sleep(100);
                 }

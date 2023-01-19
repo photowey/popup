@@ -31,17 +31,22 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DefaultDelayedQueueListenerRegistry implements DelayedQueueListenerRegistry {
 
-    private static ConcurrentHashMap<Class<DelayedEvent>, List<DelayedQueueListener<DelayedEvent>>> LISTENER_MAP = new ConcurrentHashMap<>();
+    /**
+     * K: topic
+     * V: DelayedQueueListener
+     */
+    private static ConcurrentHashMap<String, List<DelayedQueueListener<DelayedEvent>>> LISTENER_MAP = new ConcurrentHashMap<>();
 
+    @Override
     public void registerListener(DelayedQueueListener<DelayedEvent> delayedListener) {
-        List<DelayedQueueListener<DelayedEvent>> delayedQueueListeners = LISTENER_MAP.get(delayedListener.getEvent());
+        List<DelayedQueueListener<DelayedEvent>> delayedQueueListeners = LISTENER_MAP.get(delayedListener.getTopic());
         if (null == delayedQueueListeners) {
             synchronized (LISTENER_MAP) {
-                delayedQueueListeners = LISTENER_MAP.get(delayedListener.getEvent());
+                delayedQueueListeners = LISTENER_MAP.get(delayedListener.getTopic());
                 if (null == delayedQueueListeners) {
                     delayedQueueListeners = new ArrayList<>();
                     delayedQueueListeners.add(delayedListener);
-                    LISTENER_MAP.put(delayedListener.getEvent(), delayedQueueListeners);
+                    LISTENER_MAP.put(delayedListener.getTopic(), delayedQueueListeners);
                 }
             }
         } else {
@@ -49,8 +54,9 @@ public class DefaultDelayedQueueListenerRegistry implements DelayedQueueListener
         }
     }
 
+    @Override
     public List<DelayedQueueListener<DelayedEvent>> getDelayedQueueListeners(DelayedEvent delayedEvent) {
-        return LISTENER_MAP.get(delayedEvent.getClass());
+        return LISTENER_MAP.get(delayedEvent.getTopic());
     }
 
     @Override

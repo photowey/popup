@@ -27,5 +27,4 @@ import com.photowey.component.queue.delayed.event.DelayedEvent;
 public interface DelayedQueueEventPublisher {
 
     <E extends DelayedEvent> void publishEvent(E event);
-
 }

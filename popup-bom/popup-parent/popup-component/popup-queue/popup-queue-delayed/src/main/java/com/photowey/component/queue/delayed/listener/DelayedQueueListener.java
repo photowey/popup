@@ -27,7 +27,7 @@ import org.springframework.core.Ordered;
  */
 public interface DelayedQueueListener<E extends DelayedEvent> extends Ordered {
 
-    Class<E> getEvent();
+    String getTopic();
 
     void onEvent(E event);
 
