@@ -13,26 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.queue.delayed.listener;
+package com.photowey.component.test.delayed.queue.app.controller.health;
 
-import com.photowey.component.queue.delayed.event.DelayedEvent;
-import org.springframework.core.Ordered;
+import com.photowey.component.core.health.Status;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * {@code DelayedQueueListener}
+ * {@code HealthController}
  *
  * @author photowey
- * @date 2023/01/17
+ * @date 2023/01/20
  * @since 1.0.0
  */
-public interface DelayedQueueListener<E extends DelayedEvent> extends Ordered {
+@Slf4j
+@RestController
+public class HealthController {
 
-    String getTopic();
-
-    void onEvent(E event);
-
-    @Override
-    default int getOrder() {
-        return 0;
+    @GetMapping("/healthz")
+    public ResponseEntity<Status> healthz() {
+        return new ResponseEntity<>(Status.up(), HttpStatus.OK);
     }
 }

@@ -13,26 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.queue.delayed.listener;
+package com.photowey.component.test.delayed.queue.app;
 
-import com.photowey.component.queue.delayed.event.DelayedEvent;
-import org.springframework.core.Ordered;
+import com.photowey.component.test.base.TestBase;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * {@code DelayedQueueListener}
+ * {@code AppTests}
  *
  * @author photowey
- * @date 2023/01/17
+ * @date 2023/01/20
  * @since 1.0.0
  */
-public interface DelayedQueueListener<E extends DelayedEvent> extends Ordered {
+@SpringBootTest(classes = App.class)
+class AppTests extends TestBase {
 
-    String getTopic();
+    @Test
+    void contextLoads() {
+    }
 
-    void onEvent(E event);
-
-    @Override
-    default int getOrder() {
-        return 0;
+    @Test
+    void testHealthz() throws Exception {
+        this.doHealthz();
     }
 }

@@ -21,6 +21,7 @@ import com.photowey.component.queue.delayed.registry.DelayedQueueListenerRegistr
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.List;
@@ -67,11 +68,9 @@ public class DefaultDelayedQueueHandler implements DelayedQueueHandler, SmartIni
                 if (delayQueue.size() > 0) {
                     DelayedEvent delayedEvent = delayQueue.take();
                     List<DelayedQueueListener<DelayedEvent>> delayedQueueListeners = listenerRegistry.getDelayedQueueListeners(delayedEvent);
-                    delayedQueueListeners.forEach(listener -> {
-                        delayedTaskExecutor.submit(() -> {
-                            listener.onEvent(delayedEvent);
-                        });
-                    });
+                    AnnotationAwareOrderComparator.sort(delayedQueueListeners);
+
+                    delayedQueueListeners.forEach(listener -> delayedTaskExecutor.submit(() -> listener.onEvent(delayedEvent)));
                 } else {
                     TimeUnit.MILLISECONDS.sleep(100);
                 }

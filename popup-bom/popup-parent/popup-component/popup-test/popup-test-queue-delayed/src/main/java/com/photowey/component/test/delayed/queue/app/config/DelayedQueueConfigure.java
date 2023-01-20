@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.queue.delayed.listener;
+package com.photowey.component.test.delayed.queue.app.config;
 
-import com.photowey.component.queue.delayed.event.DelayedEvent;
-import org.springframework.core.Ordered;
+import com.photowey.component.test.delayed.queue.app.property.DelayedQueueProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * {@code DelayedQueueListener}
+ * {@code DelayedQueueConfigure}
  *
  * @author photowey
- * @date 2023/01/17
+ * @date 2023/01/20
  * @since 1.0.0
  */
-public interface DelayedQueueListener<E extends DelayedEvent> extends Ordered {
-
-    String getTopic();
-
-    void onEvent(E event);
-
-    @Override
-    default int getOrder() {
-        return 0;
-    }
+@Configuration
+@EnableConfigurationProperties(value = {
+        DelayedQueueProperties.class
+})
+public class DelayedQueueConfigure {
 }
