@@ -15,4 +15,4 @@ spring:
 popup:
   delayedqueue:
     health:
-      health-api: "http://127.0.0.1:${server.port}/healthz"
+      api: "http://127.0.0.1:${server.port}/healthz"

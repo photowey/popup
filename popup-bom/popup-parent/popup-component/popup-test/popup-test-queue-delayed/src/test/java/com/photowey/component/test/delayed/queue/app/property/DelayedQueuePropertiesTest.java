@@ -16,8 +16,8 @@
 package com.photowey.component.test.delayed.queue.app.property;
 
 import com.photowey.component.common.util.StringFormatUtils;
+import com.photowey.component.test.base.TestBase;
 import com.photowey.component.test.delayed.queue.app.App;
-import com.photowey.component.test.delayed.queue.app.TestBase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,13 +46,17 @@ class DelayedQueuePropertiesTest extends TestBase {
     }
 
     @Test
-    void testDelayedQueueHealthApi() {
+    void testDelayedQueuePropertiesHealth() {
+        this.testDelayedQueuePropertiesHealthApi();
+    }
+
+    private void testDelayedQueuePropertiesHealthApi() {
         Assertions.assertNotNull(this.delayedQueueProperties.getHealth());
-        Assertions.assertNotNull(this.delayedQueueProperties.getHealth().getHealthApi());
+        Assertions.assertNotNull(this.delayedQueueProperties.getHealth().getApi());
 
         String port = this.environment.getProperty("server.port", "11001");
         String expectedApi = StringFormatUtils.format("http://127.0.0.1:11001/healthz", port);
-        Assertions.assertEquals(expectedApi, this.delayedQueueProperties.getHealth().getHealthApi());
+        Assertions.assertEquals(expectedApi, this.delayedQueueProperties.getHealth().getApi());
     }
 }
 

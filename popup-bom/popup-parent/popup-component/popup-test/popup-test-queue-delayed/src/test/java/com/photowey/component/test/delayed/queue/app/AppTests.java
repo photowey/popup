@@ -15,6 +15,7 @@
  */
 package com.photowey.component.test.delayed.queue.app;
 
+import com.photowey.component.test.base.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

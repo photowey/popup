@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>popup-test-base</module>
         <module>popup-test-queue-delayed</module>
     </modules>
 

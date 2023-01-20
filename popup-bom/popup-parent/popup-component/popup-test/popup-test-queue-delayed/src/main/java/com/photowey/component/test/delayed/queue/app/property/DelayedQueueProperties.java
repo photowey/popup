@@ -40,7 +40,7 @@ public class DelayedQueueProperties implements Serializable {
 
         private static final long serialVersionUID = 1867589042535276504L;
 
-        private String healthApi = "http://127.0.0.1:11001/healthz";
+        private String api = "http://127.0.0.1:11001/healthz";
     }
 
 }

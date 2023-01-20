@@ -172,6 +172,17 @@
                 <version>${popup.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-test</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-test-base</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** cloud -->
 
             <dependency>
