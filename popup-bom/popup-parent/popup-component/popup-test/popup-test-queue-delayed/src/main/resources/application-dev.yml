@@ -1,0 +1,18 @@
+logging:
+  pattern:
+    console: "%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %red([%X{traceId}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) %cyan(%msg%n) %ex{5}"
+
+# ---------------------------------------------------------------------
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        ip: "192.168.1.4"
+
+# ---------------------------------------------------------------------
+
+popup:
+  delayedqueue:
+    health:
+      health-api: "http://127.0.0.1:${server.port}/healthz"
