@@ -7,24 +7,24 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 /**
- * {@code TestEventListener3}
+ * {@code TestEventListener4}
  *
  * @author photowey
- * @date 2023/01/29
+ * @date 2023/01/30
  * @since 1.0.0
  */
 @Slf4j
 @Component
-public class TestEventListener3 implements DelayedQueueListener<TestEvent2> {
+public class TestEventListener4 implements DelayedQueueListener<TestEvent2> {
 
     @Override
     public String getTopic() {
-        return "delayed.topic.test.event2";
+        return "delayed.topic.test.event2.topic.ext";
     }
 
     @Override
     public void onEvent(TestEvent2 event) {
-        log.info("TestEventListener3:handle event2: [{}], event.id: [{}];event.topic: [{}]", event.getClass().getName(), event.getId(), event.getTopic());
+        log.info("TestEventListener4:handle event2: [{}], event.id: [{}];event.topic: [{}]", event.getClass().getName(), event.getId(), event.getTopic());
     }
 
     @Override

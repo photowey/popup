@@ -1,5 +1,6 @@
 package com.photowey.component.test.delayed.queue.app.listener;
 
+import com.photowey.component.common.date.DateUtils;
 import com.photowey.component.common.util.BlockUtils;
 import com.photowey.component.queue.delayed.publisher.DelayedQueueEventPublisher;
 import com.photowey.component.test.base.TestBase;
@@ -7,6 +8,7 @@ import com.photowey.component.test.delayed.queue.app.App;
 import com.photowey.component.test.delayed.queue.app.component.event.EventData;
 import com.photowey.component.test.delayed.queue.app.component.event.TestEvent1;
 import com.photowey.component.test.delayed.queue.app.component.event.TestEvent2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,7 @@ import java.time.ZoneOffset;
  * @date 2023/01/29
  * @since 1.0.0
  */
+@Slf4j
 @SpringBootTest(classes = App.class)
 class TestEventListenerTest extends TestBase {
 
@@ -80,5 +83,31 @@ class TestEventListenerTest extends TestBase {
         // com.photowey.component.test.delayed.queue.app.component.listener.TestEventListener2
         // TestEventListener2:handle event2: [com.photowey.component.test.delayed.queue.app.component.event.TestEvent2],
         // event.id: [9527];event.topic: [delayed.topic.test.event2]
+    }
+
+    @Test
+    void testEventListener_event2_topic_ext() {
+        TestEvent2 event = new TestEvent2();
+        event.setId("9527");
+        event.setTopic("delayed.topic.test.event2.topic.ext");
+        event.setEnqueueTimes(1);
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime runAt = now.plusSeconds(5);
+        event.setRunAt(runAt.toInstant(ZoneOffset.ofHours(8)).toEpochMilli());
+
+        EventData data = new EventData();
+        data.setId(8848L);
+        event.setData(data);
+
+        log.info("pre publish event:{}", DateUtils.nowStr());
+        this.publisher.publishEvent(event);
+        BlockUtils.block(8_000);
+
+        // Output:
+        // 2023-01-30 21:43:34.854 xxx pre publish event:2023-01-30 21:43:34
+
+        // 2023-01-30 21:43:39.857 xxx TestEventListener4:handle event2: [com.photowey.component.test.delayed.queue.app.component.event.TestEvent2],
+        // event.id: [9527];event.topic: [delayed.topic.test.event2.topic.ext]
     }
 }
