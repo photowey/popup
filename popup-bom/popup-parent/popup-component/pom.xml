@@ -21,6 +21,7 @@
         <module>popup-eventbus</module>
         <module>popup-queue</module>
         <module>popup-test</module>
+        <module>popup-sync</module>
     </modules>
 
     <dependencies>

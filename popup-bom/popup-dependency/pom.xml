@@ -183,6 +183,12 @@
                 <version>${popup.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-sync</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** cloud -->
 
             <dependency>
@@ -381,6 +387,14 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** redisson -->
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
 
             <!-- *************************************************************** codec -->
