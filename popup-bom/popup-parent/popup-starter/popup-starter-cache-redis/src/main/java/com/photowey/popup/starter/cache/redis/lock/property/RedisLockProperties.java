@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.cache.redis.property;
+package com.photowey.popup.starter.cache.redis.lock.property;
 
-import com.photowey.popup.starter.cache.redis.mode.RedisModeEnum;
+import com.photowey.popup.starter.cache.redis.lock.mode.RedisModeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

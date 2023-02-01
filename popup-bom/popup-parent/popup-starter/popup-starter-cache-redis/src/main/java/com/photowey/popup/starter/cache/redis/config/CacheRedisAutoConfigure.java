@@ -17,7 +17,7 @@ package com.photowey.popup.starter.cache.redis.config;
 
 import com.photowey.component.sync.lock.Lock;
 import com.photowey.popup.starter.cache.redis.lock.RedisLock;
-import com.photowey.popup.starter.cache.redis.property.RedisLockProperties;
+import com.photowey.popup.starter.cache.redis.lock.property.RedisLockProperties;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;

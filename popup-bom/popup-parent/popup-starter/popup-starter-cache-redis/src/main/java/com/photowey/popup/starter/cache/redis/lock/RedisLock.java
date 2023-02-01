@@ -16,7 +16,7 @@
 package com.photowey.popup.starter.cache.redis.lock;
 
 import com.photowey.component.sync.lock.Lock;
-import com.photowey.popup.starter.cache.redis.property.RedisLockProperties;
+import com.photowey.popup.starter.cache.redis.lock.property.RedisLockProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
