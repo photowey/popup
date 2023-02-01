@@ -15,6 +15,7 @@
  */
 package com.photowey.popup.starter.cache.redis.property;
 
+import com.photowey.popup.starter.cache.redis.mode.RedisModeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -29,8 +30,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "spring.redis.lock.redisson")
 public class RedisLockProperties {
 
-    private String address;
-    private String password;
+    private RedisModeEnum mode = RedisModeEnum.STANDALONE;
+    private String address = "redis://127.0.0.1:6379";
+    private String password = null;
+    private String masterName = "master";
+    private String namespace = "";
+    private int database = 0;
+    private int timeout = 10_000;
+    private boolean ignoreLockingExceptions = false;
 
-    // TODO
 }

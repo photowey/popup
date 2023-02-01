@@ -18,9 +18,14 @@ package com.photowey.popup.starter.cache.redis.config;
 import com.photowey.component.sync.lock.Lock;
 import com.photowey.popup.starter.cache.redis.lock.RedisLock;
 import com.photowey.popup.starter.cache.redis.property.RedisLockProperties;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
@@ -31,14 +36,27 @@ import org.springframework.context.annotation.Bean;
  * @date 2023/01/31
  * @since 1.0.0
  */
-@AutoConfiguration
+@ConditionalOnClass(RedissonClient.class)
+@AutoConfiguration(after = RedisAutoConfiguration.class)
 @EnableConfigurationProperties(value = {RedisLockProperties.class})
 public class CacheRedisAutoConfigure {
 
     @Bean
     @ConditionalOnMissingBean(Lock.class)
     @ConditionalOnProperty(name = "spring.redis.lock.redisson.enabled", havingValue = "true", matchIfMissing = false)
-    public Lock redisLock() {
-        return new RedisLock();
+    public Lock redisLock(RedisLockProperties properties) {
+        RedissonClient redisson = this.populateRedissonClient(properties);
+        return new RedisLock(redisson, properties);
+    }
+
+    private RedissonClient populateRedissonClient(RedisLockProperties properties) {
+        Config config = new Config();
+        config.useSingleServer()
+                .setAddress(properties.getAddress())
+                .setDatabase(properties.getDatabase())
+                .setPassword(properties.getPassword())
+                .setTimeout(properties.getTimeout());
+
+        return Redisson.create(config);
     }
 }
