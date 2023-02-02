@@ -252,7 +252,7 @@
                 <type>pom</type>
             </dependency>
 
-            <!-- *************************************************************** starter -->
+            <!-- *************************************************************** starter.cache -->
 
             <dependency>
                 <groupId>com.photowey</groupId>
@@ -271,13 +271,42 @@
             </dependency>
             <dependency>
                 <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-reader</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** starter.mongo -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-mongo</artifactId>
                 <version>${popup.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.photowey</groupId>
-                <artifactId>popup-starter-reader</artifactId>
+                <artifactId>popup-starter-mongo-autoconfigure</artifactId>
                 <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-mongo-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-mongo-repository</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-mongo-service</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-mongo-starter</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
             </dependency>
 
             <!-- *************************************************************** core -->
