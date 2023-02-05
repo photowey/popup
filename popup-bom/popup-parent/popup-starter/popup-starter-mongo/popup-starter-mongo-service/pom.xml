@@ -17,6 +17,11 @@
             <groupId>com.photowey</groupId>
             <artifactId>popup-starter-mongo-repository</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>popup-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
