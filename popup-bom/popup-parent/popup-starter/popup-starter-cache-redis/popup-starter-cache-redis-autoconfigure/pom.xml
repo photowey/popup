@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>com.photowey</groupId>
-        <artifactId>popup-starter</artifactId>
+        <artifactId>popup-starter-cache-redis</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
