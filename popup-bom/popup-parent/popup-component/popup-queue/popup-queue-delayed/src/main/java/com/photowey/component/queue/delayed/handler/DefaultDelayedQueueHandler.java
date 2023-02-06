@@ -23,6 +23,7 @@ import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.concurrent.DelayQueue;
@@ -68,9 +69,15 @@ public class DefaultDelayedQueueHandler implements DelayedQueueHandler, SmartIni
                 if (delayQueue.size() > 0) {
                     DelayedEvent delayedEvent = delayQueue.take();
                     List<DelayedQueueListener<DelayedEvent>> delayedQueueListeners = listenerRegistry.getDelayedQueueListeners(delayedEvent);
-                    AnnotationAwareOrderComparator.sort(delayedQueueListeners);
-
-                    delayedQueueListeners.forEach(listener -> delayedTaskExecutor.submit(() -> listener.onEvent(delayedEvent)));
+                    if (ObjectUtils.isEmpty(delayedQueueListeners)) {
+                        log.error("the listener of topic empty, check please.topic: [{}]", delayedEvent.getTopic());
+                    } else {
+                        AnnotationAwareOrderComparator.sort(delayedQueueListeners);
+                        // delayedQueueListeners.forEach(listener -> delayedTaskExecutor.submit(() -> listener.onEvent(delayedEvent)));
+                        delayedTaskExecutor.submit(() -> {
+                            delayedQueueListeners.forEach(listener -> listener.onEvent(delayedEvent));
+                        });
+                    }
                 } else {
                     TimeUnit.MILLISECONDS.sleep(100);
                 }

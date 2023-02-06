@@ -183,6 +183,12 @@
                 <version>${popup.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-sync</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** cloud -->
 
             <dependency>
@@ -246,18 +252,14 @@
                 <type>pom</type>
             </dependency>
 
-            <!-- *************************************************************** starter -->
+            <!-- *************************************************************** starter.cache -->
 
             <dependency>
                 <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-cache</artifactId>
                 <version>${popup.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.photowey</groupId>
-                <artifactId>popup-starter-cache-redis</artifactId>
-                <version>${popup.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-elasticsearch</artifactId>
@@ -265,13 +267,76 @@
             </dependency>
             <dependency>
                 <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-reader</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** starter.cache.redis -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis-autoconfigure</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis-lock</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis-starter</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <!-- *************************************************************** starter.mongo -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-mongo</artifactId>
                 <version>${popup.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.photowey</groupId>
-                <artifactId>popup-starter-reader</artifactId>
+                <artifactId>popup-starter-mongo-autoconfigure</artifactId>
                 <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-mongo-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-mongo-repository</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-mongo-service</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-mongo-starter</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
             </dependency>
 
             <!-- *************************************************************** core -->
@@ -381,6 +446,14 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** redisson -->
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
 
             <!-- *************************************************************** codec -->

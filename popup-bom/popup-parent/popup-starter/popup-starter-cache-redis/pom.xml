@@ -11,6 +11,14 @@
     </parent>
 
     <artifactId>popup-starter-cache-redis</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>popup-starter-cache-redis-autoconfigure</module>
+        <module>popup-starter-cache-redis-core</module>
+        <module>popup-starter-cache-redis-lock</module>
+        <module>popup-starter-cache-redis-starter</module>
+    </modules>
 
     <dependencies>
     </dependencies>

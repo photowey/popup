@@ -53,6 +53,8 @@
         <okhttp.version>4.10.0</okhttp.version>
         <!-- guava -->
         <guava.version>30.1.1-jre</guava.version>
+        <!-- redisson -->
+        <redisson.version>3.19.1</redisson.version>
 
         <!-- codec -->
         <bouncycastle-jdk16.version>1.46</bouncycastle-jdk16.version>

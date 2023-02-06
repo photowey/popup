@@ -11,6 +11,15 @@
     </parent>
 
     <artifactId>popup-starter-mongo</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>popup-starter-mongo-autoconfigure</module>
+        <module>popup-starter-mongo-core</module>
+        <module>popup-starter-mongo-repository</module>
+        <module>popup-starter-mongo-service</module>
+        <module>popup-starter-mongo-starter</module>
+    </modules>
 
     <dependencies>
     </dependencies>
