@@ -1,3 +1,3 @@
 # `popup-starter-cache-redis`
 
-> `Popup` redis cache starter module
+> `Popup` redis cache starter parent module

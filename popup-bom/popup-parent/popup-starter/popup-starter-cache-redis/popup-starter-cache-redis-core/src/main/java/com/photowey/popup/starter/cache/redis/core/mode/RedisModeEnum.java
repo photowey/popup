@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.cache.redis.lock.mode;
+package com.photowey.popup.starter.cache.redis.core.mode;
 
 /**
  * {@code RedisModeEnum}

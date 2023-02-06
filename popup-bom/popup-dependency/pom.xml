@@ -259,11 +259,7 @@
                 <artifactId>popup-starter-cache</artifactId>
                 <version>${popup.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.photowey</groupId>
-                <artifactId>popup-starter-cache-redis</artifactId>
-                <version>${popup.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-elasticsearch</artifactId>
@@ -273,6 +269,40 @@
                 <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-reader</artifactId>
                 <version>${popup.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** starter.cache.redis -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis-autoconfigure</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis-lock</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis-starter</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
             </dependency>
 
             <!-- *************************************************************** starter.mongo -->

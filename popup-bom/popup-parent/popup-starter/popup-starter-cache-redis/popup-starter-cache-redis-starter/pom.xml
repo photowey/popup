@@ -10,17 +10,14 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>popup-starter-cache-redis</artifactId>
+    <artifactId>popup-starter-cache-redis-starter</artifactId>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>popup-starter-cache-redis-autoconfigure</module>
-        <module>popup-starter-cache-redis-core</module>
-        <module>popup-starter-cache-redis-lock</module>
-        <module>popup-starter-cache-redis-starter</module>
-    </modules>
-
     <dependencies>
+        <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>popup-starter-cache-redis-autoconfigure</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

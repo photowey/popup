@@ -30,7 +30,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 /**
- * {@code CacheRedisAutoConfigure}
+ * {@code PopupCacheRedisAutoConfigure}
  *
  * @author photowey
  * @date 2023/01/31
@@ -39,7 +39,7 @@ import org.springframework.context.annotation.Bean;
 @ConditionalOnClass(RedissonClient.class)
 @AutoConfiguration(after = RedisAutoConfiguration.class)
 @EnableConfigurationProperties(value = {RedisLockProperties.class})
-public class CacheRedisAutoConfigure {
+public class PopupCacheRedisAutoConfigure {
 
     @Bean
     @ConditionalOnMissingBean(Lock.class)
