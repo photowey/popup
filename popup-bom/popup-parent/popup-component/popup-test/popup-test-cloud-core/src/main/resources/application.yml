@@ -1,0 +1,40 @@
+spring:
+  profiles:
+    active:
+      - dev
+  jackson:
+    locale: "zh"
+    time-zone: "GMT+8"
+    serialization:
+      write-dates-as-timestamps: true
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+# ---------------------------------------------------------------------
+
+server:
+  port: 11001
+
+# ---------------------------------------------------------------------
+
+# custom the /actuator/info endpoint
+info:
+  app:
+    name: "@project.artifactId@"
+    encoding: "@project.build.sourceEncoding@"
+    java:
+      source: "@java.version@"
+      target: "@java.version@"
+    env:
+      active: ${spring.profiles.active}
+
+# ---------------------------------------------------------------------
+logging:
+  level:
+    root: INFO
+  time-rolling-file:
+    # TODO Inject ${app.base}
+    file: "${app.base}/logs/${spring.application.name}.%d{yyyy-MM-dd}.log"
+  pattern:
+    time-rolling-file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [${spring.application.name}] [%X{traceId}] [%thread] %-5level %logger %msg%n %ex{5}"
