@@ -9,5 +9,6 @@
 - `spring-cloud-admin`
 - `app-starting-listener`
 - `app-started-printer`
+- `spring-cloud-core`
 - `...`
 
