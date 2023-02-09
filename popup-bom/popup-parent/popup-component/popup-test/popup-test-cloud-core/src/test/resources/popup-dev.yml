@@ -1,0 +1,7 @@
+app:
+  popup:
+    name: "cloud-core-tester"
+    profiles:
+      active:
+        - "dev"
+        - "webapp"

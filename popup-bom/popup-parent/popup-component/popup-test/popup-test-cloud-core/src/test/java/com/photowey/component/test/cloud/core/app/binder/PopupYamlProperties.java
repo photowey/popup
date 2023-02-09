@@ -13,28 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.test.cloud.core.app;
+package com.photowey.component.test.cloud.core.app.binder;
 
-import com.photowey.component.test.base.TestBase;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
- * {@code AppTests}
+ * {@code PopupYamlProperties}
  *
  * @author photowey
- * @date 2023/02/08
+ * @date 2023/02/09
  * @since 1.0.0
  */
-@SpringBootTest(classes = App.class)
-class AppTests extends TestBase {
+@Data
+public class PopupYamlProperties {
 
-    @Test
-    void contextLoads() {
+    private String name;
+    private Profile profiles = new Profile();
+
+    @Data
+    public static class Profile implements Serializable {
+        private List<String> active;
     }
 
-    @Test
-    void testHealthz() throws Exception {
-        this.doHealthz();
-    }
 }
