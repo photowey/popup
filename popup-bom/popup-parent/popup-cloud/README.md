@@ -10,5 +10,7 @@
 - `app-starting-listener`
 - `app-started-printer`
 - `spring-cloud-core`
+- `spring-cloud-gateway`
+- `spring-cloud-uaa`
 - `...`
 

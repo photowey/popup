@@ -6,20 +6,15 @@
 
     <parent>
         <groupId>com.photowey</groupId>
-        <artifactId>popup-parent</artifactId>
+        <artifactId>popup-cloud</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>popup-cloud</artifactId>
+    <artifactId>popup-cloud-uaa</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>popup-cloud-admin</module>
-        <module>popup-app-starting-listener</module>
-        <module>popup-app-starting-printer</module>
-        <module>popup-cloud-core</module>
-        <module>popup-cloud-gateway</module>
-        <module>popup-cloud-uaa</module>
+        <module>popup-cloud-uaa-server</module>
     </modules>
 
     <dependencies>
