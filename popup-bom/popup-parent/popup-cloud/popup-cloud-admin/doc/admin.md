@@ -56,7 +56,9 @@ management:
 
 
 
-3.`Security`
+## 3.`Security`
+
+### `2.x`
 
 ```java
 @Configuration
@@ -90,6 +92,58 @@ public class SecurityConfigure {
                         adminContextPath + "/instances",
                         adminContextPath + "/actuator/**"
                 );
+
+        return http.build();
+    }
+}
+```
+
+
+
+### `3.x`
+
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfigure {
+
+    private final AdminServerProperties properties;
+
+    public SecurityConfigure(AdminServerProperties serverProperties) {
+        this.properties = serverProperties;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        String adminContextPath = this.properties.getContextPath();
+
+        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+        successHandler.setTargetUrlParameter("redirectTo");
+        successHandler.setDefaultTargetUrl(adminContextPath + "/");
+
+        // @formatter:off
+        http.authorizeHttpRequests()
+                .requestMatchers(adminContextPath + "/assets/**").permitAll()
+                .requestMatchers(adminContextPath + "/login").permitAll()
+                .requestMatchers( "/actuator/**").permitAll()
+                .anyRequest().authenticated()
+            .and()
+                .formLogin()
+                .loginPage(adminContextPath + "/login")
+                .successHandler(successHandler)
+            .and()
+                .logout()
+                .logoutUrl(adminContextPath + "/logout")
+            .and()
+                .httpBasic()
+            .and()
+                .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringRequestMatchers(
+                        adminContextPath + "/instances",
+                        adminContextPath + "/actuator/**"
+                );
+        // @formatter:on
 
         return http.build();
     }
