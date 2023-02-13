@@ -14,7 +14,7 @@
 
     <properties>
         <!--
-            skip deploy/install for hicoomore-intepay-platform-organization web module
+            skip deploy/install for popup-test-cloud-core web module
             https://maven.apache.org/plugins/maven-deploy-plugin/deploy-mojo.html#skip
             https://maven.apache.org/plugins/maven-install-plugin/install-mojo.html#skip
         -->

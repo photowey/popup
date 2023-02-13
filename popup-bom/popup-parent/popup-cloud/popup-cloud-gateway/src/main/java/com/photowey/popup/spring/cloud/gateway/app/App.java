@@ -15,6 +15,11 @@
  */
 package com.photowey.popup.spring.cloud.gateway.app;
 
+import com.photowey.popup.app.starting.printer.AppStartingPrinter;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
 /**
  * {@code App}
  *
@@ -22,5 +27,22 @@ package com.photowey.popup.spring.cloud.gateway.app;
  * @date 2023/02/10
  * @since 1.0.0
  */
+@SpringBootApplication
 public class App {
+
+    public static void main(String[] args) {
+        headless();
+        runApp(args);
+    }
+
+    private static void headless() {
+        // System.setProperty("jdk.tls.client.protocols", "TLSv1.2");
+        System.setProperty("java.awt.headless", "false");
+    }
+
+    private static void runApp(String[] args) {
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(App.class, args);
+        AppStartingPrinter.print(applicationContext);
+    }
+
 }
