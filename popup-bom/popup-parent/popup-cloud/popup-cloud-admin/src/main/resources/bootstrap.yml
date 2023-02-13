@@ -1,0 +1,41 @@
+local:
+  config:
+    nacos:
+      host: "192.168.1.11"
+      port: 8848
+      protocol: "http"
+      username: "nacos"
+      password: "nacos"
+      namespace: "8eff3617002e9a854b9704717f35f7aa"
+    admin:
+      context-path: "/monitor"
+
+# ---------------------------------------------------------------------
+
+spring:
+  application:
+    name: "monitor"
+  boot:
+    admin:
+      context-path: "${local.config.admin.context-path}"
+      discovery:
+        ignored-services: "${spring.application.name}"
+  cloud:
+    nacos:
+      config:
+        refresh-enabled: true
+        file-extension: yml
+        server-addr: "${local.config.nacos.protocol}://${local.config.nacos.host}:${local.config.nacos.port}"
+        username: "${local.config.nacos.username}"
+        password: "${local.config.nacos.password}"
+        namespace: "${local.config.nacos.namespace}"
+        group: DEFAULT_GROUP
+        shared-configs:
+          - data-id: "application.${spring.cloud.nacos.config.file-extension}"
+          - group: DEFAULT_GROUP
+          - refresh: true
+      discovery:
+        server-addr: "http://${local.config.nacos.host}:${local.config.nacos.port}"
+        username: "${local.config.nacos.username}"
+        password: "${local.config.nacos.password}"
+        namespace: "${local.config.nacos.namespace}"
