@@ -32,8 +32,8 @@ spring:
         group: DEFAULT_GROUP
         shared-configs:
           - data-id: "application.${spring.cloud.nacos.config.file-extension}"
-          - group: DEFAULT_GROUP
-          - refresh: true
+            group: DEFAULT_GROUP
+            refresh: true
       discovery:
         server-addr: "http://${local.config.nacos.host}:${local.config.nacos.port}"
         username: "${local.config.nacos.username}"

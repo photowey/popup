@@ -15,9 +15,11 @@
  */
 package com.photowey.popup.spring.cloud.admin.config;
 
+import com.photowey.popup.spring.cloud.admin.property.AdminProperties;
 import de.codecentric.boot.admin.server.config.AdminServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,6 +35,9 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
  */
 @Configuration
 @EnableWebSecurity
+@Import(value = {
+        AdminProperties.class
+})
 public class SecurityConfigure {
 
     private final AdminServerProperties properties;
