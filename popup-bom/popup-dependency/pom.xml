@@ -45,6 +45,14 @@
                 <version>${spring.boot.admin.version}</version>
             </dependency>
 
+            <!-- *************************************************************** loadbalancer -->
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+                <version>${spring.boot.loadbalancer.version}</version>
+            </dependency>
+
             <!-- *************************************************************** alibaba -->
 
             <dependency>

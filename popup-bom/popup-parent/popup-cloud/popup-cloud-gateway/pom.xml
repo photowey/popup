@@ -74,16 +74,6 @@
         </dependency>
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-                <version>4.0.0</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <build>
         <finalName>gateway</finalName>
         <plugins>

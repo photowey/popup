@@ -43,6 +43,7 @@
         <!-- spring boot -->
         <spring.boot.version>3.0.0</spring.boot.version>
         <spring.boot.admin.version>3.0.0</spring.boot.admin.version>
+        <spring.boot.loadbalancer.version>4.0.0</spring.boot.loadbalancer.version>
         <!-- spring cloud -->
         <spring.cloud.version>2022.0.0</spring.cloud.version>
         <!-- spring cloud alibaba -->
