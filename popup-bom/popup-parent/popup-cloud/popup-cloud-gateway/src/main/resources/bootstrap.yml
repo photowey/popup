@@ -1,8 +1,8 @@
 local:
   config:
     nacos:
-      host: "192.168.1.11"
-      port: 8848W
+      host: "192.168.1.7"
+      port: 8848
       protocol: "http"
       username: "nacos"
       password: "nacos"

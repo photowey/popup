@@ -15,8 +15,12 @@
  */
 package com.photowey.popup.spring.cloud.gateway.app.config;
 
+import com.photowey.popup.spring.cloud.gateway.app.nacos.DynamicNacosConfigListener;
+import com.photowey.popup.spring.cloud.gateway.app.nacos.NacosInstancesChangeEventSubscriber;
+import com.photowey.popup.spring.cloud.gateway.app.nacos.NacosSubscriberRegister;
 import com.photowey.popup.spring.cloud.gateway.app.property.GatewayProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -29,4 +33,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(value = {GatewayProperties.class})
 public class GatewayConfigure {
+
+    @Bean
+    public DynamicNacosConfigListener dynamicNacosConfigListener() {
+        return new DynamicNacosConfigListener();
+    }
+    @Bean
+    public NacosInstancesChangeEventSubscriber nacosInstancesChangeEventSubscriber() {
+        return new NacosInstancesChangeEventSubscriber();
+    }
+
+    @Bean
+    public NacosSubscriberRegister nacosSubscriberRegister() {
+        return new NacosSubscriberRegister();
+    }
+
 }
