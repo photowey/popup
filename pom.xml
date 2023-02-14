@@ -63,7 +63,11 @@
         <repository>
             <id>dev</id>
             <name>local</name>
-            <!-- win11 -->
+            <!--
+                Example:
+                `MAVEN_REPO` = `D:\software\maven\repo\repository`
+                `MAVEN_REPO` = `/Users/photowey/xxx/maven/repo/repository`
+            -->
             <url>file:///${env.MAVEN_REPO}</url>
         </repository>
     </distributionManagement>
