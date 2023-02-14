@@ -43,12 +43,10 @@
         <jackson-datatype-jsr310.version>2.9.7</jackson-datatype-jsr310.version>
 
         <!-- validator -->
-        <hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
-        <!-- https://devhub.checkmarx.com/cve-details/CVE-2022-36033/ -->
-        <jsoup.version>1.15.3</jsoup.version>
+        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
 
         <!-- netty -->
-        <netty.version>4.1.73.Final</netty.version>
+        <netty.version>4.1.89.Final</netty.version>
         <!-- okhttp -->
         <okhttp.version>4.10.0</okhttp.version>
         <!-- guava -->
