@@ -15,13 +15,38 @@
  */
 package com.photowey.popup.spring.cloud.gateway.app.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.photowey.popup.spring.cloud.gateway.app.engine.GatewayEngine;
+import com.photowey.popup.spring.cloud.gateway.app.engine.GatewayEngineAwareBeanPostProcessor;
+import com.photowey.popup.spring.cloud.gateway.app.engine.GatewayEngineImpl;
+import com.photowey.popup.spring.cloud.gateway.app.listener.ApplicationStartedListener;
 import com.photowey.popup.spring.cloud.gateway.app.nacos.DynamicNacosConfigListener;
 import com.photowey.popup.spring.cloud.gateway.app.nacos.NacosInstancesChangeEventSubscriber;
 import com.photowey.popup.spring.cloud.gateway.app.nacos.NacosSubscriberRegister;
 import com.photowey.popup.spring.cloud.gateway.app.property.GatewayProperties;
+import io.netty.channel.ChannelOption;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.http.codec.LoggingCodecSupport;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
+import reactor.netty.tcp.DefaultSslContextSpec;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * {@code GatewayConfigure}
@@ -32,12 +57,17 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(value = {GatewayProperties.class})
+@Import(value = {GatewayEngineAwareBeanPostProcessor.class})
 public class GatewayConfigure {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Bean
     public DynamicNacosConfigListener dynamicNacosConfigListener() {
         return new DynamicNacosConfigListener();
     }
+
     @Bean
     public NacosInstancesChangeEventSubscriber nacosInstancesChangeEventSubscriber() {
         return new NacosInstancesChangeEventSubscriber();
@@ -48,4 +78,56 @@ public class GatewayConfigure {
         return new NacosSubscriberRegister();
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public WebClient webClient() {
+        HttpClient httpClient = HttpClient
+                .create(ConnectionProvider.builder("httpClient").build())
+                .wiretap(true)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3_000)
+                .doOnConnected(conn -> {
+                    conn.addHandlerLast(new ReadTimeoutHandler(5_000, TimeUnit.MILLISECONDS));
+                    conn.addHandlerLast(new WriteTimeoutHandler(5_000, TimeUnit.MILLISECONDS));
+                }).secure(spec -> spec.sslContext(DefaultSslContextSpec.forClient().configure((builder) -> {
+                    builder.trustManager(InsecureTrustManagerFactory.INSTANCE);
+                })));
+
+        ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
+
+        return WebClient.create().mutate()
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .clientConnector(connector)
+                .exchangeStrategies(createExchangeStrategies())
+                .build();
+    }
+
+    @Bean
+    public ApplicationStartedListener applicationStartedListener() {
+        return new ApplicationStartedListener();
+    }
+
+    @Bean
+    public GatewayEngine gatewayEngine() {
+        return new GatewayEngineImpl();
+    }
+
+    private ExchangeStrategies createExchangeStrategies() {
+        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder().codecs(configurer -> {
+            configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON));
+            configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(objectMapper, MediaType.APPLICATION_JSON));
+            configurer.defaultCodecs().maxInMemorySize(this.toMb(16));
+        }).build();
+
+        exchangeStrategies
+                .messageWriters()
+                .stream()
+                .filter(LoggingCodecSupport.class::isInstance)
+                .forEach(writer -> ((LoggingCodecSupport) writer).setEnableLoggingRequestDetails(true));
+
+        return exchangeStrategies;
+    }
+
+    private int toMb(int unit) {
+        return 1024 * 1024 * unit;
+    }
 }
