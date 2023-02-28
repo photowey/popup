@@ -32,9 +32,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class ExecutorConfigure {
 
     /**
-     * 专门:
-     * 用于执行时间可能偏长的任务
-     *
      * @return {@link ThreadPoolTaskExecutor}
      */
     @Bean("commonAsyncExecutor")

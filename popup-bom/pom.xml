@@ -28,6 +28,7 @@
 
         <!-- core -->
         <fastjson2.version>2.0.13</fastjson2.version>
+        <json-path.version>2.7.0</json-path.version>
         <nanoid.version>2.0.0</nanoid.version>
         <commons-collections4.version>4.3</commons-collections4.version>
 

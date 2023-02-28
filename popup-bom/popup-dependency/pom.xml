@@ -361,6 +361,11 @@
                 <version>${fastjson2.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.jayway.jsonpath</groupId>
+                <artifactId>json-path</artifactId>
+                <version>${json-path.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.aventrix.jnanoid</groupId>
                 <artifactId>jnanoid</artifactId>
                 <version>${nanoid.version}</version>

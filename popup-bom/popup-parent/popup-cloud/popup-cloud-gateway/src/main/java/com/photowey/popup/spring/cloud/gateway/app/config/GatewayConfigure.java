@@ -16,9 +16,11 @@
 package com.photowey.popup.spring.cloud.gateway.app.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.photowey.popup.spring.cloud.gateway.app.constant.GatewayConstants;
 import com.photowey.popup.spring.cloud.gateway.app.engine.GatewayEngine;
 import com.photowey.popup.spring.cloud.gateway.app.engine.GatewayEngineAwareBeanPostProcessor;
 import com.photowey.popup.spring.cloud.gateway.app.engine.GatewayEngineImpl;
+import com.photowey.popup.spring.cloud.gateway.app.filter.AuthenticateGlobalFilter;
 import com.photowey.popup.spring.cloud.gateway.app.listener.ApplicationStartedListener;
 import com.photowey.popup.spring.cloud.gateway.app.nacos.DynamicNacosConfigListener;
 import com.photowey.popup.spring.cloud.gateway.app.nacos.NacosInstancesChangeEventSubscriber;
@@ -31,6 +33,7 @@ import io.netty.handler.timeout.WriteTimeoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -62,6 +65,17 @@ public class GatewayConfigure {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    /**
+     * Authenticate {@link GlobalFilter}
+     *
+     * @return {@link AuthenticateGlobalFilter}
+     */
+    @Bean(GatewayConstants.GLOBAL_AUTHENTICATE_FILTER_BEAN_NAME)
+    @ConditionalOnMissingBean(name = GatewayConstants.GLOBAL_AUTHENTICATE_FILTER_BEAN_NAME)
+    public AuthenticateGlobalFilter authenticateGlobalFilter() {
+        return new AuthenticateGlobalFilter();
+    }
 
     @Bean
     public DynamicNacosConfigListener dynamicNacosConfigListener() {

@@ -65,15 +65,25 @@ public class ExceptionModel implements Serializable {
     }
 
     public static ExceptionModel badUnHandle() {
-        return new ExceptionModel(ResponseStatusEnum.BAD_REQUEST, "The request could not be processed correctly, please try again later");
+        return new ExceptionModel(
+                ResponseStatusEnum.BAD_REQUEST,
+                "The request could not be processed correctly, please try again later");
     }
 
     public static ExceptionModel unauthorized() {
         return new ExceptionModel(ResponseStatusEnum.UNAUTHORIZED);
     }
 
+    public static ExceptionModel unauthorized(String message) {
+        return new ExceptionModel(ResponseStatusEnum.UNAUTHORIZED, message);
+    }
+
     public static ExceptionModel forbidden() {
         return new ExceptionModel(ResponseStatusEnum.FORBIDDEN);
+    }
+
+    public static ExceptionModel forbidden(String message) {
+        return new ExceptionModel(ResponseStatusEnum.FORBIDDEN, message);
     }
 
     public static ExceptionModel timeout() {
