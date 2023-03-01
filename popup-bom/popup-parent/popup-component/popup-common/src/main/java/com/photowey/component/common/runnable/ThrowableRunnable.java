@@ -15,20 +15,40 @@
  */
 package com.photowey.component.common.runnable;
 
+import static com.photowey.component.common.runnable.ThrowableRunnableThrower.sneakyThrow;
+
 /**
- * {@code ThrowingRunnable}
+ * {@code ThrowableRunnable}
  *
  * @author photowey
  * @date 2023/01/06
  * @since 1.0.0
  */
-public interface ThrowingRunnable {
+@FunctionalInterface
+public interface ThrowableRunnable {
 
-    /**
-     * {@code run}
-     *
-     * @throws Throwable
-     */
+    static ThrowableRunnable of(ThrowableRunnable ref) {
+        return ref;
+    }
+
     void run() throws Throwable;
+
+    default Runnable unchecked() {
+        return () -> {
+            try {
+                run();
+            } catch (Throwable x) {
+                sneakyThrow(x);
+            }
+        };
+    }
+}
+
+interface ThrowableRunnableThrower {
+
+    @SuppressWarnings("unchecked")
+    static <T extends Throwable, R> R sneakyThrow(Throwable t) throws T {
+        throw (T) t;
+    }
 
 }
