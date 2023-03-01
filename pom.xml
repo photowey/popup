@@ -197,7 +197,7 @@ limitations under the License.
                         <exclude>**/*.xlsx</exclude>
                         <exclude>**/.mvn/**</exclude>
                         <!-- shared code -->
-                        <exclude>**/shared/*.java</exclude>
+                        <exclude>**/shared/**/*.java</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>

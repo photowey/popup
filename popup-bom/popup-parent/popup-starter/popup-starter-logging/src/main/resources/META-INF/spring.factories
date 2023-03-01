@@ -1,0 +1,6 @@
+# Spring Application Listener
+org.springframework.context.ApplicationListener=\
+  com.photowey.popup.starter.logging.listener.PrepareAppBasedirApplicationListener
+# Spring Initializer
+org.springframework.context.ApplicationContextInitializer=\
+  com.photowey.popup.starter.logging.initializer.LoggingTimeRollingApplicationInitializer
