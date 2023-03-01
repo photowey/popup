@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.promise;
+package com.photowey.component.common.func;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -24,15 +24,15 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * {@code Promise}
+ * {@code Try}
  *
  * @author photowey
  * @date 2023/01/05
  * @since 1.0.0
  */
-public abstract class Promise<V> {
+public abstract class Try<V> {
 
-    public static <V> Promise<V> run(Callable<V> command) {
+    public static <V> Try<V> run(Callable<V> command) {
         try {
             return success(command.call());
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public abstract class Promise<V> {
         }
     }
 
-    public static <V> Promise<V> run(Callable<V> command, Predicate<V> tester) {
+    public static <V> Try<V> run(Callable<V> command, Predicate<V> tester) {
         try {
             V v = command.call();
             return tester.test(v) ? success(v) : failure(new EmptyException());
@@ -49,37 +49,37 @@ public abstract class Promise<V> {
         }
     }
 
-    public static <V> Promise<V> run(Callable<V> command, Consumer<V> resolve, Consumer<Throwable> reject) {
+    public static <V> Try<V> run(Callable<V> command, Consumer<V> resolve, Consumer<Throwable> reject) {
         try {
             V v = command.call();
             resolve.accept(v);
-            return Promise.success(v);
+            return Try.success(v);
         } catch (Throwable e) {
             reject.accept(e);
-            return Promise.failure(e);
+            return Try.failure(e);
         }
     }
 
     // -------------------------------------------------------------------------
 
-    public static <V> Promise<V> call(Callable<V> command) {
+    public static <V> Try<V> call(Callable<V> command) {
         checkNotNull(command, "command");
         return of(() -> success(command.call()));
     }
 
     // -------------------------------------------------------------------------
 
-    public static <V> Promise<V> success(V value) {
+    public static <V> Try<V> success(V value) {
         return new Success<>(value);
     }
 
-    public static <V> Promise<V> failure(Throwable cause) {
+    public static <V> Try<V> failure(Throwable cause) {
         return new Failure<>(checkNotNull(cause, "cause"));
     }
 
     // -------------------------------------------------------------------------
 
-    private static <V> Promise<V> of(Callable<Promise<V>> command) {
+    private static <V> Try<V> of(Callable<Try<V>> command) {
         try {
             return command.call();
         } catch (Throwable e) {
@@ -98,29 +98,28 @@ public abstract class Promise<V> {
 
     // -------------------------------------------------------------------------
 
-    private Promise() {
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+    private Try() {
     }
 
-    public abstract <U> Promise<U> andThen(Transformer<V, U> transformer);
+    public abstract <U> Try<U> andThen(Transformer<V, U> transformer);
 
-    public abstract <U> Promise<U> then(Function<V, Promise<U>> function);
+    public abstract <U> Try<U> then(Function<V, Try<U>> function);
 
-    public abstract Promise<V> orElse(Callable<V> command);
+    public abstract Try<V> orElse(Callable<V> command);
 
-    public abstract Promise<V> orElse(Supplier<Promise<V>> supplier);
+    public abstract Try<V> orElse(Supplier<Try<V>> supplier);
 
     public abstract V get() throws Throwable;
 
     public abstract <E extends Throwable> V getOrThrow(Function<? super Throwable, E> exceptionTransformer) throws E;
 
-    public abstract Promise<V> ifSuccess(Consumer<V> valueConsumer);
+    public abstract Try<V> ifSuccess(Consumer<V> valueConsumer);
 
-    public abstract Promise<V> ifFailure(Consumer<Throwable> causeConsumer);
+    public abstract Try<V> ifFailure(Consumer<Throwable> causeConsumer);
 
-    public abstract Promise<V> quiet(Function<Throwable, Boolean> function);
+    public abstract Try<V> quiet(Function<Throwable, Boolean> function);
 
-    public abstract <E extends Throwable> Promise<V> throwable(Function<Throwable, E> function);
+    public abstract <E extends Throwable> Try<V> throwable(Function<Throwable, E> function);
 
     public abstract Optional<V> toOptional();
 
@@ -142,7 +141,7 @@ public abstract class Promise<V> {
 
     // -------------------------------------------------------------------------
 
-    private static class Success<V> extends Promise<V> {
+    private static class Success<V> extends Try<V> {
 
         private final V value;
 
@@ -151,24 +150,24 @@ public abstract class Promise<V> {
         }
 
         @Override
-        public <U> Promise<U> andThen(Transformer<V, U> transformer) {
+        public <U> Try<U> andThen(Transformer<V, U> transformer) {
             checkNotNull(transformer, "transformer");
             return call(() -> transformer.apply(this.value));
         }
 
         @Override
-        public <U> Promise<U> then(Function<V, Promise<U>> function) {
+        public <U> Try<U> then(Function<V, Try<U>> function) {
             checkNotNull(function, "function");
             return of(() -> function.apply(this.value));
         }
 
         @Override
-        public Promise<V> orElse(Callable<V> command) {
+        public Try<V> orElse(Callable<V> command) {
             return this;
         }
 
         @Override
-        public Promise<V> orElse(Supplier<Promise<V>> supplier) {
+        public Try<V> orElse(Supplier<Try<V>> supplier) {
             return this;
         }
 
@@ -183,24 +182,24 @@ public abstract class Promise<V> {
         }
 
         @Override
-        public Promise<V> ifSuccess(Consumer<V> valueConsumer) {
+        public Try<V> ifSuccess(Consumer<V> valueConsumer) {
             checkNotNull(valueConsumer, "valueConsumer");
             valueConsumer.accept(this.value);
             return this;
         }
 
         @Override
-        public Promise<V> ifFailure(Consumer<Throwable> causeConsumer) {
+        public Try<V> ifFailure(Consumer<Throwable> causeConsumer) {
             return this;
         }
 
         @Override
-        public Promise<V> quiet(Function<Throwable, Boolean> function) {
+        public Try<V> quiet(Function<Throwable, Boolean> function) {
             return this;
         }
 
         @Override
-        public <E extends Throwable> Promise<V> throwable(Function<Throwable, E> function) {
+        public <E extends Throwable> Try<V> throwable(Function<Throwable, E> function) {
             return this;
         }
 
@@ -228,7 +227,7 @@ public abstract class Promise<V> {
 
     // -------------------------------------------------------------------------
 
-    private static class Failure<V> extends Promise<V> {
+    private static class Failure<V> extends Try<V> {
 
         private Throwable cause;
         private boolean rethrow;
@@ -240,28 +239,28 @@ public abstract class Promise<V> {
         }
 
         @Override
-        public <U> Promise<U> andThen(Transformer<V, U> transformer) {
-            return uncheckedCast();
+        public <U> Try<U> andThen(Transformer<V, U> transformer) {
+            return unchecked();
         }
 
         @Override
-        public <U> Promise<U> then(Function<V, Promise<U>> function) {
-            return uncheckedCast();
+        public <U> Try<U> then(Function<V, Try<U>> function) {
+            return unchecked();
         }
 
         @SuppressWarnings("unchecked")
-        private <U> Promise<U> uncheckedCast() {
-            return (Promise<U>) this;
+        private <U> Try<U> unchecked() {
+            return (Try<U>) this;
         }
 
         @Override
-        public Promise<V> orElse(Callable<V> command) {
+        public Try<V> orElse(Callable<V> command) {
             checkNotNull(command, "command");
             return call(command);
         }
 
         @Override
-        public Promise<V> orElse(Supplier<Promise<V>> supplier) {
+        public Try<V> orElse(Supplier<Try<V>> supplier) {
             checkNotNull(supplier, "supplier");
             return of(supplier::get);
         }
@@ -282,25 +281,25 @@ public abstract class Promise<V> {
         }
 
         @Override
-        public Promise<V> ifSuccess(Consumer<V> valueConsumer) {
+        public Try<V> ifSuccess(Consumer<V> valueConsumer) {
             return this;
         }
 
         @Override
-        public Promise<V> ifFailure(Consumer<Throwable> causeConsumer) {
+        public Try<V> ifFailure(Consumer<Throwable> causeConsumer) {
             checkNotNull(causeConsumer, "causeConsumer");
             causeConsumer.accept(this.cause);
             return this;
         }
 
         @Override
-        public Promise<V> quiet(Function<Throwable, Boolean> function) {
+        public Try<V> quiet(Function<Throwable, Boolean> function) {
             this.rethrow = function.apply(this.cause);
             return this;
         }
 
         @Override
-        public <E extends Throwable> Promise<V> throwable(Function<Throwable, E> function) {
+        public <E extends Throwable> Try<V> throwable(Function<Throwable, E> function) {
             this.cause = function.apply(this.cause);
             return this;
         }

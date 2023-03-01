@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.promise;
+package com.photowey.component.common.func;
 
 import com.photowey.component.common.util.ObjectUtils;
 import lombok.AllArgsConstructor;
@@ -31,11 +31,11 @@ import org.junit.jupiter.api.Test;
  * @since 1.0.0
  */
 @Slf4j
-class PromiseTest {
+class TryTest {
 
     @Test
     void testSuccess() throws Throwable {
-        Integer result = Promise.run(() -> {
+        Integer result = Try.run(() -> {
             String message = "OK";
             if (ObjectUtils.isNotNullOrEmpty(message)) {
                 return message;
@@ -43,7 +43,7 @@ class PromiseTest {
                 throw new RuntimeException("failure");
             }
         }).then(v -> {
-            return Promise.success(1);
+            return Try.success(1);
         }).ifSuccess(v -> {
             System.out.println("Success" + v);
         }).ifFailure((e) -> {
@@ -55,12 +55,12 @@ class PromiseTest {
 
     @Test
     void testSuccess_predicate() throws Throwable {
-        Integer result = Promise.run(() -> {
+        Integer result = Try.run(() -> {
             return "OK";
         }, (v) -> {
             return ObjectUtils.isNotNullOrEmpty(v);
         }).then(v -> {
-            return Promise.success(1);
+            return Try.success(1);
         }).ifSuccess(v -> {
             System.out.println("Success" + v);
         }).ifFailure((e) -> {
@@ -73,7 +73,7 @@ class PromiseTest {
     @Test
     void testFailure() {
         Assertions.assertThrows(RuntimeException.class, () -> {
-            Promise.run(() -> {
+            Try.run(() -> {
                 String message = "";
                 if (ObjectUtils.isNotNullOrEmpty(message)) {
                     return message;
@@ -81,7 +81,7 @@ class PromiseTest {
                     throw new RuntimeException("failure");
                 }
             }).then(v -> {
-                return Promise.success(1);
+                return Try.success(1);
             }).ifSuccess(v -> {
                 System.out.println("Success" + v);
             }).ifFailure((e) -> {
@@ -92,14 +92,14 @@ class PromiseTest {
 
     @Test
     void testFailure_not_throw_v1() throws Throwable {
-        Integer failure = Promise.run(() -> {
+        Integer failure = Try.run(() -> {
             return "";
         }, (v) -> {
             return ObjectUtils.isNotNullOrEmpty(v);
         }).then(v -> {
-            return Promise.success(1);
+            return Try.success(1);
         }).quiet((e) -> {
-            if (e instanceof Promise.EmptyException) {
+            if (e instanceof Try.EmptyException) {
                 return false;
             }
             return true;
@@ -114,12 +114,12 @@ class PromiseTest {
 
     @Test
     void testFailure_not_throw_v2() throws Throwable {
-        Integer failure = Promise.run(() -> {
+        Integer failure = Try.run(() -> {
             return "";
         }, (v) -> {
             return ObjectUtils.isNotNullOrEmpty(v);
         }).then(v -> {
-            return Promise.success(1);
+            return Try.success(1);
         }).throwable(e -> {
             return new IllegalArgumentException(e);
         }).quiet((e) -> {
@@ -139,12 +139,12 @@ class PromiseTest {
     @Test
     void testFailure_not_throw_v3() {
         Assertions.assertThrows(NullPointerException.class, () -> {
-            Promise.run(() -> {
+            Try.run(() -> {
                 return "";
             }, (v) -> {
                 return ObjectUtils.isNotNullOrEmpty(v);
             }).then(v -> {
-                return Promise.success(1);
+                return Try.success(1);
             }).throwable(e -> {
                 return new NullPointerException("rethrow");
             }).quiet((e) -> {
@@ -162,14 +162,14 @@ class PromiseTest {
 
     @Test
     void testResolveReject() throws Throwable {
-        Integer result = Promise.run(() -> {
+        Integer result = Try.run(() -> {
             return "";
         }, (v) -> {
             System.out.println("Success" + v);
         }, (e) -> {
             System.out.println("Failure" + ":" + e.getMessage());
         }).then(v -> {
-            return Promise.success(1);
+            return Try.success(1);
         }).ifSuccess(v -> {
             System.out.println("Success" + v);
         }).ifFailure((e) -> {
@@ -182,7 +182,7 @@ class PromiseTest {
     @Test
     void testResolveReject_v2() {
         Tester ctx = new Tester();
-        Promise.run(() -> {
+        Try.run(() -> {
             return "ok";
         }, (v) -> {
             System.out.println("Success" + v);
@@ -198,7 +198,7 @@ class PromiseTest {
     @Test
     void testResolveReject_v3() {
         Tester ctx = new Tester();
-        Promise.run(() -> {
+        Try.run(() -> {
             if (1 != 2) {
                 throw new RuntimeException("failure");
             }
