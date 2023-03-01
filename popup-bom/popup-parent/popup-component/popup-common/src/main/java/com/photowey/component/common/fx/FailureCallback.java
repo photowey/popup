@@ -15,6 +15,8 @@
  */
 package com.photowey.component.common.fx;
 
+import java.util.Objects;
+
 /**
  * {@code FailureCallback}
  *
@@ -23,5 +25,15 @@ package com.photowey.component.common.fx;
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface FailureCallback<T> extends Callback<T> {
+public interface FailureCallback<R, T extends Throwable> {
+
+    void accept(R ctx, T t);
+
+    default FailureCallback<R, T> andThen(FailureCallback<R, T> after) {
+        Objects.requireNonNull(after);
+        return (R ctx, T t) -> {
+            accept(ctx, t);
+            after.accept(ctx, t);
+        };
+    }
 }
