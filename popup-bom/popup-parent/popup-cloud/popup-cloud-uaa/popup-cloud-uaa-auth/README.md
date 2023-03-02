@@ -1,3 +1,3 @@
-# `popup-cloud-core`
+# `popup-cloud-uaa-auth`
 
-> `Popup` spring cloud core module
+> `Popup` spring cloud uaa auth module

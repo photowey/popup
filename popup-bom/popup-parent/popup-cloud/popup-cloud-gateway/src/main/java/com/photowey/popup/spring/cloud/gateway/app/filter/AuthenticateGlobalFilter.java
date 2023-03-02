@@ -15,7 +15,7 @@
  */
 package com.photowey.popup.spring.cloud.gateway.app.filter;
 
-import com.photowey.component.exception.core.model.ExceptionModel;
+import com.photowey.component.exception.core.wrapper.ResponseWrapper;
 import com.photowey.popup.spring.cloud.gateway.app.constant.GatewayConstants;
 import com.photowey.popup.spring.cloud.gateway.app.engine.GatewayEngine;
 import com.photowey.popup.spring.cloud.gateway.app.engine.GatewayEngineAware;
@@ -114,12 +114,12 @@ public class AuthenticateGlobalFilter implements GlobalFilter, Ordered, GatewayE
         return bearerToken;
     }
 
-    public ExceptionModel deny() {
-        return ExceptionModel.unauthorized();
+    public ResponseWrapper deny() {
+        return ResponseWrapper.unauthorized();
     }
 
-    public ExceptionModel deny(String message) {
-        return ExceptionModel.unauthorized(message);
+    public ResponseWrapper deny(String message) {
+        return ResponseWrapper.unauthorized(message);
     }
 
     private <T> Mono<Void> toMono(T body, ServerWebExchange exchange) {

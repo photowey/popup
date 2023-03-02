@@ -1,3 +1,3 @@
-# `popup-cloud-core`
+# `popup-cloud-uaa-client`
 
-> `Popup` spring cloud core module
+> `Popup` spring cloud uaa client module
