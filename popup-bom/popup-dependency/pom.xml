@@ -266,6 +266,14 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- *************************************************************** starter.autoconfigure -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-autoconfigure</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** starter.cache -->
 
             <dependency>
@@ -274,11 +282,6 @@
                 <version>${popup.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.photowey</groupId>
-                <artifactId>popup-starter-elasticsearch</artifactId>
-                <version>${popup.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-reader</artifactId>
@@ -317,6 +320,22 @@
                 <artifactId>popup-starter-cache-redis-starter</artifactId>
                 <version>${popup.version}</version>
                 <type>pom</type>
+            </dependency>
+
+            <!-- *************************************************************** starter.elasticsearch -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-elasticsearch</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** starter.logging -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-logging</artifactId>
+                <version>${popup.version}</version>
             </dependency>
 
             <!-- *************************************************************** starter.mongo -->

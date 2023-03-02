@@ -161,24 +161,17 @@ public class TimeRollingFileInstaller {
 
         public static String LOGGING_PREFIX = "logging.";
         public static String PATTERN_KEY = "pattern.time-rolling-file";
-
         public static String FILE_NAME_KEY = "time-rolling-file.file";
-
         public static String MAX_HISTORY_KEY = "time-rolling-file.max-history";
         public static String TOTAL_FILE_SIZE_KEY = "time-rolling-file.total-size";
-
         public static String THRESHOLD_LEVEL_KEY = "time-rolling-file.threshold-level";
+
         public static String CONTENT_PATTERN = "%d{yyyy-MM-dd HH:mm:ss.SSS} [${spring.application.name}] [%X{traceId}] [%thread] %-5level %logger %msg%n %ex{10}";
 
         private String fileNamePattern;
-
         private String contentPattern = CONTENT_PATTERN;
-
         private String thresholdLevel = "WARN";
-
         private Integer maxHistory = 90;
-
-        // 单位: G
         private String totalSize = "4GB";
 
         public String getFileNamePattern() {
