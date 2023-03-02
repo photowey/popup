@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.exception.core.model;
+package com.photowey.component.exception.core.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.photowey.component.exception.core.enums.ResponseStatusEnum;
@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * {@code ExceptionModel}
+ * {@code ResponseWrapper}
  *
  * @author photowey
  * @date 2022/12/26
@@ -36,7 +36,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "Exception data.model")
-public class ExceptionModel implements Serializable {
+public class ResponseWrapper implements Serializable {
 
     private static final long serialVersionUID = 7480517023708312921L;
 
@@ -48,46 +48,46 @@ public class ExceptionModel implements Serializable {
     @ApiModelProperty(value = "Response message", example = "Ok")
     protected String message;
 
-    public ExceptionModel(ResponseStatusEnum exceptionStatus) {
-        this.status = exceptionStatus.status();
-        this.code = exceptionStatus.code();
-        this.message = exceptionStatus.message();
+    public ResponseWrapper(ResponseStatusEnum status) {
+        this.status = status.status();
+        this.code = status.code();
+        this.message = status.message();
     }
 
-    public ExceptionModel(ResponseStatusEnum exceptionStatus, String message) {
-        this.status = exceptionStatus.status();
-        this.code = exceptionStatus.code();
+    public ResponseWrapper(ResponseStatusEnum status, String message) {
+        this.status = status.status();
+        this.code = status.code();
         this.message = message;
     }
 
-    public static ExceptionModel badRequest() {
-        return new ExceptionModel(ResponseStatusEnum.BAD_REQUEST);
+    public static ResponseWrapper badRequest() {
+        return new ResponseWrapper(ResponseStatusEnum.BAD_REQUEST);
     }
 
-    public static ExceptionModel badUnHandle() {
-        return new ExceptionModel(
+    public static ResponseWrapper badUnHandle() {
+        return new ResponseWrapper(
                 ResponseStatusEnum.BAD_REQUEST,
                 "The request could not be processed correctly, please try again later");
     }
 
-    public static ExceptionModel unauthorized() {
-        return new ExceptionModel(ResponseStatusEnum.UNAUTHORIZED);
+    public static ResponseWrapper unauthorized() {
+        return new ResponseWrapper(ResponseStatusEnum.UNAUTHORIZED);
     }
 
-    public static ExceptionModel unauthorized(String message) {
-        return new ExceptionModel(ResponseStatusEnum.UNAUTHORIZED, message);
+    public static ResponseWrapper unauthorized(String message) {
+        return new ResponseWrapper(ResponseStatusEnum.UNAUTHORIZED, message);
     }
 
-    public static ExceptionModel forbidden() {
-        return new ExceptionModel(ResponseStatusEnum.FORBIDDEN);
+    public static ResponseWrapper forbidden() {
+        return new ResponseWrapper(ResponseStatusEnum.FORBIDDEN);
     }
 
-    public static ExceptionModel forbidden(String message) {
-        return new ExceptionModel(ResponseStatusEnum.FORBIDDEN, message);
+    public static ResponseWrapper forbidden(String message) {
+        return new ResponseWrapper(ResponseStatusEnum.FORBIDDEN, message);
     }
 
-    public static ExceptionModel timeout() {
-        return new ExceptionModel(ResponseStatusEnum.TIME_OUT);
+    public static ResponseWrapper timeout() {
+        return new ResponseWrapper(ResponseStatusEnum.TIME_OUT);
     }
 
 }
