@@ -15,14 +15,7 @@
  */
 package com.photowey.popup.starter.autoconfigure.config;
 
-import com.photowey.popup.starter.autoconfigure.validator.EntityValidator;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 /**
  * {@code PopupAutoConfigure}
@@ -32,24 +25,6 @@ import org.springframework.context.annotation.Import;
  * @since 1.0.0
  */
 @AutoConfiguration
-@Import(value = {
-        PopupAutoConfigure.ValidatorConfigure.class,
-})
 public class PopupAutoConfigure {
-
-    @Configuration
-    static class ValidatorConfigure {
-
-        @Bean
-        @ConditionalOnMissingBean(Validator.class)
-        public Validator validator() {
-            return Validation.buildDefaultValidatorFactory().getValidator();
-        }
-
-        @Bean
-        public EntityValidator entityValidator(Validator validator) {
-            return new EntityValidator(validator);
-        }
-    }
 
 }

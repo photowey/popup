@@ -372,6 +372,14 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- *************************************************************** starter.validator -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-validator</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** core -->
 
             <dependency>

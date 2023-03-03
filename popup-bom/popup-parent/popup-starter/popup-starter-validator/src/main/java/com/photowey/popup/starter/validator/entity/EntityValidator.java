@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.autoconfigure.validator;
+package com.photowey.popup.starter.validator.entity;
 
 import com.photowey.component.exception.core.checker.PopupExceptionChecker;
 import jakarta.validation.ConstraintViolation;

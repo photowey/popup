@@ -21,6 +21,7 @@
         <module>popup-starter-logging</module>
         <module>popup-starter-mongo</module>
         <module>popup-starter-reader</module>
+        <module>popup-starter-validator</module>
     </modules>
 
     <dependencies>
