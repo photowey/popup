@@ -130,19 +130,19 @@ English | [中文](./README_CN.md)
 
       - > All `starter`
 
-      - `Autoconfigure`
+      - `autoconfigure`
 
-      - `Redis`
+      - `redis`
 
-      - `MongoDB`
+      - `mongodb`
 
-      - `Elasticsearch`
+      - `elasticsearch`
 
-      - `Logging`
+      - `logging`
 
-      - `Classpath reader`
+      - `classpath reader`
 
-      - `Entity validator`
+      - `entity validator`
 
       - `...`
 

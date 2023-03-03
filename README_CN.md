@@ -129,19 +129,19 @@
 
       - > 各种 `starter`
 
-      - `Autoconfigure`
+      - `autoconfigure`
 
-      - `Redis`
+      - `redis`
 
-      - `MongoDB`
+      - `mongodb`
 
-      - `Elasticsearch`
+      - `elasticsearch`
 
-      - `Logging`
+      - `logging`
 
-      - `Classpath reader`
+      - `classpath reader`
 
-      - `Entity validator`
+      - `entity validator`
 
       - `...`
 
