@@ -23,9 +23,9 @@
         <module>popup-bom</module>
     </modules>
 
+    <!-- @formatter:off -->
     <properties>
         <java.version>17</java.version>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
@@ -37,16 +37,19 @@
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <maven-git-commit-id-plugin.version>4.9.10</maven-git-commit-id-plugin.version>
 
+        <version>1.0.0-SNAPSHOT</version>
+        <popup.version>1.0.0-SNAPSHOT</popup.version>
+
         <!-- spring boot -->
         <spring.boot.version>3.0.0</spring.boot.version>
-        <spring.boot.admin.version>3.0.0-M8</spring.boot.admin.version>
+        <spring.cloud.admin.version>3.0.0</spring.cloud.admin.version>
+        <spring.cloud.loadbalancer.version>4.0.0</spring.cloud.loadbalancer.version>
         <!-- spring cloud -->
         <spring.cloud.version>2022.0.0</spring.cloud.version>
         <!-- spring cloud alibaba -->
         <spring.cloud.alibaba.version>2022.0.0.0-RC1</spring.cloud.alibaba.version>
-
-        <popup.version>1.0.0-SNAPSHOT</popup.version>
     </properties>
+    <!-- @formatter:on -->
 
     <dependencies>
     </dependencies>
@@ -60,7 +63,11 @@
         <repository>
             <id>dev</id>
             <name>local</name>
-            <!-- win11 -->
+            <!--
+                Example:
+                `MAVEN_REPO` = `D:\software\maven\repo\repository`
+                `MAVEN_REPO` = `/Users/photowey/xxx/maven/repo/repository`
+            -->
             <url>file:///${env.MAVEN_REPO}</url>
         </repository>
     </distributionManagement>
@@ -190,7 +197,7 @@ limitations under the License.
                         <exclude>**/*.xlsx</exclude>
                         <exclude>**/.mvn/**</exclude>
                         <!-- shared code -->
-                        <exclude>**/shared/*.java</exclude>
+                        <exclude>**/shared/**/*.java</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>

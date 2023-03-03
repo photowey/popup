@@ -42,7 +42,15 @@
             <dependency>
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-server</artifactId>
-                <version>${spring.boot.admin.version}</version>
+                <version>${spring.cloud.admin.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** loadbalancer -->
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+                <version>${spring.cloud.loadbalancer.version}</version>
             </dependency>
 
             <!-- *************************************************************** alibaba -->
@@ -202,6 +210,12 @@
                 <version>${popup.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** http -->
 
             <dependency>
@@ -252,6 +266,14 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- *************************************************************** starter.autoconfigure -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-autoconfigure</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** starter.cache -->
 
             <dependency>
@@ -260,11 +282,6 @@
                 <version>${popup.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.photowey</groupId>
-                <artifactId>popup-starter-elasticsearch</artifactId>
-                <version>${popup.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-reader</artifactId>
@@ -305,6 +322,22 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- *************************************************************** starter.elasticsearch -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-elasticsearch</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** starter.logging -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-logging</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** starter.mongo -->
 
             <dependency>
@@ -339,12 +372,25 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- *************************************************************** starter.validator -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-validator</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** core -->
 
             <dependency>
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2</artifactId>
                 <version>${fastjson2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jayway.jsonpath</groupId>
+                <artifactId>json-path</artifactId>
+                <version>${json-path.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.aventrix.jnanoid</groupId>
@@ -425,11 +471,6 @@
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jsoup</groupId>
-                <artifactId>jsoup</artifactId>
-                <version>${jsoup.version}</version>
             </dependency>
 
             <!-- *************************************************************** okhttp -->

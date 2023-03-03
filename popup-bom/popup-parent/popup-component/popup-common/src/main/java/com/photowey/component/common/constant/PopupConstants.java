@@ -61,6 +61,24 @@ public interface PopupConstants {
 
     String LIMIT_1 = "LIMIT 1";
 
+    // --------------------------------------------------------- Pattern
+
+    String ANY_REQUEST = "/**";
+    String ANY_REQUEST_ANT = ANY_REQUEST;
+    String ANY_REQUEST_PATH = "/*";
+
+    // --------------------------------------------------------- Separator
+
+    String PATH_SEPARATOR = "/";
+    String SLASH_SEPARATOR = PATH_SEPARATOR;
+    String BACK_SLASH_SEPARATOR = "\\";
+    String COLON_SEPARATOR = ":";
+    String DOT_SEPARATOR = ".";
+    String AT_SEPARATOR = "@";
+    String WELL_SEPARATOR = "#";
+    String DOLLAR_SEPARATOR = "$";
+    String COMMA_SEPARATOR = ",";
+
     // ------------------------------------------------------------------------- Boolean
 
     /**

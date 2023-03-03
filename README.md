@@ -80,44 +80,70 @@ English | [中文](./README_CN.md)
         - --
         
         - `popup-nacos`
-        
-          - >  `Nacos` support
+
+          - > `Nacos` support
             >
-            > Used to manage the version dependency between `Nacos` client and starter
-          
+            > Used to manage the version dependency between `Nacos` client and
+            starter
+
         - `popup-seata`
-        
+
           - `Seata` support
           - `repeat`
-      
+
+    - `popup-cloud`
+
+      - `popup-app-starting-listener`
+      - `popup-app-starting-printer`
+      - `popup-cloud-admin`
+      - `popup-cloud-core`
+      - `popup-cloud-gateway`
+      - `popup-cloud-uaa`
+
     - `popup-cloud-alibaba`
-    
+
       - `popup-cloud-alibaba-nacos`
       - `popup-cloud-alibaba-seata`
       - `popup-cloud-alibaba-sentinel`
-    
+
     - `popup-component`
-    
+
       - > `components`:
-        
+
       - `Common`
-      
+
       - `Core`
-      
+
+      - `Crypto`
+
+      - `Eventbus`
+
+      - `Queue`
+
+      - `Sync`
+
+      - `Test`
+
       - `...`
-    
+
     - `popup-starter`
-    
-      - > `starters`
-    
+
+      - > 各种 `starter`
+
+      - `Autoconfigure`
+
       - `Redis`
-    
+
       - `MongoDB`
-    
+
       - `Elasticsearch`
-    
+
+      - `Logging`
+
       - `Classpath reader`
-      
+
+      - `Entity validator`
+
       - `...`
 
 ## 二、`Application structure`

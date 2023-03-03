@@ -16,6 +16,7 @@
     <modules>
         <module>popup-test-base</module>
         <module>popup-test-queue-delayed</module>
+        <module>popup-test-cloud-core</module>
     </modules>
 
     <dependencies>

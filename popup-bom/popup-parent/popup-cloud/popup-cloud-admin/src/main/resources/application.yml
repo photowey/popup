@@ -1,6 +1,29 @@
+spring:
+  security:
+    user:
+      name: "${local.config.spring.security.user.name}"
+      password: "${local.config.spring.security.user.password}"
+  profiles:
+    active:
+    - dev
+  jackson:
+    locale: "zh"
+    time-zone: "GMT+8"
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+# ---------------------------------------------------------------------
+
 server:
   port: 5080
 
-spring:
-  application:
-    name: "monitor"
+# ---------------------------------------------------------------------
+
+logging:
+  level:
+    root: info
+  time-rolling-file:
+    file: '${app.base}/logs/${spring.application.name}.%d{yyyy-MM-dd}.log'
+  pattern:
+    time-rolling-file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [${spring.application.name}] [%thread] %-5level %logger %msg%n %ex{5}'

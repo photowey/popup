@@ -14,9 +14,20 @@
     <packaging>pom</packaging>
 
     <dependencies>
+        <!--
+
+        [WARNING] The artifact mysql:mysql-connector-java:jar:8.0.31 has been relocated to com.mysql:mysql-connector-j:jar:8.0.31:
+        MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
         </dependency>
         <dependency>
             <groupId>com.photowey</groupId>

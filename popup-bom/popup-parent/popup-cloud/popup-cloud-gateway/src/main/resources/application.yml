@@ -1,0 +1,40 @@
+spring:
+  security:
+    user:
+      roles:
+        - SUPERUSER
+      name: ${local.config.security.user.name}
+      password: ${local.config.security.user.password}
+  lifecycle:
+    timeout-per-shutdown-phase: 5s
+  cache:
+    redis:
+      cache-null-values: false
+  profiles:
+    active:
+    - dev
+
+# ---------------------------------------------------------------------
+
+server:
+  port: 5010
+  shutdown: graceful
+
+# ---------------------------------------------------------------------
+
+# custom the /actuator/info endpoint
+info:
+  app:
+    name: "@project.artifactId@"
+    encoding: "@project.build.sourceEncoding@"
+    java:
+      source: "@java.version@"
+      target: "@java.version@"
+    env:
+      active: ${spring.profiles.active}
+
+logging:
+  level:
+    root: INFO
+  pattern:
+    time-rolling-file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [${spring.application.name}] [%X{traceId}] [%thread] %-5level %logger %msg%n %ex{5}"

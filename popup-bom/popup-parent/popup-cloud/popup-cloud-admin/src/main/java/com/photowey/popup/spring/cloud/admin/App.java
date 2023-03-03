@@ -15,9 +15,13 @@
  */
 package com.photowey.popup.spring.cloud.admin;
 
+import com.photowey.popup.app.starting.printer.AppStartingPrinter;
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
  * {@code App}
@@ -26,6 +30,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @date 2022/12/31
  * @since 1.0.0
  */
+@EnableAdminServer
+@EnableDiscoveryClient
 @SpringBootApplication
 public class App {
 
@@ -40,7 +46,10 @@ public class App {
 
     private static void runApp(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(App.class, args);
-        // TODO startup log, print
-        // AppStartingPrinter.print(applicationContext);
+
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        String contextPath = environment.getProperty("spring.boot.admin.context-path", "/monitor");
+
+        AppStartingPrinter.print(applicationContext, false, () -> contextPath);
     }
 }

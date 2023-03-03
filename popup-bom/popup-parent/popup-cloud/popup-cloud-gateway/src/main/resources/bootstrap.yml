@@ -1,0 +1,46 @@
+local:
+  config:
+    nacos:
+      host: "192.168.1.7"
+      port: 8848
+      protocol: "http"
+      username: "nacos"
+      password: "nacos"
+      namespace: "8eff3617002e9a854b9704717f35f7aa"
+
+# ---------------------------------------------------------------------
+
+spring:
+  application:
+    name: "gateway"
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      httpclient:
+        pool:
+          max-idle-time: 12000
+    nacos:
+      config:
+        refresh-enabled: true
+        file-extension: yml
+        namespace: "${local.config.nacos.namespace}"
+        server-addr: "${local.config.nacos.protocol:http}://${local.config.nacos.host:127.0.0.1}:${local.config.nacos.port:8848}"
+        group: DEFAULT_GROUP
+        username: "${local.config.nacos.username}"
+        password: "${local.config.nacos.password}"
+        shared-configs:
+          - data-id: "application.${spring.cloud.nacos.config.file-extension}"
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: "gateway-routes.${spring.cloud.nacos.config.file-extension}"
+            group: DEFAULT_GROUP
+            refresh: true
+      discovery:
+        namespace: "${local.config.nacos.namespace}"
+        server-addr: "${local.config.nacos.protocol:http}://${local.config.nacos.host:127.0.0.1}:${local.config.nacos.port:8848}"
+        username: "${local.config.nacos.username}"
+        password: "${local.config.nacos.password}"
+        group: DEFAULT_GROUP
