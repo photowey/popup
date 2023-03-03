@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.fx;
+package com.photowey.component.common.callback;
 
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
- * {@code BiCallback}
+ * {@code SuccessCallback}
  *
  * @author photowey
  * @date 2022/12/25
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface BiCallback<T, U> extends BiConsumer<T, U> {
+public interface SuccessCallback<T> extends Consumer<T> {
 }
