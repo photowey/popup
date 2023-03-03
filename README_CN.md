@@ -109,10 +109,20 @@
 
       - > `components`:
 
-      - `Common`
-      
-      - `Core`
-      
+      - `common`
+
+      - `core`
+
+      - `crypto`
+
+      - `eventbus`
+
+      - `queue`
+
+      - `sync`
+
+      - `test`
+
       - `...`
     
     - `popup-starter`
