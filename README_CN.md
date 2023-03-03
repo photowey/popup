@@ -83,23 +83,32 @@
             > 通常情况: `Nacos` starter 和其 `Client` 的版本可能不是咱们想要的适配版本。
             >
             > 故: 通过从 `starter` 中排除 `client` 依赖然后再手动引入的方式来实现版本的升级和管理。
-        
+
         - `popup-seata`
-        
+
           - `Seata` 支持
           - 同 `Nacos`
-          - 
-      
+          -
+
+    - `popup-cloud`
+
+      - `popup-app-starting-listener`
+      - `popup-app-starting-printer`
+      - `popup-cloud-admin`
+      - `popup-cloud-core`
+      - `popup-cloud-gateway`
+      - `popup-cloud-uaa`
+
     - `popup-cloud-alibaba`
-    
+
       - `popup-cloud-alibaba-nacos`
       - `popup-cloud-alibaba-seata`
       - `popup-cloud-alibaba-sentinel`
-    
+
     - `popup-component`
-    
+
       - > `components`:
-        
+
       - `Common`
       
       - `Core`
@@ -107,17 +116,23 @@
       - `...`
     
     - `popup-starter`
-    
+
       - > 各种 `starter`
-    
+
+      - `Autoconfigure`
+
       - `Redis`
-    
+
       - `MongoDB`
-    
+
       - `Elasticsearch`
-    
+
+      - `Logging`
+
       - `Classpath reader`
-      
+
+      - `Entity validator`
+
       - `...`
 
 
