@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.autoconfigure.config;
+package com.photowey.popup.starter.autoconfigure.cleaner;
 
-import com.photowey.popup.starter.autoconfigure.cleaner.ResourceCleaner;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Bean;
+import com.photowey.popup.spring.cloud.uaa.auth.holder.AuthorizedUserHolder;
+import org.springframework.beans.factory.DisposableBean;
 
 /**
- * {@code PopupAutoConfigure}
+ * {@code ResourceCleaner}
  *
  * @author photowey
- * @date 2023/03/03
+ * @date 2023/03/04
  * @since 1.0.0
  */
-@AutoConfiguration
-public class PopupAutoConfigure {
+public class ResourceCleaner implements DisposableBean {
 
-    @Bean
-    public ResourceCleaner resourceCleaner() {
-        return new ResourceCleaner();
+    @Override
+    public void destroy() throws Exception {
+        AuthorizedUserHolder.clean();
+        AuthorizedUserHolder.cleanJwt();
     }
-
 }

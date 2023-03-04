@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.reader.classpath;
+package com.photowey.popup.starter.reader.resource;
 
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
@@ -29,15 +30,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * {@code ClasspathReader}
+ * {@code ResourceReader}
  *
  * @author photowey
  * @date 2022/12/29
  * @since 1.0.0
  */
-public class ClasspathReader implements ResourceLoaderAware {
+public class ResourceReader implements ResourceLoaderAware {
 
     private static final String CLASSPATH = "classpath";
+    private static final String FILE_SYSTEM = "file";
     private static final String CLASSPATH_SEPARATOR = ":";
 
     private ResourceLoader resourceLoader;
@@ -61,6 +63,15 @@ public class ClasspathReader implements ResourceLoaderAware {
         }
 
         return new ClassPathResource(location);
+    }
+
+    public Resource fileSystemRead(String location) {
+        // file:/opt/app/cert/dummy.crt
+        if (location.startsWith(FILE_SYSTEM)) {
+            location = location.replaceAll(FILE_SYSTEM + CLASSPATH_SEPARATOR, "");
+        }
+
+        return new FileSystemResource(location);
     }
 
     public InputStream read(String location) throws IOException {
