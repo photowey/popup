@@ -140,6 +140,29 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- *************************************************************** popup.cloud.uaa -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-uaa-auth</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-uaa-client</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-uaa-enum</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-uaa-protocol</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** component -->
 
             <dependency>

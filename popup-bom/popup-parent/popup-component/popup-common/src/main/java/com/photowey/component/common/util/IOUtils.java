@@ -41,7 +41,7 @@ public final class IOUtils {
     public static final int DEFAULT_BUFFER_SIZE = 4 * 1024;
 
     private IOUtils() {
-        // utils class; can't create
+        // utility class; can't create
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
     }
 
