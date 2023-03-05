@@ -13,19 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.exception.core.checker;
+package com.photowey.popup.starter.elasticsearch.core.enums;
 
 /**
- * {@code ExceptionChecker}
+ * {@code MathOperatorEnum}
  *
  * @author photowey
- * @date 2023/03/02
+ * @date 2023/03/05
  * @since 1.0.0
  */
-public interface ExceptionChecker extends Checker {
+public enum MathOperatorEnum {
 
-    default Class<?> primaryThrowable() {
-        return RuntimeException.class;
-    }
+    /**
+     * Math operators.
+     */
+    GT,
+    GTE,
+    EQ,
+    LT,
+    LTE,
 
+    GT_LT,
+    GTE_LTE,
+
+    ;
 }

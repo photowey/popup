@@ -13,19 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.exception.core.checker;
+package com.photowey.popup.starter.elasticsearch.core.query;
 
 /**
- * {@code ExceptionChecker}
+ * {@code IPagination}
  *
  * @author photowey
- * @date 2023/03/02
+ * @date 2023/03/05
  * @since 1.0.0
  */
-public interface ExceptionChecker extends Checker {
+public interface IPagination {
 
-    default Class<?> primaryThrowable() {
-        return RuntimeException.class;
-    }
+    int DEFAULT_PAGE_NO = 0;
+    int DEFAULT_PAGE_SIZE = 10;
 
+    int PAGE_NO_THRESHOLD = 0;
+    int PAGE_SIZE_THRESHOLD = 100;
+
+    /**
+     * The page no. of query target.
+     *
+     * @return the page no.
+     */
+    int getPageNo();
+
+    /**
+     * The offset of query target.
+     *
+     * @return the page offset
+     */
+    int getPageSize();
 }

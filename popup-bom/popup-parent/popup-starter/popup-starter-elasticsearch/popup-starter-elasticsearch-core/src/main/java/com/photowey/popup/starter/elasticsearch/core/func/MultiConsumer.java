@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.exception.core.checker;
+package com.photowey.popup.starter.elasticsearch.core.func;
+
+import java.util.function.BiConsumer;
 
 /**
- * {@code ExceptionChecker}
+ * {@code MultiConsumer}
  *
  * @author photowey
- * @date 2023/03/02
+ * @date 2023/03/05
  * @since 1.0.0
  */
-public interface ExceptionChecker extends Checker {
-
-    default Class<?> primaryThrowable() {
-        return RuntimeException.class;
-    }
+@FunctionalInterface
+public interface MultiConsumer<T, U> extends BiConsumer<T, U> {
 
 }

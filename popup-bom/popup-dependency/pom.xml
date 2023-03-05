@@ -353,6 +353,19 @@
                 <version>${popup.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-elasticsearch-autoconfigure
+                </artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-elasticsearch-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** starter.logging -->
 
             <dependency>

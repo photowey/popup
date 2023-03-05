@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.exception.core.checker;
+package com.photowey.popup.starter.elasticsearch.config;
+
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration;
+import org.springframework.context.annotation.Import;
 
 /**
- * {@code ExceptionChecker}
+ * {@code PopupElasticsearchAutoConfigure}
  *
  * @author photowey
- * @date 2023/03/02
+ * @date 2023/03/05
  * @since 1.0.0
  */
-public interface ExceptionChecker extends Checker {
-
-    default Class<?> primaryThrowable() {
-        return RuntimeException.class;
-    }
-
+@AutoConfiguration(after = ElasticsearchDataAutoConfiguration.class)
+@Import(value = {RestClientElasticsearchConfigure.class})
+public class PopupElasticsearchAutoConfigure {
 }
