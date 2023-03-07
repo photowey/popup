@@ -13,20 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.elasticsearch.config;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration;
-import org.springframework.context.annotation.Import;
+package com.photowey.popup.starter.elasticsearch.autoconfigure.operator;
 
 /**
- * {@code PopupElasticsearchAutoConfigure}
+ * {@code DefaultElasticsearchOperator}
  *
  * @author photowey
- * @date 2023/03/05
+ * @date 2023/03/07
  * @since 1.0.0
  */
-@AutoConfiguration(after = ElasticsearchDataAutoConfiguration.class)
-@Import(value = {RestClientElasticsearchConfigure.class})
-public class PopupElasticsearchAutoConfigure {
+public class DefaultElasticsearchOperator implements ElasticsearchOperator {
 }

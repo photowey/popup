@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.elasticsearch.config;
-
-import org.springframework.context.annotation.Configuration;
+package com.photowey.popup.starter.elasticsearch.autoconfigure.operator;
 
 /**
- * {@code RestClientElasticsearchConfigure}
+ * {@code ElasticsearchOperator}
  *
  * @author photowey
- * @date 2023/03/05
+ * @date 2023/03/07
  * @since 1.0.0
  */
-@Configuration
-public class RestClientElasticsearchConfigure {
+public interface ElasticsearchOperator {
 }
