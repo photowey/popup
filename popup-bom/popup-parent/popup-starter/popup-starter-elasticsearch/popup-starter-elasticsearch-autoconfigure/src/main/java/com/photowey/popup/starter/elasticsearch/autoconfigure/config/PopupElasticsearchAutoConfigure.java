@@ -24,6 +24,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 
 /**
  * {@code PopupElasticsearchAutoConfigure}
@@ -45,8 +46,8 @@ public class PopupElasticsearchAutoConfigure {
 
     @Bean
     @ConditionalOnMissingBean(ElasticsearchOperator.class)
-    public ElasticsearchOperator elasticsearchOperator() {
+    public ElasticsearchOperator elasticsearchOperator(ElasticsearchTemplate elasticsearchTemplate) {
         // TODO
-        return new DefaultElasticsearchOperator();
+        return new DefaultElasticsearchOperator(elasticsearchTemplate);
     }
 }

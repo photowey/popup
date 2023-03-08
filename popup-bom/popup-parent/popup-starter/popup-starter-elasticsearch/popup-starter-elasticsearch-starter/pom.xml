@@ -6,20 +6,18 @@
 
     <parent>
         <groupId>com.photowey</groupId>
-        <artifactId>popup-starter</artifactId>
+        <artifactId>popup-starter-elasticsearch</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>popup-starter-elasticsearch</artifactId>
+    <artifactId>popup-starter-elasticsearch-starter</artifactId>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>popup-starter-elasticsearch-autoconfigure</module>
-        <module>popup-starter-elasticsearch-core</module>
-        <module>popup-starter-elasticsearch-starter</module>
-    </modules>
-
     <dependencies>
+        <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>popup-starter-elasticsearch-autoconfigure</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

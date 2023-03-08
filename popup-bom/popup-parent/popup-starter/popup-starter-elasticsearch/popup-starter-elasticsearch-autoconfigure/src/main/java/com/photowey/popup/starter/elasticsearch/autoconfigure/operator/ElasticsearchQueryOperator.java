@@ -13,15 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.elasticsearch.autoconfigure.builder;
+package com.photowey.popup.starter.elasticsearch.autoconfigure.operator;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * {@code DefaultElasticsearchQueryBuilder}
+ * {@code ElasticsearchQueryOperator}
  *
  * @author photowey
- * @date 2023/03/07
+ * @date 2023/03/08
  * @since 1.0.0
  */
-public class DefaultElasticsearchQueryBuilder implements ElasticsearchQueryBuilder {
+public class ElasticsearchQueryOperator {
+
+    @Autowired
+    private ElasticsearchOperator elasticsearchOperator;
 
 }

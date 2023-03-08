@@ -15,6 +15,8 @@
  */
 package com.photowey.popup.starter.elasticsearch.autoconfigure.operator;
 
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+
 /**
  * {@code DefaultElasticsearchOperator}
  *
@@ -23,4 +25,10 @@ package com.photowey.popup.starter.elasticsearch.autoconfigure.operator;
  * @since 1.0.0
  */
 public class DefaultElasticsearchOperator implements ElasticsearchOperator {
+
+    private final ElasticsearchTemplate elasticsearchTemplate;
+
+    public DefaultElasticsearchOperator(ElasticsearchTemplate elasticsearchTemplate) {
+        this.elasticsearchTemplate = elasticsearchTemplate;
+    }
 }

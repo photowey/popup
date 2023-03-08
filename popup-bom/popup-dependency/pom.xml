@@ -366,6 +366,13 @@
                 <version>${popup.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-elasticsearch-starter</artifactId>
+                <type>pom</type>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** starter.logging -->
 
             <dependency>

@@ -32,6 +32,11 @@
             <groupId>com.photowey</groupId>
             <artifactId>popup-starter-elasticsearch-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>popup-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
