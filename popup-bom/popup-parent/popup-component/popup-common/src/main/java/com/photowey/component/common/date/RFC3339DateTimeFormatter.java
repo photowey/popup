@@ -15,6 +15,7 @@
  */
 package com.photowey.component.common.date;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
@@ -27,11 +28,28 @@ import java.time.format.DateTimeFormatterBuilder;
  */
 public interface RFC3339DateTimeFormatter {
 
-    static DateTimeFormatter rfc3339FormatterGMT8() {
-        return rfc3339Formatter(DatePatternConstants.GMT_8);
+
+    String RFC_3339_DEFAULT_ZONE_PATTERN = rfc3339DefaultZonePattern();
+
+    static String rfc3339DefaultZonePattern() {
+        return rfc3339ZonePattern(DatePatternConstants.GMT_8);
     }
 
-    static DateTimeFormatter rfc3339Formatter(String zone) {
+    static String rfc3339ZonePattern(String zone) {
+        StringBuilder buf = new StringBuilder();
+        buf.append(DatePatternConstants.yyyy_MM_dd)
+                .append(DatePatternConstants.RFC_3339_T_STRING)
+                .append(DatePatternConstants.HH_mm_ss)
+                .append(zone);
+
+        return buf.toString();
+    }
+
+    static DateTimeFormatter buildDefault() {
+        return build(DatePatternConstants.GMT_8);
+    }
+
+    static DateTimeFormatter build(String zone) {
         return new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .append(DateTimeFormatter.ISO_LOCAL_DATE)
@@ -39,6 +57,27 @@ public interface RFC3339DateTimeFormatter {
                 .append(DateTimeFormatter.ISO_LOCAL_TIME)
                 .appendLiteral(zone)
                 .toFormatter();
+    }
+
+    static String format(LocalDateTime dateTime) {
+        if (null == dateTime) {
+            return null;
+        }
+
+        DateTimeFormatter formatter = buildDefault();
+        return formatter.format(dateTime);
+    }
+
+    static String format() {
+        return format(LocalDateTime.now());
+    }
+
+    static LocalDateTime toLocalDateTime(String dateTime) {
+        if (null == dateTime || dateTime.trim().length() == 0) {
+            return null;
+        }
+
+        return LocalDateTime.parse(dateTime, buildDefault());
     }
 
 }

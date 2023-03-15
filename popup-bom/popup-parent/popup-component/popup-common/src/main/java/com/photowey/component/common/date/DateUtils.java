@@ -41,14 +41,13 @@ public final class DateUtils {
 
     // ------------------------------------------------------------------------- Formatter
 
-    public static DateTimeFormatter rfc3339FormatterGMT8() {
-        return RFC3339DateTimeFormatter.rfc3339FormatterGMT8();
+    public static DateTimeFormatter rfc3339DefaultZoneFormatter() {
+        return RFC3339DateTimeFormatter.buildDefault();
     }
 
-    public static DateTimeFormatter rfc3339Formatter(String zone) {
-        return RFC3339DateTimeFormatter.rfc3339Formatter(zone);
+    public static DateTimeFormatter rfc3339ZoneFormatter(String zone) {
+        return RFC3339DateTimeFormatter.build(zone);
     }
-
 
     public static DateTimeFormatter formatter() {
         return formatter(DatePatternConstants.yyyy_MM_dd_HH_mm_ss);
@@ -73,7 +72,7 @@ public final class DateUtils {
             return null;
         }
 
-        DateTimeFormatter formatter = rfc3339FormatterGMT8();
+        DateTimeFormatter formatter = rfc3339DefaultZoneFormatter();
         return formatter.format(dateTime);
     }
 
@@ -213,7 +212,7 @@ public final class DateUtils {
             return null;
         }
 
-        return LocalDateTime.parse(dateTime, rfc3339FormatterGMT8());
+        return LocalDateTime.parse(dateTime, rfc3339DefaultZoneFormatter());
     }
 
     // ------------------------------------------------------------------------- Timestamp
@@ -223,7 +222,7 @@ public final class DateUtils {
             return null;
         }
 
-        return target.getTime();
+        return target.getTime() / DatePatternConstants.MILLISECONDS * DatePatternConstants.MILLISECONDS;
     }
 
     public static Long toTimestamp(LocalDateTime target) {
@@ -231,7 +230,7 @@ public final class DateUtils {
             return null;
         }
 
-        return target.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return target.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / DatePatternConstants.MILLISECONDS * DatePatternConstants.MILLISECONDS;
     }
 
     // ------------------------------------------------------------------------- between
