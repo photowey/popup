@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.date;
+package com.photowey.component.common.date.formatter.rfc;
+
+import com.photowey.component.common.date.DatePatternConstants;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +29,6 @@ import java.time.format.DateTimeFormatterBuilder;
  * @since 1.0.0
  */
 public interface RFC3339DateTimeFormatter {
-
 
     String RFC_3339_DEFAULT_ZONE_PATTERN = rfc3339DefaultZonePattern();
 
