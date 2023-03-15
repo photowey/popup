@@ -13,29 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.serializer.rfc.fastjson;
+package com.photowey.component.common.serializer.rfc.jackson;
 
-import com.alibaba.fastjson2.JSONReader;
-import com.alibaba.fastjson2.reader.ObjectReader;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.photowey.component.common.date.formatter.rfc.RFC3339DateTimeFormatter;
+import com.photowey.component.common.serializer.Cleaner;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
- * {@code LocalDateTimeRfcFastjsonDeserializer}
+ * {@code LocalDateTimeRfcPatternSerializer}
  *
  * @author photowey
  * @date 2023/03/15
  * @since 1.0.0
  */
-public class LocalDateTimeRfcFastjsonDeserializer implements ObjectReader<LocalDateTime> {
+public class LocalDateTimeRfcPatternSerializer extends JsonSerializer<LocalDateTime> {
 
     @Override
-    public LocalDateTime readObject(JSONReader jsonReader, Type fieldType, Object fieldName, long features) {
-        String dateTime = jsonReader.read(String.class);
-        DateTimeFormatter formatter = RFC3339DateTimeFormatter.buildDefault();
-        return LocalDateTime.from(formatter.parse(dateTime));
+    public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        if (value != null) {
+            String formatted = RFC3339DateTimeFormatter.format(Cleaner.cleanTail(value));
+            gen.writeString(formatted);
+        }
     }
 }

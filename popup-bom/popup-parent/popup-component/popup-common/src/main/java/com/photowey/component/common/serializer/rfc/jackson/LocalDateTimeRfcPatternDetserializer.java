@@ -25,13 +25,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * {@code LocalDateTimeRfcFormatTimeDeserializer}
+ * {@code LocalDateTimeRfcPatternDetserializer}
  *
  * @author photowey
  * @date 2023/03/15
  * @since 1.0.0
  */
-public class LocalDateTimeRfcFormatTimeDeserializer extends JsonDeserializer<LocalDateTime> {
+public class LocalDateTimeRfcPatternDetserializer extends JsonDeserializer<LocalDateTime> {
 
     @Override
     public LocalDateTime deserialize(JsonParser p, DeserializationContext deserializationContext) throws IOException {

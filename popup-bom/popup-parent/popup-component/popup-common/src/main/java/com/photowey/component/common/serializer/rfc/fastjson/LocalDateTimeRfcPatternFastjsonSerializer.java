@@ -24,13 +24,13 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 
 /**
- * {@code LocalDateTimeRfcFastjsonSerializer}
+ * {@code LocalDateTimeRfcPatternFastjsonSerializer}
  *
  * @author photowey
  * @date 2023/03/15
  * @since 1.0.0
  */
-public class LocalDateTimeRfcFastjsonSerializer implements ObjectWriter<LocalDateTime> {
+public class LocalDateTimeRfcPatternFastjsonSerializer implements ObjectWriter<LocalDateTime> {
 
     @Override
     public void write(JSONWriter jsonWriter, Object object, Object fieldName, Type fieldType, long features) {
