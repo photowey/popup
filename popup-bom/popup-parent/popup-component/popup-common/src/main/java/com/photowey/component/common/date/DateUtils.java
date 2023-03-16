@@ -55,6 +55,8 @@ public final class DateUtils {
     }
 
     public static DateTimeFormatter formatter(String pattern) {
+        pattern = ObjectUtils.isNotNullOrEmpty(pattern) ? pattern : DatePatternConstants.yyyy_MM_dd_HH_mm_ss;
+
         return DateTimeFormatter.ofPattern(pattern);
     }
 
@@ -81,6 +83,7 @@ public final class DateUtils {
         if (ObjectUtils.isNullOrEmpty(dateTime)) {
             return null;
         }
+        pattern = ObjectUtils.isNotNullOrEmpty(pattern) ? pattern : DatePatternConstants.yyyy_MM_dd_HH_mm_ss;
 
         DateTimeFormatter formatter = formatter(pattern);
         return formatter.format(dateTime);
@@ -98,6 +101,7 @@ public final class DateUtils {
         if (ObjectUtils.isNullOrEmpty(dateTime)) {
             return null;
         }
+        pattern = ObjectUtils.isNotNullOrEmpty(pattern) ? pattern : DatePatternConstants.yyyy_MM_dd_HH_mm_ss;
 
         DateTimeFormatter formatter = formatter(pattern);
         return formatter.format(dateTime);
@@ -111,6 +115,7 @@ public final class DateUtils {
         if (ObjectUtils.isNullOrEmpty(dateTime)) {
             return null;
         }
+        pattern = ObjectUtils.isNotNullOrEmpty(pattern) ? pattern : DatePatternConstants.yyyy_MM_dd_HH_mm_ss;
 
         DateTimeFormatter formatter = formatter(pattern);
         return formatter.format(dateTime);
@@ -183,7 +188,7 @@ public final class DateUtils {
     }
 
     public static LocalDateTime toLocalDateTime(Long timestamp) {
-        if (null == timestamp) {
+        if (ObjectUtils.isNullOrEmpty(timestamp)) {
             return null;
         }
 
@@ -218,25 +223,29 @@ public final class DateUtils {
 
     // ------------------------------------------------------------------------- Timestamp
 
-    public static Long toTimestamp(Date target) {
-        if (ObjectUtils.isNullOrEmpty(target)) {
+    public static Long toTimestamp(Date dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
             return null;
         }
 
-        return target.getTime() / DatePatternConstants.MILLISECONDS * DatePatternConstants.MILLISECONDS;
+        return dateTime.getTime() / DatePatternConstants.MILLISECONDS * DatePatternConstants.MILLISECONDS;
     }
 
-    public static Long toTimestamp(LocalDateTime target) {
-        if (ObjectUtils.isNullOrEmpty(target)) {
+    public static Long toTimestamp(LocalDateTime dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
             return null;
         }
-
-        return target.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / DatePatternConstants.MILLISECONDS * DatePatternConstants.MILLISECONDS;
+        long ts = dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return ts / DatePatternConstants.MILLISECONDS * DatePatternConstants.MILLISECONDS;
     }
 
     // ------------------------------------------------------------------------- between
 
     public static boolean betweenNow(LocalDateTime start, LocalDateTime end) {
+        if (ObjectUtils.isNullOrEmpty(start) || ObjectUtils.isNullOrEmpty(end)) {
+            return false;
+        }
+
         LocalDateTime now = now();
         return start.isBefore(now) && end.isAfter(now);
     }
@@ -248,6 +257,10 @@ public final class DateUtils {
     }
 
     public static LocalDateTime dayStart(LocalDateTime dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+            return null;
+        }
+
         return LocalDateTime.of(dateTime.toLocalDate(), LocalTime.MIN);
     }
 
@@ -258,6 +271,10 @@ public final class DateUtils {
     }
 
     public static LocalDateTime dayEnd(LocalDateTime dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+            return null;
+        }
+
         return LocalDateTime.of(dateTime.toLocalDate(), LocalTime.MAX);
     }
 
@@ -268,8 +285,11 @@ public final class DateUtils {
     }
 
     public static LocalDateTime weekStart(LocalDateTime dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+            return null;
+        }
+
         TemporalField week = WeekFields.of(Locale.CHINA).dayOfWeek();
-        // 第一天: MONDAY==2
         ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(week, 2);
         return dayStart(zdt.toLocalDateTime());
     }
@@ -281,6 +301,10 @@ public final class DateUtils {
     }
 
     public static LocalDateTime weekEnd(LocalDateTime dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+            return null;
+        }
+
         TemporalField week = WeekFields.of(Locale.CHINA).dayOfWeek();
         ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(week, 7);
         return dayEnd(zdt.toLocalDateTime().plusDays(1));
@@ -293,6 +317,10 @@ public final class DateUtils {
     }
 
     public static LocalDateTime monthStart(LocalDateTime dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+            return null;
+        }
+
         ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.firstDayOfMonth());
         return dayStart(zdt.toLocalDateTime());
     }
@@ -304,6 +332,10 @@ public final class DateUtils {
     }
 
     public static LocalDateTime monthEnd(LocalDateTime dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+            return null;
+        }
+
         ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.lastDayOfMonth());
         return dayEnd(zdt.toLocalDateTime());
     }
@@ -315,6 +347,10 @@ public final class DateUtils {
     }
 
     public static LocalDateTime yearStart(LocalDateTime dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+            return null;
+        }
+
         ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.firstDayOfYear());
         return dayStart(zdt.toLocalDateTime());
     }
@@ -326,6 +362,10 @@ public final class DateUtils {
     }
 
     public static LocalDateTime yearEnd(LocalDateTime dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+            return null;
+        }
+
         ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.lastDayOfYear());
         return dayEnd(zdt.toLocalDateTime());
     }

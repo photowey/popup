@@ -16,6 +16,7 @@
 package com.photowey.component.common.date.formatter.rfc;
 
 import com.photowey.component.common.date.DatePatternConstants;
+import com.photowey.component.common.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +38,8 @@ public interface RFC3339DateTimeFormatter {
     }
 
     static String rfc3339ZonePattern(String zone) {
+        zone = ObjectUtils.isNotNullOrEmpty(zone) ? zone : DatePatternConstants.GMT_8;
+
         StringBuilder buf = new StringBuilder();
         buf.append(DatePatternConstants.yyyy_MM_dd)
                 .append(DatePatternConstants.RFC_3339_T_STRING)
@@ -51,6 +54,8 @@ public interface RFC3339DateTimeFormatter {
     }
 
     static DateTimeFormatter build(String zone) {
+        zone = ObjectUtils.isNotNullOrEmpty(zone) ? zone : DatePatternConstants.GMT_8;
+
         return new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .append(DateTimeFormatter.ISO_LOCAL_DATE)
@@ -61,7 +66,7 @@ public interface RFC3339DateTimeFormatter {
     }
 
     static String format(LocalDateTime dateTime) {
-        if (null == dateTime) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
             return null;
         }
 
@@ -74,7 +79,7 @@ public interface RFC3339DateTimeFormatter {
     }
 
     static LocalDateTime toLocalDateTime(String dateTime) {
-        if (null == dateTime || dateTime.trim().length() == 0) {
+        if (ObjectUtils.isNullOrEmpty(dateTime)) {
             return null;
         }
 
