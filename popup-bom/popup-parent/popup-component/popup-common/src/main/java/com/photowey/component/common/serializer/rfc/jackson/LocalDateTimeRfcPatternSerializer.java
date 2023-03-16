@@ -36,7 +36,7 @@ public class LocalDateTimeRfcPatternSerializer extends JsonSerializer<LocalDateT
     @Override
     public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         if (value != null) {
-            String formatted = RFC3339DateTimeFormatter.format(Cleaner.cleanTail(value));
+            String formatted = RFC3339DateTimeFormatter.format(Cleaner.trimTail(value));
             gen.writeString(formatted);
         }
     }

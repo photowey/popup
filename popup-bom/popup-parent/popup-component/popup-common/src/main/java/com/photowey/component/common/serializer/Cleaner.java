@@ -28,11 +28,8 @@ import java.time.LocalDateTime;
  */
 public interface Cleaner {
 
-    static LocalDateTime cleanTail(LocalDateTime dateTime) {
+    static LocalDateTime trimTail(LocalDateTime dateTime) {
         Long ts = DateUtils.toTimestamp(dateTime);
-        if (null == ts) {
-            return null;
-        }
 
         return DateUtils.toLocalDateTime(ts);
     }

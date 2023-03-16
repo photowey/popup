@@ -36,7 +36,7 @@ public class LocalDateTimeRfcPatternFastjsonSerializer implements ObjectWriter<L
     public void write(JSONWriter jsonWriter, Object object, Object fieldName, Type fieldType, long features) {
         if (null != object) {
             LocalDateTime dateTime = (LocalDateTime) object;
-            String formatted = RFC3339DateTimeFormatter.format(Cleaner.cleanTail(dateTime));
+            String formatted = RFC3339DateTimeFormatter.format(Cleaner.trimTail(dateTime));
             jsonWriter.writeString(formatted);
         }
     }
