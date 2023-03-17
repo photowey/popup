@@ -16,6 +16,7 @@
 package com.photowey.component.common.date;
 
 import com.photowey.component.common.date.formatter.rfc.RFC3339DateTimeFormatter;
+import com.photowey.component.common.thrower.AssertionErrorThrower;
 import com.photowey.component.common.util.ObjectUtils;
 
 import java.time.*;
@@ -37,7 +38,7 @@ public final class DateUtils {
 
     private DateUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(DateUtils.class);
     }
 
     // ------------------------------------------------------------------------- Formatter

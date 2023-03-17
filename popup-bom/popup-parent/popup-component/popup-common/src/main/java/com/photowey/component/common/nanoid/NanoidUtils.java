@@ -16,6 +16,7 @@
 package com.photowey.component.common.nanoid;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
+import com.photowey.component.common.thrower.AssertionErrorThrower;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -44,7 +45,7 @@ public final class NanoidUtils {
 
     private NanoidUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(NanoidUtils.class);
     }
 
     // ----------------------------------------------------------------------------------------------------------------

@@ -15,8 +15,8 @@
  */
 package com.photowey.component.common.util;
 
-import org.slf4j.helpers.FormattingTuple;
-import org.slf4j.helpers.MessageFormatter;
+import com.photowey.component.common.formatter.StringFormatter;
+import com.photowey.component.common.thrower.AssertionErrorThrower;
 
 /**
  * {@code StringFormatUtils}
@@ -29,12 +29,14 @@ public final class StringFormatUtils {
 
     private StringFormatUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(StringFormatUtils.class);
     }
 
-    public static String format(String text, Object... args) {
-        assert null != text;
-        FormattingTuple formattingTuple = MessageFormatter.arrayFormat(text, args);
-        return formattingTuple.getMessage();
+    /**
+     * Instead of {@link StringFormatter#format(String, Object...)}
+     */
+    @Deprecated
+    public static String format(String messagePattern, Object... args) {
+        return StringFormatter.format(messagePattern, args);
     }
 }

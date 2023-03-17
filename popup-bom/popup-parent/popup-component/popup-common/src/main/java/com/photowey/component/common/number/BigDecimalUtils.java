@@ -15,6 +15,7 @@
  */
 package com.photowey.component.common.number;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
 import com.photowey.component.common.util.ObjectUtils;
 
 import java.math.BigDecimal;
@@ -34,7 +35,7 @@ public final class BigDecimalUtils {
 
     private BigDecimalUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(BigDecimalUtils.class);
     }
 
     // ------------------------------------------------------------------------- newBigDecimal

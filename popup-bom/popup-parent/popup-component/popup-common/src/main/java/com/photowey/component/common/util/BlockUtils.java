@@ -15,6 +15,8 @@
  */
 package com.photowey.component.common.util;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,7 +30,7 @@ public final class BlockUtils {
 
     private BlockUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(BlockUtils.class);
     }
 
     public static void shortly() {

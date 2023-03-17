@@ -15,6 +15,7 @@
  */
 package com.photowey.component.common.setter;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
 import com.photowey.component.common.util.ObjectUtils;
 
 import java.util.function.Consumer;
@@ -30,7 +31,7 @@ public final class PresentSetter {
 
     private PresentSetter() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(PresentSetter.class);
     }
 
     public static <V> boolean setIfPresent(V v, Consumer<V> then) {

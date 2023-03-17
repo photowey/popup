@@ -15,6 +15,7 @@
  */
 package com.photowey.component.common.number;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
 import org.apache.commons.lang3.Validate;
 
 import java.math.RoundingMode;
@@ -31,7 +32,7 @@ public final class NumberFormatUtils {
 
     private NumberFormatUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(NumberFormatUtils.class);
     }
 
     public static String format(Number nv, String pattern, RoundingMode rm) {

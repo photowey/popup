@@ -15,6 +15,8 @@
  */
 package com.photowey.component.common.util;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
+
 /**
  * {@code ApiUtils}
  *
@@ -26,7 +28,7 @@ public final class ApiUtils {
 
     private ApiUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(ApiUtils.class);
     }
 
     public static String populateApi(String domain, String api) {

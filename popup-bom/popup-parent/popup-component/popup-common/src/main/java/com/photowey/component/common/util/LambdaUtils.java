@@ -15,6 +15,8 @@
  */
 package com.photowey.component.common.util;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
+
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
@@ -33,7 +35,7 @@ public final class LambdaUtils {
 
     private LambdaUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(LambdaUtils.class);
     }
 
     public static <T, D> List<D> toList(Collection<T> from, Function<T, D> mapper) {

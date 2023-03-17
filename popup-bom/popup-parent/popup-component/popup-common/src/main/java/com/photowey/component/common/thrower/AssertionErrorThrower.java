@@ -13,31 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.util;
-
-import com.photowey.component.common.thrower.AssertionErrorThrower;
+package com.photowey.component.common.thrower;
 
 /**
- * {@code HardwareUtils}
+ * {@code AssertionErrorThrower}
  *
  * @author photowey
- * @date 2023/03/02
+ * @date 2023/03/17
  * @since 1.0.0
  */
-public final class HardwareUtils {
+public final class AssertionErrorThrower {
 
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
-
-    private HardwareUtils() {
+    private AssertionErrorThrower() {
         // utility class; can't create
-        AssertionErrorThrower.throwz(IOUtils.class);
+        throwz(AssertionErrorThrower.class);
     }
 
-    public static int getNcpu() {
-        return NCPU;
-    }
-
-    public static int getDoubleNcpu() {
-        return NCPU << 1;
+    /**
+     * throw {@link AssertionError} Error
+     */
+    public static <T> void throwz(Class<T> clazz) {
+        throw new AssertionError("No " + clazz.getName() + " instances for you!");
     }
 }

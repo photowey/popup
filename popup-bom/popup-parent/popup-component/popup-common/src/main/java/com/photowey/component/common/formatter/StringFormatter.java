@@ -13,31 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.util;
+package com.photowey.component.common.formatter;
 
-import com.photowey.component.common.thrower.AssertionErrorThrower;
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MessageFormatter;
 
 /**
- * {@code HardwareUtils}
+ * {@code StringFormatter}
  *
  * @author photowey
- * @date 2023/03/02
+ * @date 2023/03/17
  * @since 1.0.0
  */
-public final class HardwareUtils {
+public interface StringFormatter {
 
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
-
-    private HardwareUtils() {
-        // utility class; can't create
-        AssertionErrorThrower.throwz(IOUtils.class);
+    static String format(String messagePattern, Object... args) {
+        if (null == messagePattern) {
+            return messagePattern;
+        }
+        FormattingTuple formattingTuple = MessageFormatter.arrayFormat(messagePattern, args);
+        return formattingTuple.getMessage();
     }
 
-    public static int getNcpu() {
-        return NCPU;
-    }
-
-    public static int getDoubleNcpu() {
-        return NCPU << 1;
-    }
 }

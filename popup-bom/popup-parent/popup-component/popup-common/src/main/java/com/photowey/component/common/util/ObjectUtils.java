@@ -15,6 +15,7 @@
  */
 package com.photowey.component.common.util;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -35,7 +36,7 @@ public final class ObjectUtils {
 
     private ObjectUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(ObjectUtils.class);
     }
 
     public static <T> T defaultIfNull(T target, T defaultValue) {
