@@ -102,12 +102,12 @@ class BigDecimalUtilsTest {
     @Test
     void testToCent() {
         BigDecimal yuan = new BigDecimal("1000.1234");
-        BigDecimal cent = BigDecimalUtils.toCent(yuan);
+        BigDecimal cent = BigDecimalUtils.toFen(yuan);
 
         Assertions.assertEquals(new BigDecimal("100012.34"), cent);
 
         yuan = new BigDecimal("1000.123451");
-        cent = BigDecimalUtils.toCent(yuan);
+        cent = BigDecimalUtils.toFen(yuan);
 
         Assertions.assertEquals(new BigDecimal("100012.35"), cent);
     }

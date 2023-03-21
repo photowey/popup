@@ -167,9 +167,9 @@ public final class BigDecimalUtils {
         return winRatio;
     }
 
-    // ------------------------------------------------------------------------- CNY transfer
+    // ------------------------------------------------------------------------- CNY convert
 
-    public static BigDecimal toCent(BigDecimal yuan) {
+    public static BigDecimal toFen(BigDecimal yuan) {
         if (yuan == null) {
             return null;
         }
