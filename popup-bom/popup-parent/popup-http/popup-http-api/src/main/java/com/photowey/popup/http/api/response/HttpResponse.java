@@ -16,8 +16,8 @@
 package com.photowey.popup.http.api.response;
 
 import com.alibaba.fastjson2.JSON;
+import com.photowey.component.common.formatter.StringFormatter;
 import com.photowey.component.common.util.ObjectUtils;
-import com.photowey.component.common.util.StringFormatUtils;
 import com.photowey.popup.http.api.exception.JsonSyntaxException;
 import com.photowey.popup.http.api.model.header.HttpHeaders;
 import com.photowey.popup.http.api.request.HttpRequest;
@@ -134,7 +134,7 @@ public class HttpResponse<T> implements Serializable {
                 T response = JSON.parseObject(body.getContentType(), this.responseType);
                 return new HttpResponse<>(originalResponse.getRequest(), originalResponse.getHeaders(), body, response);
             } catch (Exception e) {
-                throw new JsonSyntaxException(StringFormatUtils.format("Invalid json response body:[{}]", originalResponse.getJsonBody()), e);
+                throw new JsonSyntaxException(StringFormatter.format("Invalid json response body:[{}]", originalResponse.getJsonBody()), e);
             }
         }
     }
