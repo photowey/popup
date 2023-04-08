@@ -18,6 +18,7 @@ package com.photowey.component.common.executor;
 import com.photowey.component.common.util.ObjectUtils;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * {@code BooleanExecutor}
@@ -44,6 +45,27 @@ public interface BooleanExecutor {
 
     // ----------------------------------------------------------------
 
+    static void executeTrue(boolean expression, ValueExecutor resolve, ValueExecutor reject) {
+        if (expression) {
+            resolve.accept();
+
+            return;
+        }
+
+        reject.accept();
+    }
+
+    static void executeFalse(boolean expression, ValueExecutor resolve, ValueExecutor reject) {
+        if (expression) {
+            reject.accept();
+            return;
+        }
+
+        resolve.accept();
+    }
+
+    // ----------------------------------------------------------------
+
     static <T> void executeEmpty(T t, ValueExecutor fx) {
         executeTrue(ObjectUtils.isNullOrEmpty(t), fx);
     }
@@ -64,5 +86,24 @@ public interface BooleanExecutor {
         if (ObjectUtils.isNotNullOrEmpty(t)) {
             fx.accept(t);
         }
+    }
+
+    // ----------------------------------------------------------------
+
+    static <T> void executeNotEmpty(T target, ValueExecutor resolve, ValueExecutor reject) {
+        if (ObjectUtils.isNotNullOrEmpty(target)) {
+            resolve.accept();
+            return;
+        }
+
+        reject.accept();
+    }
+
+    static <T, D> D executeNotEmpty(T target, Supplier<D> resolve, Supplier<D> reject) {
+        if (ObjectUtils.isNotNullOrEmpty(target)) {
+            return resolve.get();
+        }
+
+        return reject.get();
     }
 }
