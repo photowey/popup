@@ -15,8 +15,9 @@
  */
 package com.photowey.component.common.calculator;
 
+import com.photowey.component.common.date.DateUtils;
+
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -57,15 +58,14 @@ public interface DateTimeCalculator {
         if (null == from || null == to) {
             return 0L;
         }
-
-        long tsFrom = from.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        long tsTo = to.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-
-        return determineDuration(tsFrom, tsTo);
+        return determineDuration(DateUtils.toTimestamp(from), DateUtils.toTimestamp(to));
     }
 
-    static long determineDuration(long from, long to) {
-        return to - from;
+    static long determineDurationNow(LocalDateTime from, LocalDateTime to) {
+        if (null == from || null == to) {
+            return 0L;
+        }
+        return determineDurationNow(DateUtils.toTimestamp(from), DateUtils.toTimestamp(to));
     }
 
     static long determineDurationNow(long from, long to) {
@@ -73,5 +73,29 @@ public interface DateTimeCalculator {
         long start = Math.min(now, from);
 
         return to - start;
+    }
+
+    static long determineDuration(long from, long to) {
+        return to - from;
+    }
+
+    static long determineTodayRemainMillis(LocalDateTime target) {
+        if (null == target) {
+            return 0L;
+        }
+        return determineTodayRemainMillis(target, 0);
+    }
+
+    static long determineTodayRemainMillis(LocalDateTime target, long dynamicSeconds) {
+        if (null == target) {
+            return 0L;
+        }
+
+        LocalDateTime dayEnd = DateUtils.dayEnd(target);
+        if (dynamicSeconds > 0) {
+            dayEnd.plusSeconds(dynamicSeconds);
+        }
+
+        return DateUtils.toTimestamp(dayEnd);
     }
 }
