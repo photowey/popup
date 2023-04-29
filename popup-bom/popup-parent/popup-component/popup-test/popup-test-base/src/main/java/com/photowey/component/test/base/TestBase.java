@@ -108,7 +108,12 @@ public abstract class TestBase {
     }
 
     protected <T> void doPostRequestB(T payload, String route, Consumer<MockHttpServletRequestBuilder> bfx) throws Exception {
-        this.doPostRequest(payload, route, bfx, (action) -> {
+        this.doPostRequest(payload, route, bfx, (actions) -> {
+            try {
+                actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
@@ -149,7 +154,12 @@ public abstract class TestBase {
     }
 
     protected <T> void doPutRequestB(T payload, String route, Consumer<MockHttpServletRequestBuilder> bfx) throws Exception {
-        this.doPutRequest(payload, route, bfx, (action) -> {
+        this.doPutRequest(payload, route, bfx, (actions) -> {
+            try {
+                actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
