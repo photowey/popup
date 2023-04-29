@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -70,7 +71,7 @@ public abstract class TestBase {
     }
 
     private void mockMvc() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
     }
 
     private void mockUser() {
@@ -83,7 +84,9 @@ public abstract class TestBase {
         this.mockMvc.perform(MockMvcRequestBuilders.get(HEALTH_API))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
 
     }
 
@@ -100,25 +103,75 @@ public abstract class TestBase {
     }
 
     protected <T> void doPostRequest(T payload, String route, Consumer<ResultActions> fx) throws Exception {
+        this.doPostRequest(payload, route, (builder) -> {
+        }, fx);
+    }
+
+    protected <T> void doPostRequestB(T payload, String route, Consumer<MockHttpServletRequestBuilder> bfx) throws Exception {
+        this.doPostRequest(payload, route, bfx, (action) -> {
+        });
+    }
+
+    protected <T> void doPostRequest(
+            T payload, String route,
+            Consumer<MockHttpServletRequestBuilder> bfx,
+            Consumer<ResultActions> fx) throws Exception {
         String body = JSON.toJSONString(payload);
 
-        ResultActions actions = this.mockMvc.perform(MockMvcRequestBuilders.post(route).contentType(MediaType.APPLICATION_JSON_VALUE).content(body))
-                .andExpect(status().isOk());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post(route)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(body);
 
+        bfx.accept(requestBuilder);
+        ResultActions actions = this.mockMvc.perform(requestBuilder).andExpect(status().isOk());
         fx.accept(actions);
 
         actions.andDo(print())
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
     }
 
     protected <T> void doPutRequest(T payload, String route) throws Exception {
+        this.doPutRequest(payload, route, (actions) -> {
+            try {
+                actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    protected <T> void doPutRequest(T payload, String route, Consumer<ResultActions> fx) throws Exception {
+        this.doPutRequest(payload, route, (builder) -> {
+        }, fx);
+    }
+
+    protected <T> void doPutRequestB(T payload, String route, Consumer<MockHttpServletRequestBuilder> bfx) throws Exception {
+        this.doPutRequest(payload, route, bfx, (action) -> {
+        });
+    }
+
+    protected <T> void doPutRequest(
+            T payload, String route,
+            Consumer<MockHttpServletRequestBuilder> bfx,
+            Consumer<ResultActions> fx) throws Exception {
         String body = JSON.toJSONString(payload);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put(route).contentType(MediaType.APPLICATION_JSON_VALUE).content(body))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK))
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .put(route)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(body);
+
+        bfx.accept(requestBuilder);
+        ResultActions actions = this.mockMvc.perform(requestBuilder).andExpect(status().isOk());
+        fx.accept(actions);
+
+        actions.andDo(print())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
     }
 
     protected <T> void doDeleteRequest(T payload, String route) throws Exception {
