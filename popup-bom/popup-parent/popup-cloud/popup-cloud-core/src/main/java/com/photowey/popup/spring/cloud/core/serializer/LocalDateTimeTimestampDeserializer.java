@@ -35,12 +35,12 @@ import java.time.ZoneId;
 public class LocalDateTimeTimestampDeserializer extends JsonDeserializer<LocalDateTime> {
 
     @Override
-    public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+    public LocalDateTime deserialize(JsonParser p, DeserializationContext ctx) throws IOException, JacksonException {
         if (null == p.getBigIntegerValue()) {
             return null;
         }
 
-        Long timestamp = Long.parseLong(p.getBigIntegerValue().toString());
+        long timestamp = Long.parseLong(p.getBigIntegerValue().toString());
         return Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 }

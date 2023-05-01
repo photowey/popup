@@ -15,9 +15,11 @@
  */
 package com.photowey.popup.starter.autoconfigure.config;
 
+import com.photowey.popup.spring.cloud.core.config.serializer.LocalDateTimeTimeStampFormatterConfigurer;
 import com.photowey.popup.starter.autoconfigure.cleaner.ResourceCleaner;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 /**
  * {@code PopupAutoConfigure}
@@ -27,6 +29,9 @@ import org.springframework.context.annotation.Bean;
  * @since 1.0.0
  */
 @AutoConfiguration
+@Import(value = {
+        LocalDateTimeTimeStampFormatterConfigurer.class,
+})
 public class PopupAutoConfigure {
 
     @Bean
