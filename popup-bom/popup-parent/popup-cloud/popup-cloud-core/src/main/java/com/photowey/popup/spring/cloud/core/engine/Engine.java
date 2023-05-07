@@ -16,8 +16,11 @@
 package com.photowey.popup.spring.cloud.core.engine;
 
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 
 /**
  * {@code Engine}
@@ -27,4 +30,10 @@ import org.springframework.context.EnvironmentAware;
  * @since 1.0.0
  */
 public interface Engine extends BeanFactoryAware, ApplicationContextAware, EnvironmentAware {
+
+    ListableBeanFactory beanFactory();
+
+    ApplicationContext applicationContext();
+
+    Environment environment();
 }
