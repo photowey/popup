@@ -15,6 +15,7 @@
 
     <modules>
         <module>popup-exception-core</module>
+        <module>popup-exception-default-handler</module>
         <module>popup-exception-handler</module>
     </modules>
 

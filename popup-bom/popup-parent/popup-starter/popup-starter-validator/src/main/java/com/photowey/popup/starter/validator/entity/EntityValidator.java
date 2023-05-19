@@ -69,7 +69,7 @@ public class EntityValidator {
     }
 
     public <T> void validatez(Collection<T> ts, Class<?>... groups) {
-        this.validatez(PopupExceptionChecker::throwException, ts, groups);
+        this.validatez(PopupExceptionChecker::throwUnchecked, ts, groups);
     }
 
     public <T> void validatez(Consumer<String> fx, Collection<T> ts, Class<?>... groups) {

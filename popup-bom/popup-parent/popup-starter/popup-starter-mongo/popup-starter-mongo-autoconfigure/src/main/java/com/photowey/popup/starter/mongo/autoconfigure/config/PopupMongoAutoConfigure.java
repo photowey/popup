@@ -17,6 +17,7 @@ package com.photowey.popup.starter.mongo.autoconfigure.config;
 
 import com.photowey.popup.starter.mongo.autoconfigure.listener.AnnotationMongoOperationEventListener;
 import com.photowey.popup.starter.mongo.autoconfigure.listener.MongoOperationEventListener;
+import com.photowey.popup.starter.mongo.core.constant.MongoConstants;
 import com.photowey.popup.starter.mongo.service.generator.MongoKeyGenerator;
 import com.photowey.popup.starter.mongo.service.generator.snowflake.SnowflakeKeyGenerator;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -40,7 +41,7 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 @Import(value = {MongoTypeMapperConfigure.class})
 public class PopupMongoAutoConfigure {
 
-    private static final String MONGO_TRANSACTION_MANAGER_BEAN_NAME = "org.springframework.data.mongodb.MongoTransactionManager";
+    private static final String MONGO_TRANSACTION_MANAGER_BEAN_NAME = MongoConstants.MONGO_TRANSACTION_MANAGER_BEAN_NAME;
 
     @Bean
     public MongoConverter mappingMongoConverter(
@@ -68,12 +69,18 @@ public class PopupMongoAutoConfigure {
         return new AnnotationMongoOperationEventListener();
     }
 
+    /**
+     * single mode
+     *
+     * @return {@link MongoTransactionManager}
+     */
+    /*
     @Bean(MONGO_TRANSACTION_MANAGER_BEAN_NAME)
     @ConditionalOnMissingBean(MongoTransactionManager.class)
     public MongoTransactionManager mongoTransactionManager(MongoDatabaseFactory factory) {
         return new MongoTransactionManager(factory);
     }
-
+    */
     @Bean
     @ConditionalOnMissingBean(MongoKeyGenerator.class)
     public MongoKeyGenerator mongoKeyGenerator() {

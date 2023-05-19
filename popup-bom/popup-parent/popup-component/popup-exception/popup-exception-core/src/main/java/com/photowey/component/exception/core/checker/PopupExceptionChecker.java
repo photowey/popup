@@ -31,19 +31,19 @@ public abstract class PopupExceptionChecker implements ExceptionChecker {
 
     public static <T> void checkNotNull(T v, String message, Object... args) {
         if (ObjectUtils.isNullOrEmpty(v)) {
-            throwException(message, args);
+            throwUnchecked(message, args);
         }
     }
 
     public static <T> void checkNull(T v, String message, Object... args) {
         if (ObjectUtils.isNotNullOrEmpty(v)) {
-            throwException(message, args);
+            throwUnchecked(message, args);
         }
     }
 
     public static void checkTrue(boolean expression, String message, Object... args) {
         if (!expression) {
-            throwException(message, args);
+            throwUnchecked(message, args);
         }
     }
 
@@ -72,7 +72,7 @@ public abstract class PopupExceptionChecker implements ExceptionChecker {
         BigDecimal t2 = new BigDecimal(String.valueOf(right.doubleValue()));
 
         if (t1.compareTo(t2) != 0) {
-            throwException(message, args);
+            throwUnchecked(message, args);
         }
     }
 
@@ -81,11 +81,11 @@ public abstract class PopupExceptionChecker implements ExceptionChecker {
         BigDecimal t2 = new BigDecimal(String.valueOf(right.doubleValue()));
 
         if (t1.compareTo(t2) == 0) {
-            throwException(message, args);
+            throwUnchecked(message, args);
         }
     }
 
-    public static void throwException(String message, Object... args) {
+    public static void throwUnchecked(String message, Object... args) {
         throw new PopupException(message, args);
     }
 }
