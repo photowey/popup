@@ -27,6 +27,8 @@ public interface DatePatternConstants {
     String yyyy_MM_dd = "yyyy-MM-dd ";
     String HH_mm_ss = "HH:mm:ss";
     String yyyyMMdd = "yyyyMMdd";
+    String yyyyMM = "yyyyMM";
+    String yyMM = "yyMM";
     String yyMMdd = "yyMMdd";
     String HHmmss = "HHmmss";
 
@@ -36,6 +38,7 @@ public interface DatePatternConstants {
     String yyyyMMddHHmmss = "yyyyMMddHHmmss";
     String yyyyMMddHHmmssSSS = "yyyyMMddHHmmssSSS";
     String yyyy_MM_dd_T_HH_mm_ss_Z = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    String yyyy_MM_dd_T_HH_mm_ss_SSS_Z = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     String RFC_3339_T_STRING = "'T'";
     String GMT_8 = "+08:00";

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.photowey.component.common.shared.google.guava.concurrent;
+package com.photowey.component.common.shared.google.com.google.common.util.concurrent;
 
 import java.util.Locale;
 import java.util.concurrent.Executors;

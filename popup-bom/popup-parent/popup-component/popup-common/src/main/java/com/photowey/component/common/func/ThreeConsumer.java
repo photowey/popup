@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.eventbus.guava.factory;
-
-import com.photowey.component.common.shared.google.com.google.common.util.concurrent.ThreadFactoryBuilder;
-
-import java.util.concurrent.ThreadFactory;
+package com.photowey.component.common.func;
 
 /**
- * {@code NamedThreadFactory}
+ * {@code ThreeConsumer}
  *
  * @author photowey
- * @date 2023/01/09
+ * @date 2023/05/23
  * @since 1.0.0
  */
-public class NamedThreadFactory {
+@FunctionalInterface
+public interface ThreeConsumer<T, R, U> {
 
-    public static ThreadFactory createNameFormat(String nameFormat) {
-        return ThreadFactoryBuilder.namedThreadFactory(nameFormat);
-    }
+    void accept(T t, R r, U u);
 }
