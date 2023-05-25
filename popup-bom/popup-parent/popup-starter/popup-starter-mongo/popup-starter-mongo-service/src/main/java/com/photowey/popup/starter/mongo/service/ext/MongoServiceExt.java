@@ -15,6 +15,7 @@
  */
 package com.photowey.popup.starter.mongo.service.ext;
 
+import com.photowey.popup.starter.mongo.core.constant.MongoConstants;
 import com.photowey.popup.starter.mongo.core.document.DocumentUpdateCounter;
 import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -34,9 +35,9 @@ import java.util.function.Consumer;
  */
 public interface MongoServiceExt<T, ID> {
 
-    String DEFAULT_PK_ID = "_id";
-    String DEFAULT_DELETED_KEY = "deleted";
-    int DEFAULT_DELETED_VALUE = 1;
+    String DEFAULT_PK_ID = MongoConstants.DEFAULT_PK_ID;
+    String DEFAULT_DELETED_KEY = MongoConstants.DEFAULT_DELETED_KEY;
+    int DEFAULT_DELETED_VALUE = MongoConstants.DEFAULT_DELETED_VALUE;
 
     default MongoOperations mongoOperations() {
         return null;
