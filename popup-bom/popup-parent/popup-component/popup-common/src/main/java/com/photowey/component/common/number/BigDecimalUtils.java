@@ -61,6 +61,10 @@ public final class BigDecimalUtils {
         return new BigDecimal(target);
     }
 
+    public static BigDecimal newZeroBigDecimal() {
+        return newBigDecimal("0.00");
+    }
+
     // ------------------------------------------------------------------------- toBigDecimal
 
     public static BigDecimal toBigDecimal(BigDecimal target, String decimalPoints, RoundingMode roundingMode) {
