@@ -26,6 +26,7 @@ public interface MongoConstants {
 
     String DEFAULT_PK_ID = "_id";
     String DEFAULT_DELETED_KEY = "deleted";
+    String DEFAULT_LOCATION_KEY = "location";
     int DEFAULT_DELETED_VALUE = 1;
 
     String MONGO_TRANSACTION_MANAGER_BEAN_NAME = "org.springframework.data.mongodb.MongoTransactionManager";

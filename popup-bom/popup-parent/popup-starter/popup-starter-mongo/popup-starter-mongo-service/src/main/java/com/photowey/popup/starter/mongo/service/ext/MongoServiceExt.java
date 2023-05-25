@@ -45,6 +45,7 @@ public interface MongoServiceExt<T, ID> {
 
     String DEFAULT_PK_ID = MongoConstants.DEFAULT_PK_ID;
     String DEFAULT_DELETED_KEY = MongoConstants.DEFAULT_DELETED_KEY;
+    String DEFAULT_LOCATION_KEY = MongoConstants.DEFAULT_LOCATION_KEY;
     int DEFAULT_DELETED_VALUE = MongoConstants.DEFAULT_DELETED_VALUE;
 
     default MongoOperations mongoOperations() {
@@ -178,9 +179,9 @@ public interface MongoServiceExt<T, ID> {
 
         Query query = this.createQueryById(objectId);
         GeoJsonPoint geo = point instanceof GeoJsonPoint ? (GeoJsonPoint) point : new GeoJsonPoint(point);
-        NearQuery nearQuery = NearQuery.near(geo, Metrics.KILOMETERS);
-        nearQuery.query(query);
-        GeoResults<T> results = mongoTemplate.geoNear(nearQuery, clazz);
+        NearQuery near = NearQuery.near(geo, Metrics.KILOMETERS);
+        near.query(query);
+        GeoResults<T> results = mongoTemplate.geoNear(near, clazz);
 
         for (GeoResult<T> result : results) {
             return this.formatKm(result.getDistance());
