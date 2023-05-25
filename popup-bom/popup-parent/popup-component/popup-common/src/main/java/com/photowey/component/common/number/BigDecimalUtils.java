@@ -30,8 +30,8 @@ import java.math.RoundingMode;
  */
 public final class BigDecimalUtils {
 
-    public static final String ONE_STRING = "1";
-    public static final String HUNDRED_STRING = "100";
+    public static final String ONE_STRING = NumberConstants.ONE_STRING;
+    public static final String HUNDRED_STRING = NumberConstants.HUNDRED_STRING;
 
     private BigDecimalUtils() {
         // utility class; can't create
@@ -78,7 +78,7 @@ public final class BigDecimalUtils {
         if (null == target) {
             return null;
         }
-        return toBigDecimal(target, NumberPatternConstants.TWO_DECIMAL_POINTS, RoundingMode.HALF_UP);
+        return toBigDecimal(target, NumberConstants.TWO_DECIMAL_POINTS, RoundingMode.HALF_UP);
     }
 
     // ------------------------------------------------------------------------- divide
@@ -138,7 +138,7 @@ public final class BigDecimalUtils {
 
     public static String toStr(BigDecimal target) {
         // #0.00
-        return toStr(target, NumberPatternConstants.TWO_DECIMAL_POINTS, RoundingMode.HALF_UP);
+        return toStr(target, NumberConstants.TWO_DECIMAL_POINTS, RoundingMode.HALF_UP);
     }
 
     // ------------------------------------------------------------------------- format
@@ -148,7 +148,7 @@ public final class BigDecimalUtils {
             return "";
         }
 
-        return toStr(target, NumberPatternConstants.PERCENT_WITH_COMMA_2_POINT, RoundingMode.HALF_UP);
+        return toStr(target, NumberConstants.PERCENT_WITH_COMMA_2_POINT, RoundingMode.HALF_UP);
     }
 
     public static BigDecimal toTenThousand(BigDecimal target) {
@@ -156,7 +156,7 @@ public final class BigDecimalUtils {
             return target;
         }
 
-        return target.divide(newBigDecimal(NumberPatternConstants.TEN_THOUSAND), 2, RoundingMode.HALF_UP);
+        return target.divide(newBigDecimal(NumberConstants.TEN_THOUSAND), 2, RoundingMode.HALF_UP);
     }
 
     public static BigDecimal formatRatio(BigDecimal divisor, BigDecimal dividend) {

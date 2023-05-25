@@ -16,7 +16,7 @@
 package com.photowey.component.common.geodesy;
 
 import com.photowey.component.common.number.BigDecimalUtils;
-import com.photowey.component.common.number.NumberPatternConstants;
+import com.photowey.component.common.number.NumberConstants;
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GlobalCoordinates;
@@ -72,7 +72,7 @@ public final class LocalGeodeticCalculator {
     }
 
     public BigDecimal formatKm(double distance) {
-        return this.formatKm(distance, NumberPatternConstants.FIVE_DECIMAL_POINTS);
+        return this.formatKm(distance, NumberConstants.FIVE_DECIMAL_POINTS);
     }
 
     public BigDecimal formatKm(double distance, String pattern) {
@@ -80,7 +80,7 @@ public final class LocalGeodeticCalculator {
     }
 
     public BigDecimal formatM(double distance) {
-        return this.formatDistance(distance, NumberPatternConstants.TWO_DECIMAL_POINTS);
+        return this.formatDistance(distance, NumberConstants.TWO_DECIMAL_POINTS);
     }
 
     public BigDecimal kmTom(double distanceKm, String pattern) {

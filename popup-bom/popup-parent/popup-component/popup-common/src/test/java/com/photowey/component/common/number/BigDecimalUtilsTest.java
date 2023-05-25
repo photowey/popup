@@ -46,14 +46,14 @@ class BigDecimalUtilsTest {
         BigDecimal result1 = BigDecimalUtils.toBigDecimal(target1);
         String result2 = BigDecimalUtils.toStr(target3);
         String result3 = BigDecimalUtils.toPlainString(target3);
-        String result4 = BigDecimalUtils.toStr(target3, NumberPatternConstants.PERCENT_WITH_COMMA_4_POINT, RoundingMode.HALF_UP);
+        String result4 = BigDecimalUtils.toStr(target3, NumberConstants.PERCENT_WITH_COMMA_4_POINT, RoundingMode.HALF_UP);
 
-        String result5 = BigDecimalUtils.toStr(target4, NumberPatternConstants.FOUR_DECIMAL_POINTS, RoundingMode.HALF_UP);
-        String result6 = BigDecimalUtils.toStr(target5, NumberPatternConstants.FOUR_DECIMAL_POINTS, RoundingMode.HALF_UP);
-        String result7 = BigDecimalUtils.toStr(target6, NumberPatternConstants.FOUR_DECIMAL_POINTS, RoundingMode.HALF_UP);
+        String result5 = BigDecimalUtils.toStr(target4, NumberConstants.FOUR_DECIMAL_POINTS, RoundingMode.HALF_UP);
+        String result6 = BigDecimalUtils.toStr(target5, NumberConstants.FOUR_DECIMAL_POINTS, RoundingMode.HALF_UP);
+        String result7 = BigDecimalUtils.toStr(target6, NumberConstants.FOUR_DECIMAL_POINTS, RoundingMode.HALF_UP);
 
-        String result8 = BigDecimalUtils.toStr(target5, NumberPatternConstants.TWO_DECIMAL_POINTS, RoundingMode.HALF_UP);
-        String result9 = BigDecimalUtils.toStr(target6, NumberPatternConstants.TWO_DECIMAL_POINTS, RoundingMode.HALF_UP);
+        String result8 = BigDecimalUtils.toStr(target5, NumberConstants.TWO_DECIMAL_POINTS, RoundingMode.HALF_UP);
+        String result9 = BigDecimalUtils.toStr(target6, NumberConstants.TWO_DECIMAL_POINTS, RoundingMode.HALF_UP);
 
         boolean compareEquals = ObjectUtils.compareEq(target2, result1);
 
