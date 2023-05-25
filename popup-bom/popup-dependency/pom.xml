@@ -559,6 +559,14 @@
                 <artifactId>bcprov-jdk15on</artifactId>
                 <version>${bouncycastle-jdk15on.version}</version>
             </dependency>
+
+            <!-- *************************************************************** geodesy -->
+
+            <dependency>
+                <groupId>org.gavaghan</groupId>
+                <artifactId>geodesy</artifactId>
+                <version>${geodesy.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
