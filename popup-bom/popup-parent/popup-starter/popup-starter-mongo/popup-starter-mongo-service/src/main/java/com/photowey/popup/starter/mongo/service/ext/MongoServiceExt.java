@@ -33,6 +33,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * {@code MongoServiceExt}
@@ -128,15 +129,14 @@ public interface MongoServiceExt<T, ID> {
         fx.accept(mongoTemplate, query, update);
     }
 
-
-    default void update(Class<T> clazz, Consumer<Criteria> condition, Consumer<Update> updater) {
-        this.doUpdate(condition, updater, (mongoTemplate, query, update) -> {
+    default void update(Consumer<Criteria> criteriaFx, Consumer<Update> updater, Class<T> clazz) {
+        this.doUpdate(criteriaFx, updater, (mongoTemplate, query, update) -> {
             mongoTemplate.updateFirst(query, update, clazz);
         });
     }
 
-    default void batchUpdate(Class<T> clazz, Consumer<Criteria> condition, Consumer<Update> updater) {
-        this.doUpdate(condition, updater, (mongoTemplate, query, update) -> {
+    default void batchUpdate(Consumer<Criteria> criteriaFx, Consumer<Update> updater, Class<T> clazz) {
+        this.doUpdate(criteriaFx, updater, (mongoTemplate, query, update) -> {
             mongoTemplate.updateMulti(query, update, clazz);
         });
     }
@@ -160,9 +160,40 @@ public interface MongoServiceExt<T, ID> {
         fx.accept(mongoTemplate, query, update);
     }
 
+    // ----------------------------------------------------------------
+
+    default void update(Consumer<Criteria> criteriaFx, Supplier<Update> updateGetter, Class<T> clazz) {
+        this.doUpdate(criteriaFx, updateGetter, (mongoTemplate, query, update) -> {
+            mongoTemplate.updateFirst(query, update, clazz);
+        });
+    }
+
+    default void batchUpdate(Consumer<Criteria> criteriaFx, Supplier<Update> updateGetter, Class<T> clazz) {
+        this.doUpdate(criteriaFx, updateGetter, (mongoTemplate, query, update) -> {
+            mongoTemplate.updateMulti(query, update, clazz);
+        });
+    }
+
+    default void doUpdate(Consumer<Criteria> criteriaFx, Supplier<Update> updateGetter, ThreeConsumer<MongoOperations, Query, Update> fx) {
+        MongoOperations mongoTemplate = this.mongoOperations();
+        if (null == mongoTemplate) {
+            return;
+        }
+
+        Criteria criteria = new Criteria();
+        criteriaFx.accept(criteria);
+
+        Query query = new Query(criteria);
+        Update update = updateGetter.get();
+
+        fx.accept(mongoTemplate, query, update);
+    }
+
+    // ----------------------------------------------------------------
+
     default <PK> void logicDelete(PK pk, Class<T> clazz) {
         ID id = this.wrapPk(pk);
-        Query query = this.createQueryById(id);
+        Query query = this.createQueryByObjectId(id);
         Update update = new Update();
         update.set(DEFAULT_DELETED_KEY, this.deleted());
 
@@ -177,14 +208,15 @@ public interface MongoServiceExt<T, ID> {
             return BigDecimalUtils.newZeroBigDecimal();
         }
 
-        Query query = this.createQueryById(objectId);
+        Query query = this.createQueryByObjectId(objectId);
         GeoJsonPoint geo = point instanceof GeoJsonPoint ? (GeoJsonPoint) point : new GeoJsonPoint(point);
         NearQuery near = NearQuery.near(geo, Metrics.KILOMETERS);
         near.query(query);
         GeoResults<T> results = mongoTemplate.geoNear(near, clazz);
 
         for (GeoResult<T> result : results) {
-            return this.formatKm(result.getDistance());
+            // unit: m
+            return this.kmTom(result.getDistance());
         }
 
         return BigDecimalUtils.newZeroBigDecimal();
@@ -261,9 +293,45 @@ public interface MongoServiceExt<T, ID> {
         return document;
     }
 
-    default Query createQueryById(ID pkV) {
+    default Query createQueryByObjectId(ID pkV) {
         return new Query(Criteria.where(DEFAULT_PK_ID).is(pkV));
     }
+
+    default <PK> Query createQueryById(PK pk) {
+        return this.createQueryByObjectId(this.wrapPk(pk));
+    }
+
+    default Criteria createCriteriaObjectId(ID objectId) {
+        return Criteria.where(DEFAULT_PK_ID).is(objectId);
+    }
+
+    default <PK> Criteria createCriteriaById(PK pk) {
+        return this.createCriteriaObjectId(this.wrapPk(pk));
+    }
+
+    // ----------------------------------------------------------------
+
+    default void criteriaObjectId(Criteria criteria, ID objectId) {
+        this.criteriaAnd(criteria, DEFAULT_PK_ID, objectId);
+    }
+
+    default <PK> void criteriaId(Criteria criteria, PK pk) {
+        this.criteriaObjectId(criteria, this.wrapPk(pk));
+    }
+
+    // ---------------------------------------------------------------- criteria
+
+    default <V> void criteriaAnd(Criteria criteria, String node, V value) {
+        criteria.and(node).is(value);
+    }
+
+    // ---------------------------------------------------------------- update
+
+    default <V> void updateSet(Update updater, String node, V value) {
+        updater.set(node, value);
+    }
+
+    // ----------------------------------------------------------------
 
     default <PK> ID wrapPk(PK pk) {
         return (ID) String.valueOf(pk);
@@ -287,6 +355,14 @@ public interface MongoServiceExt<T, ID> {
 
     default BigDecimal formatM(double distance) {
         return LocalGeodeticCalculator.getInstance().formatM(distance);
+    }
+
+    default BigDecimal kmTom(Distance distance) {
+        return this.kmTom(distance.getValue());
+    }
+
+    default BigDecimal kmTom(double distance) {
+        return this.kmTom(distance, NumberConstants.TWO_DECIMAL_POINTS);
     }
 
     default BigDecimal kmTom(double distanceKm, String pattern) {
