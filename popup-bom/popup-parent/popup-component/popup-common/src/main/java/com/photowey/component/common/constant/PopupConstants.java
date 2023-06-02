@@ -15,6 +15,9 @@
  */
 package com.photowey.component.common.constant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * {@code PopupConstants}
  *
@@ -79,7 +82,19 @@ public interface PopupConstants {
     String DOLLAR_SEPARATOR = "$";
     String COMMA_SEPARATOR = ",";
 
-    // ------------------------------------------------------------------------- Boolean
+    // --------------------------------------------------------- Secret
+
+    String SENSITIVE_FIELD = "****************";
+
+    // --------------------------------------------------------- Long
+
+    long MILLIS_UNIT = 1000L;
+
+    // --------------------------------------------------------- List
+
+    static <T> List<T> emptyList() {
+        return new ArrayList<>(0);
+    }
 
     /**
      * {@code API} response status

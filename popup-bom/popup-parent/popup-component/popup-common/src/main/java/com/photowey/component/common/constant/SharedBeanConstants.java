@@ -26,5 +26,7 @@ public interface SharedBeanConstants {
 
     String SHARED_OBJECT_MAPPER_BEAN_NAME = "com.fasterxml.jackson.databind.ObjectMapper#Jdk8Module&JavaTimeModule";
     String SHARED_FEIGN_CODEC_DECODER_BEAN_NAME = "feign.codec.Decoder";
+
+    String APPLICATION_NAME = "spring.application.name";
 }
 
