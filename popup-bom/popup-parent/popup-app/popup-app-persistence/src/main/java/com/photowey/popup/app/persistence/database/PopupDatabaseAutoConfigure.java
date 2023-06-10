@@ -17,6 +17,7 @@ package com.photowey.popup.app.persistence.database;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -70,7 +71,8 @@ public class PopupDatabaseAutoConfigure {
      */
     @Bean
     @ConditionalOnMissingBean(TransactionTemplate.class)
-    public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager) {
+    public TransactionTemplate transactionTemplate(
+            @Qualifier("platformTransactionManager") PlatformTransactionManager transactionManager) {
         return new TransactionTemplate(transactionManager);
     }
 }
