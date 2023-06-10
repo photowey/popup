@@ -27,45 +27,88 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
- * {@code NettyDelayQueue}
+ * {@code NettyDelayedQueueImpl}
+ *
+ * <pre>
+ *     // Example:
+ *     NettyDelayedQueue delayQueue = new NettyDelayedQueueImpl(10L);
+ * </pre>
+ *
+ * <pre>
+ *     // Test:
+ *    {@literal @T}est
+ *     void testDelayedQueue() throws InterruptedException {
+ *         NettyDelayedQueue delayQueue = new NettyDelayedQueueImpl(10L);
+ *         HelloTaskListener listener = HelloTaskListener.create()
+ *                 .data(Hello.builder().words("Hello world.111").build())
+ *                 .build();
+ *
+ *         HelloTaskListener listener2 = HelloTaskListener.create()
+ *                 .data(Hello.builder().words("Hello world.222").build())
+ *                 .build();
+ *
+ *         delayQueue.delayMillis(listener, 200L);
+ *         delayQueue.delaySeconds(listener2, 2L);
+ *
+ *         TimeUnit.SECONDS.sleep(7);
+ *     }
+ * </pre>
  *
  * @author photowey
  * @date 2023/03/30
  * @since 1.0.0
  */
 @Slf4j
-public class NettyDelayQueue implements Serializable {
+public class NettyDelayedQueueImpl implements NettyDelayedQueue, Serializable {
 
     private static final long serialVersionUID = -8407059051271730981L;
 
-    public static final long DEFAULT_TICK_DURATION = 100L;
-    public static final int DEFAULT_TICK_SIZE = 1 << 10;
-
-    private static final long MILLISECONDS = 1000L;
+    private static final String DEFAULT_POOL_NAME = "delayed-queue";
     private static final String POOL_PREFIX = "netty";
+
+    public static final long DEFAULT_TICK_DURATION = 100L;
+    public static final long MILLISECONDS = 1000L;
+    public static final int DEFAULT_TICK_SIZE = 1 << 13; // 8192
+
     private final Timer timer;
 
-    public NettyDelayQueue() {
-        this(buildPoolName("delay-queue"));
+    public NettyDelayedQueueImpl() {
+        this(buildPoolName(DEFAULT_POOL_NAME));
     }
 
-    public NettyDelayQueue(String poolName) {
+    public NettyDelayedQueueImpl(long interval) {
+        this(buildPoolName(DEFAULT_POOL_NAME), interval);
+    }
+
+    public NettyDelayedQueueImpl(int ticks, long interval) {
+        this(buildPoolName(DEFAULT_POOL_NAME), ticks, interval);
+    }
+
+    public NettyDelayedQueueImpl(String poolName) {
         this(new DefaultThreadFactory(buildPoolName(poolName)));
     }
 
-    public NettyDelayQueue(ThreadFactory factory) {
+    public NettyDelayedQueueImpl(String poolName, long interval) {
+        this(new DefaultThreadFactory(buildPoolName(poolName)), interval);
+    }
+
+    public NettyDelayedQueueImpl(String poolName, int ticks, long interval) {
+        this(new DefaultThreadFactory(buildPoolName(poolName)), ticks, interval);
+    }
+
+    public NettyDelayedQueueImpl(ThreadFactory factory) {
         this(factory, DEFAULT_TICK_DURATION);
     }
 
-    public NettyDelayQueue(ThreadFactory factory, long interval) {
+    public NettyDelayedQueueImpl(ThreadFactory factory, long interval) {
         this(factory, DEFAULT_TICK_SIZE, interval);
     }
 
-    public NettyDelayQueue(ThreadFactory factory, int ticks, long interval) {
+    public NettyDelayedQueueImpl(ThreadFactory factory, int ticks, long interval) {
         this(factory, ticks, interval, TimeUnit.MILLISECONDS);
     }
 
-    public NettyDelayQueue(ThreadFactory factory, int ticks, long interval, TimeUnit timeUnit) {
+    public NettyDelayedQueueImpl(ThreadFactory factory, int ticks, long interval, TimeUnit timeUnit) {
         this.timer = new HashedWheelTimer(
                 factory,
                 interval,
@@ -74,26 +117,32 @@ public class NettyDelayQueue implements Serializable {
         );
     }
 
+    @Override
     public <T> void delayMillis(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay) {
         this.delayAt(timerTask, delay, TimeUnit.MILLISECONDS);
     }
 
+    @Override
     public <T> void delaySeconds(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay) {
         this.delayAt(timerTask, delay, TimeUnit.SECONDS);
     }
 
+    @Override
     public <T> void delayMinutes(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay) {
         this.delayAt(timerTask, delay, TimeUnit.MINUTES);
     }
 
+    @Override
     public <T> void delayHours(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay) {
         this.delayAt(timerTask, delay, TimeUnit.HOURS);
     }
 
+    @Override
     public <T> void delayDays(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay) {
         this.delayAt(timerTask, delay, TimeUnit.DAYS);
     }
 
+    @Override
     public <T> boolean delayAt(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay, TimeUnit timeUnit) {
         if (timerTask == null) {
             log.error("timerTask is required");
