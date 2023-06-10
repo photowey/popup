@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,8 +44,16 @@ public final class ObjectUtils {
         return defaultIfNullOrEmpty(target, defaultValue);
     }
 
+    public static <T> T defaultIfNull(T target, Supplier<T> fx) {
+        return defaultIfNullOrEmpty(target, fx);
+    }
+
     public static <T> T defaultIfNullOrEmpty(final T target, final T defaultValue) {
         return isNotNullOrEmpty(target) ? target : defaultValue;
+    }
+
+    public static <T> T defaultIfNullOrEmpty(final T target, Supplier<T> fx) {
+        return isNotNullOrEmpty(target) ? target : fx.get();
     }
 
     // -------------------------------------------------------------------------
