@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.timewheel.netty;
+package com.photowey.component.common.timewheel.netty.queue;
 
 import com.alibaba.fastjson2.JSON;
 import com.photowey.component.common.timewheel.shared.io.netty.util.Timeout;
@@ -26,33 +26,38 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * {@code AbstractNettyDelayedQueueListener}
+ * {@code AbstractSharedNettyDelayedQueueHandler}
  *
  * @author photowey
  * @date 2023/03/30
  * @since 1.0.0
  */
 @Slf4j
-public abstract class AbstractSharedNettyDelayedQueueListener<T> implements TimerTask {
+public abstract class AbstractSharedNettyDelayedQueueHandler<T> implements TimerTask {
 
     private static final String GROUP = "delay-queue-group";
     private final IdGenerator generator = new AlternativeJdkIdGenerator();
+
     @Getter
     @Setter
     private Task<T> task;
+
+    @Getter
+    @Setter
+    private T data;
 
     @Override
     public void run(Timeout timeout) throws Exception {
         try {
             StopWatch watch = new StopWatch(GROUP);
-            if (log.isInfoEnabled()) {
-                watch.start("t1");
-                log.info("Listen the netty delay queue,prepare run task:[{}]", task.getId());
+            watch.start("t1");
+            if (log.isDebugEnabled()) {
+                log.debug("Listen.prepare run the.netty.delay.queue.task:[{}]", task.getId());
             }
             this.execute(task);
+            watch.stop();
             if (log.isInfoEnabled()) {
-                watch.stop();
-                log.info("Listen the netty delay queue,post run task:[{}],cast:[{} ms]", task.getId(), watch.getTotalTimeMillis());
+                log.info("Listen.post run the.netty.delay.queue.task:[{}], cast:[{} ms]", task.getId(), watch.getTotalTimeMillis());
             }
         } catch (Throwable e) {
             log.error("Listen the netty delay queue task:[{}] error", JSON.toJSONString(task), e);
@@ -67,8 +72,25 @@ public abstract class AbstractSharedNettyDelayedQueueListener<T> implements Time
      */
     protected abstract void execute(Task<T> task);
 
-    public void buildTask(T data) {
-        this.setTask(Task.<T>builder().id(this.taskId()).data(data).build());
+    public <LISTENER extends AbstractSharedNettyDelayedQueueHandler<T>> LISTENER data(T data) {
+        this.data = data;
+
+        return (LISTENER) this;
+    }
+
+    public <LISTENER extends AbstractSharedNettyDelayedQueueHandler<T>> LISTENER build() {
+        Task<T> task = Task.<T>builder().id(this.taskId()).data(data).build();
+        this.setTask(task);
+
+        return (LISTENER) this;
+    }
+
+    public Task<T> task() {
+        return task;
+    }
+
+    public T data() {
+        return data;
     }
 
     private String taskId() {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.timewheel.netty;
+package com.photowey.component.common.timewheel.netty.queue;
 
 import com.photowey.component.common.timewheel.shared.io.netty.util.HashedWheelTimer;
 import com.photowey.component.common.timewheel.shared.io.netty.util.Timer;
@@ -118,38 +118,38 @@ public class NettyDelayedQueueImpl implements NettyDelayedQueue, Serializable {
     }
 
     @Override
-    public <T> void delayMillis(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay) {
-        this.delayAt(timerTask, delay, TimeUnit.MILLISECONDS);
+    public <T> void delayMillis(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed) {
+        this.delayAt(handler, delayed, TimeUnit.MILLISECONDS);
     }
 
     @Override
-    public <T> void delaySeconds(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay) {
-        this.delayAt(timerTask, delay, TimeUnit.SECONDS);
+    public <T> void delaySeconds(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed) {
+        this.delayAt(handler, delayed, TimeUnit.SECONDS);
     }
 
     @Override
-    public <T> void delayMinutes(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay) {
-        this.delayAt(timerTask, delay, TimeUnit.MINUTES);
+    public <T> void delayMinutes(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed) {
+        this.delayAt(handler, delayed, TimeUnit.MINUTES);
     }
 
     @Override
-    public <T> void delayHours(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay) {
-        this.delayAt(timerTask, delay, TimeUnit.HOURS);
+    public <T> void delayHours(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed) {
+        this.delayAt(handler, delayed, TimeUnit.HOURS);
     }
 
     @Override
-    public <T> void delayDays(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay) {
-        this.delayAt(timerTask, delay, TimeUnit.DAYS);
+    public <T> void delayDays(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed) {
+        this.delayAt(handler, delayed, TimeUnit.DAYS);
     }
 
     @Override
-    public <T> boolean delayAt(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay, TimeUnit timeUnit) {
-        if (timerTask == null) {
-            log.error("timerTask is required");
+    public <T> boolean delayAt(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed, TimeUnit timeUnit) {
+        if (handler == null) {
+            log.error("handler is required");
             return false;
         }
-        if (delay < 0) {
-            log.error("delay must be > 0");
+        if (delayed < 0) {
+            log.error("delayed must be > 0");
             return false;
         }
         if (timeUnit == null) {
@@ -157,14 +157,14 @@ public class NettyDelayedQueueImpl implements NettyDelayedQueue, Serializable {
             return false;
         }
 
-        this.offer(timerTask, delay, timeUnit);
+        this.offer(handler, delayed, timeUnit);
 
         return true;
     }
 
-    public <T> boolean futureAt(AbstractSharedNettyDelayedQueueListener<T> timerTask, LocalDateTime futureAt) {
-        if (timerTask == null) {
-            log.error("timerTask is required");
+    public <T> boolean futureAt(AbstractSharedNettyDelayedQueueHandler<T> handler, LocalDateTime futureAt) {
+        if (handler == null) {
+            log.error("handler is required");
             return false;
         }
         if (futureAt == null || futureAt.compareTo(LocalDateTime.now()) < 0) {
@@ -172,34 +172,38 @@ public class NettyDelayedQueueImpl implements NettyDelayedQueue, Serializable {
             return false;
         }
 
-        this.offer(timerTask, futureAt);
+        this.offer(handler, futureAt);
 
         return true;
     }
 
-    private <T> void offer(AbstractSharedNettyDelayedQueueListener<T> timerTask, LocalDateTime futureAt) {
-        Task<T> task = timerTask.getTask();
+    private <T> void offer(AbstractSharedNettyDelayedQueueHandler<T> handler, LocalDateTime futureAt) {
+        Task<T> task = handler.getTask();
         task.setFutureAt(futureAt);
         long now = System.currentTimeMillis();
         long delay = toTimestamp(futureAt) - now;
-        this.offerz(timerTask, delay, TimeUnit.MILLISECONDS);
+        this.offerz(handler, delay, TimeUnit.MILLISECONDS);
     }
 
-    private <T> void offer(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay, TimeUnit timeUnit) {
-        Task<T> task = timerTask.getTask();
+    private <T> void offer(AbstractSharedNettyDelayedQueueHandler<T> handler, long delay, TimeUnit timeUnit) {
+        Task<T> task = handler.getTask();
         task.setDelay(delay);
         task.setTimeUnit(timeUnit);
 
-        this.offerz(timerTask, delay, timeUnit);
+        this.offerz(handler, delay, timeUnit);
     }
 
-    private <T> void offerz(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay, TimeUnit timeUnit) {
-        this.timer.newTimeout(timerTask, delay, timeUnit);
-        log.info("offer task:[{}]", timerTask.getTask().getId());
+    private <T> void offerz(AbstractSharedNettyDelayedQueueHandler<T> handler, long delay, TimeUnit timeUnit) {
+        this.timer.newTimeout(handler, delay, timeUnit);
+        //log.info("offer task:[{}]", handler.getTask().getId());
     }
 
     private static Long toTimestamp(LocalDateTime target) {
-        return target.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / MILLISECONDS * MILLISECONDS;
+        return trimTail(target.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+    }
+
+    private static Long trimTail(Long ts) {
+        return ts / MILLISECONDS * MILLISECONDS;
     }
 
     private static String buildPoolName(String name) {

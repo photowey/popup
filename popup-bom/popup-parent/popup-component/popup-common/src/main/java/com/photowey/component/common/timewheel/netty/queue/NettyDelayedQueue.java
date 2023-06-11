@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.timewheel.netty;
-
-import java.util.concurrent.TimeUnit;
+package com.photowey.component.common.timewheel.netty.queue;
 
 /**
  * {@code NettyDelayedQueue}
@@ -24,17 +22,9 @@ import java.util.concurrent.TimeUnit;
  * @date 2023/06/10
  * @since 1.0.0
  */
-public interface NettyDelayedQueue {
+public interface NettyDelayedQueue extends NettyTimedDelayedQueue {
 
-    <T> void delayMillis(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay);
-
-    <T> void delaySeconds(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay);
-
-    <T> void delayMinutes(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay);
-
-    <T> void delayHours(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay);
-
-    <T> void delayDays(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay);
-
-    <T> boolean delayAt(AbstractSharedNettyDelayedQueueListener<T> timerTask, long delay, TimeUnit timeUnit);
+    default <T> void delayAt(AbstractSharedNettyDelayedQueueHandler<T> timerTask, long delay) {
+        this.delayMillis(timerTask, delay);
+    }
 }

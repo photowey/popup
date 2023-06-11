@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.component.common.timewheel.netty;
+package com.photowey.component.common.timewheel.netty.queue;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
