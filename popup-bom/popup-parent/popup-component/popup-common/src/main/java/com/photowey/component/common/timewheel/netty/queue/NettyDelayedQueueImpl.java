@@ -118,32 +118,32 @@ public class NettyDelayedQueueImpl implements NettyDelayedQueue, Serializable {
     }
 
     @Override
-    public <T> void delayMillis(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed) {
+    public <T> void delayMillis(AbstractDelayedTaskHandler<T> handler, long delayed) {
         this.delayAt(handler, delayed, TimeUnit.MILLISECONDS);
     }
 
     @Override
-    public <T> void delaySeconds(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed) {
+    public <T> void delaySeconds(AbstractDelayedTaskHandler<T> handler, long delayed) {
         this.delayAt(handler, delayed, TimeUnit.SECONDS);
     }
 
     @Override
-    public <T> void delayMinutes(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed) {
+    public <T> void delayMinutes(AbstractDelayedTaskHandler<T> handler, long delayed) {
         this.delayAt(handler, delayed, TimeUnit.MINUTES);
     }
 
     @Override
-    public <T> void delayHours(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed) {
+    public <T> void delayHours(AbstractDelayedTaskHandler<T> handler, long delayed) {
         this.delayAt(handler, delayed, TimeUnit.HOURS);
     }
 
     @Override
-    public <T> void delayDays(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed) {
+    public <T> void delayDays(AbstractDelayedTaskHandler<T> handler, long delayed) {
         this.delayAt(handler, delayed, TimeUnit.DAYS);
     }
 
     @Override
-    public <T> boolean delayAt(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed, TimeUnit timeUnit) {
+    public <T> boolean delayAt(AbstractDelayedTaskHandler<T> handler, long delayed, TimeUnit timeUnit) {
         if (handler == null) {
             log.error("handler is required");
             return false;
@@ -162,7 +162,7 @@ public class NettyDelayedQueueImpl implements NettyDelayedQueue, Serializable {
         return true;
     }
 
-    public <T> boolean futureAt(AbstractSharedNettyDelayedQueueHandler<T> handler, LocalDateTime futureAt) {
+    public <T> boolean futureAt(AbstractDelayedTaskHandler<T> handler, LocalDateTime futureAt) {
         if (handler == null) {
             log.error("handler is required");
             return false;
@@ -177,7 +177,7 @@ public class NettyDelayedQueueImpl implements NettyDelayedQueue, Serializable {
         return true;
     }
 
-    private <T> void offer(AbstractSharedNettyDelayedQueueHandler<T> handler, LocalDateTime futureAt) {
+    private <T> void offer(AbstractDelayedTaskHandler<T> handler, LocalDateTime futureAt) {
         Task<T> task = handler.getTask();
         task.setFutureAt(futureAt);
         long now = System.currentTimeMillis();
@@ -185,7 +185,7 @@ public class NettyDelayedQueueImpl implements NettyDelayedQueue, Serializable {
         this.offerz(handler, delay, TimeUnit.MILLISECONDS);
     }
 
-    private <T> void offer(AbstractSharedNettyDelayedQueueHandler<T> handler, long delay, TimeUnit timeUnit) {
+    private <T> void offer(AbstractDelayedTaskHandler<T> handler, long delay, TimeUnit timeUnit) {
         Task<T> task = handler.getTask();
         task.setDelay(delay);
         task.setTimeUnit(timeUnit);
@@ -193,7 +193,7 @@ public class NettyDelayedQueueImpl implements NettyDelayedQueue, Serializable {
         this.offerz(handler, delay, timeUnit);
     }
 
-    private <T> void offerz(AbstractSharedNettyDelayedQueueHandler<T> handler, long delay, TimeUnit timeUnit) {
+    private <T> void offerz(AbstractDelayedTaskHandler<T> handler, long delay, TimeUnit timeUnit) {
         this.timer.newTimeout(handler, delay, timeUnit);
         //log.info("offer task:[{}]", handler.getTask().getId());
     }

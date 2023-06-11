@@ -24,13 +24,13 @@ package com.photowey.component.common.timewheel.netty.queue;
  */
 public interface NettyTimedDelayedQueue extends TimeUnitDelayedQueue {
 
-    <T> void delayMillis(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed);
+    <T> void delayMillis(AbstractDelayedTaskHandler<T> handler, long delayed);
 
-    <T> void delaySeconds(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed);
+    <T> void delaySeconds(AbstractDelayedTaskHandler<T> handler, long delayed);
 
-    <T> void delayMinutes(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed);
+    <T> void delayMinutes(AbstractDelayedTaskHandler<T> handler, long delayed);
 
-    <T> void delayHours(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed);
+    <T> void delayHours(AbstractDelayedTaskHandler<T> handler, long delayed);
 
-    <T> void delayDays(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed);
+    <T> void delayDays(AbstractDelayedTaskHandler<T> handler, long delayed);
 }

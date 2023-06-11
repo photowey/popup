@@ -24,7 +24,7 @@ package com.photowey.component.common.timewheel.netty.queue;
  */
 public interface NettyDelayedQueue extends NettyTimedDelayedQueue {
 
-    default <T> void delayAt(AbstractSharedNettyDelayedQueueHandler<T> timerTask, long delay) {
-        this.delayMillis(timerTask, delay);
+    default <T> void delayAt(AbstractDelayedTaskHandler<T> handler, long delayed) {
+        this.delayMillis(handler, delayed);
     }
 }

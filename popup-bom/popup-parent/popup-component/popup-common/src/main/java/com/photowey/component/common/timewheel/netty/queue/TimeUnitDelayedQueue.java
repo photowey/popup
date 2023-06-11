@@ -26,5 +26,5 @@ import java.util.concurrent.TimeUnit;
  */
 public interface TimeUnitDelayedQueue {
 
-    <T> boolean delayAt(AbstractSharedNettyDelayedQueueHandler<T> handler, long delayed, TimeUnit timeUnit);
+    <T> boolean delayAt(AbstractDelayedTaskHandler<T> handler, long delayed, TimeUnit timeUnit);
 }

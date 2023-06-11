@@ -26,16 +26,16 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * {@code AbstractSharedNettyDelayedQueueHandler}
+ * {@code AbstractDelayedTaskHandler}
  *
  * @author photowey
  * @date 2023/03/30
  * @since 1.0.0
  */
 @Slf4j
-public abstract class AbstractSharedNettyDelayedQueueHandler<T> implements TimerTask {
+public abstract class AbstractDelayedTaskHandler<T> implements TimerTask {
 
-    private static final String GROUP = "delay-queue-group";
+    private static final String GROUP = "delayed-queue-group";
     private final IdGenerator generator = new AlternativeJdkIdGenerator();
 
     @Getter
@@ -52,37 +52,37 @@ public abstract class AbstractSharedNettyDelayedQueueHandler<T> implements Timer
             StopWatch watch = new StopWatch(GROUP);
             watch.start("t1");
             if (log.isDebugEnabled()) {
-                log.debug("Listen.prepare run the.netty.delay.queue.task:[{}]", task.getId());
+                log.debug("Handle.prepare run the.netty.delayed.queue.task:[{}]", task.getId());
             }
-            this.execute(task);
+            this.handle(task);
             watch.stop();
             if (log.isInfoEnabled()) {
-                log.info("Listen.post run the.netty.delay.queue.task:[{}], cast:[{} ms]", task.getId(), watch.getTotalTimeMillis());
+                log.info("Handle.post run the.netty.delayed.queue.task:[{}], cast:[{} ms]", task.getId(), watch.getTotalTimeMillis());
             }
         } catch (Throwable e) {
-            log.error("Listen the netty delay queue task:[{}] error", JSON.toJSONString(task), e);
+            log.error("Handle.failed run the.netty.delayed.queue.task:[{}] error", JSON.toJSONString(task), e);
             // TODO retry?
         }
     }
 
     /**
-     * Execute
+     * Handle
      *
      * @param task {@link Task<T>} task
      */
-    protected abstract void execute(Task<T> task);
+    protected abstract void handle(Task<T> task);
 
-    public <LISTENER extends AbstractSharedNettyDelayedQueueHandler<T>> LISTENER data(T data) {
+    public <HANDLER extends AbstractDelayedTaskHandler<T>> HANDLER data(T data) {
         this.data = data;
 
-        return (LISTENER) this;
+        return (HANDLER) this;
     }
 
-    public <LISTENER extends AbstractSharedNettyDelayedQueueHandler<T>> LISTENER build() {
+    public <HANDLER extends AbstractDelayedTaskHandler<T>> HANDLER build() {
         Task<T> task = Task.<T>builder().id(this.taskId()).data(data).build();
         this.setTask(task);
 
-        return (LISTENER) this;
+        return (HANDLER) this;
     }
 
     public Task<T> task() {
