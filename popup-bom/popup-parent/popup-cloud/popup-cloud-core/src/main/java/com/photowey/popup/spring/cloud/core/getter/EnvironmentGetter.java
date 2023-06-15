@@ -16,6 +16,7 @@
 package com.photowey.popup.spring.cloud.core.getter;
 
 import org.springframework.core.env.Environment;
+import org.springframework.util.ObjectUtils;
 
 /**
  * {@code EnvironmentGetter}
@@ -26,6 +27,25 @@ import org.springframework.core.env.Environment;
  */
 public interface EnvironmentGetter {
 
+    String SPRING_PROFILES_ACTIVE_KEY = "spring.profiles.active";
+
+    String SPRING_PROFILES_ACTIVE_DEV = "dev";
+    String SPRING_PROFILES_ACTIVE_TEST = "test";
+    String SPRING_PROFILES_ACTIVE_PRO = "pro";
+    String SPRING_PROFILES_ACTIVE_PROD = "prod";
+
+    default String determineCurrentProfilesActive() {
+        return this.environment().getProperty(SPRING_PROFILES_ACTIVE_KEY);
+    }
+
+    default boolean determineOffline(String profiles) {
+        if (ObjectUtils.isEmpty(profiles)) {
+            return false;
+        }
+
+        return profiles.contains(SPRING_PROFILES_ACTIVE_DEV)
+                || profiles.contains(SPRING_PROFILES_ACTIVE_TEST);
+    }
+
     Environment environment();
 }
-
