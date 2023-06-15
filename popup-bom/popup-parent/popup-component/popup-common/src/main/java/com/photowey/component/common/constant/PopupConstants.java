@@ -63,6 +63,7 @@ public interface PopupConstants {
     // ------------------------------------------------------------------------- SQL
 
     String LIMIT_1 = "LIMIT 1";
+    String LIMIT_2 = "LIMIT 2";
 
     // --------------------------------------------------------- Pattern
 
@@ -90,6 +91,11 @@ public interface PopupConstants {
 
     long MILLIS_UNIT = 1000L;
     long TIME_STAMP_LENGTH = 13;
+
+    // --------------------------------------------------------- Day
+
+    int MAX_DAY_OF_MONTH = 31;
+    int MIN_DAY_OF_MONTH = 28;
 
     // --------------------------------------------------------- List
 

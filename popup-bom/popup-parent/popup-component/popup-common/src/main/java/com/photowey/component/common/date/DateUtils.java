@@ -15,6 +15,7 @@
  */
 package com.photowey.component.common.date;
 
+import com.photowey.component.common.constant.PopupConstants;
 import com.photowey.component.common.date.formatter.rfc.RFC3339DateTimeFormatter;
 import com.photowey.component.common.thrower.AssertionErrorThrower;
 import com.photowey.component.common.util.ObjectUtils;
@@ -63,75 +64,75 @@ public final class DateUtils {
 
     // ------------------------------------------------------------------------- Format
 
-    public static String format(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static String format(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        return format(dateTime, DatePatternConstants.yyyy_MM_dd_HH_mm_ss);
+        return format(target, DatePatternConstants.yyyy_MM_dd_HH_mm_ss);
     }
 
-    public static String formatRfc3339(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static String formatRfc3339(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
         DateTimeFormatter formatter = rfc3339DefaultZoneFormatter();
-        return formatter.format(dateTime);
+        return formatter.format(target);
     }
 
-    public static String format(LocalDateTime dateTime, String pattern) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static String format(LocalDateTime target, String pattern) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
         pattern = ObjectUtils.isNotNullOrEmpty(pattern) ? pattern : DatePatternConstants.yyyy_MM_dd_HH_mm_ss;
 
         DateTimeFormatter formatter = formatter(pattern);
-        return formatter.format(dateTime);
+        return formatter.format(target);
     }
 
-    public static String format(LocalDate dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static String format(LocalDate target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        return format(dateTime, DatePatternConstants.yyyy_MM_dd);
+        return format(target, DatePatternConstants.yyyy_MM_dd);
     }
 
-    public static String format(LocalDate dateTime, String pattern) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
-            return null;
-        }
-        pattern = ObjectUtils.isNotNullOrEmpty(pattern) ? pattern : DatePatternConstants.yyyy_MM_dd_HH_mm_ss;
-
-        DateTimeFormatter formatter = formatter(pattern);
-        return formatter.format(dateTime);
-    }
-
-    public static String format(LocalTime dateTime) {
-        return format(dateTime, DatePatternConstants.HH_mm_ss);
-    }
-
-    public static String format(LocalTime dateTime, String pattern) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static String format(LocalDate target, String pattern) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
         pattern = ObjectUtils.isNotNullOrEmpty(pattern) ? pattern : DatePatternConstants.yyyy_MM_dd_HH_mm_ss;
 
         DateTimeFormatter formatter = formatter(pattern);
-        return formatter.format(dateTime);
+        return formatter.format(target);
     }
 
-    public static String format(Date dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static String format(LocalTime target) {
+        return format(target, DatePatternConstants.HH_mm_ss);
+    }
+
+    public static String format(LocalTime target, String pattern) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
+            return null;
+        }
+        pattern = ObjectUtils.isNotNullOrEmpty(pattern) ? pattern : DatePatternConstants.yyyy_MM_dd_HH_mm_ss;
+
+        DateTimeFormatter formatter = formatter(pattern);
+        return formatter.format(target);
+    }
+
+    public static String format(Date target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        return format(dateTime, DatePatternConstants.yyyy_MM_dd_HH_mm_ss);
+        return format(target, DatePatternConstants.yyyy_MM_dd_HH_mm_ss);
     }
 
-    public static String format(Date dateTime, String pattern) {
-        return format(toLocalDateTime(dateTime), pattern);
+    public static String format(Date target, String pattern) {
+        return format(toLocalDateTime(target), pattern);
     }
 
     // ------------------------------------------------------------------------- now
@@ -160,12 +161,12 @@ public final class DateUtils {
         return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
-    public static Date toDate(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static Date toDate(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+        return Date.from(target.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     // ------------------------------------------------------------------------- LocalDate
@@ -198,57 +199,90 @@ public final class DateUtils {
 
     // ------------------------------------------------------------------------- Parse
 
-    public static LocalDateTime toLocalDateTime(String dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime toLocalDateTime(String target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        return LocalDateTime.parse(dateTime, formatter());
+        return LocalDateTime.parse(target, formatter());
     }
 
-    public static LocalDateTime toLocalDateTime(String dateTime, String pattern) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime toLocalDateTime(String target, String pattern) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        return LocalDateTime.parse(dateTime, formatter(pattern));
+        return LocalDateTime.parse(target, formatter(pattern));
     }
 
-    public static LocalDateTime toLocalDateTimeRfc3339(String dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime toLocalDateTimeRfc3339(String target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        return LocalDateTime.parse(dateTime, rfc3339DefaultZoneFormatter());
+        return LocalDateTime.parse(target, rfc3339DefaultZoneFormatter());
     }
 
     // ------------------------------------------------------------------------- Timestamp
 
-    public static Long toTimestamp(Date dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static Long toTimestamp(Date target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        return dateTime.getTime() / DatePatternConstants.MILLISECONDS * DatePatternConstants.MILLISECONDS;
+        return trimTail(target.getTime());
     }
 
-    public static Long toTimestamp(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static Long toTimestamp(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
-        long ts = dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        return ts / DatePatternConstants.MILLISECONDS * DatePatternConstants.MILLISECONDS;
+
+        return trimTail(target.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+    }
+
+    public static long trimTail(long ts) {
+        return ts / PopupConstants.MILLIS_UNIT * PopupConstants.MILLIS_UNIT;
     }
 
     // ------------------------------------------------------------------------- between
 
-    public static boolean betweenNow(LocalDateTime start, LocalDateTime end) {
-        if (ObjectUtils.isNullOrEmpty(start) || ObjectUtils.isNullOrEmpty(end)) {
+    public static boolean betweenNow(LocalDateTime from, LocalDateTime to) {
+        if (ObjectUtils.isNullOrEmpty(from)
+                || ObjectUtils.isNullOrEmpty(to)) {
+            return false;
+        }
+        LocalDateTime now = now();
+        return from.isBefore(now) && to.isAfter(now);
+    }
+
+    public static boolean betweenNow(LocalTime from, LocalTime to) {
+        if (ObjectUtils.isNullOrEmpty(from)
+                || ObjectUtils.isNullOrEmpty(to)) {
+            return false;
+        }
+        LocalTime now = now().toLocalTime();
+        return from.isBefore(now) && to.isAfter(now);
+    }
+
+    public static boolean between(LocalDateTime target, LocalDateTime from, LocalDateTime to) {
+        if (ObjectUtils.isNullOrEmpty(target)
+                || ObjectUtils.isNullOrEmpty(from)
+                || ObjectUtils.isNullOrEmpty(to)) {
             return false;
         }
 
-        LocalDateTime now = now();
-        return start.isBefore(now) && end.isAfter(now);
+        return from.isBefore(target) && to.isAfter(target);
+    }
+
+    public static boolean between(LocalTime target, LocalTime from, LocalTime to) {
+        if (ObjectUtils.isNullOrEmpty(target)
+                || ObjectUtils.isNullOrEmpty(from)
+                || ObjectUtils.isNullOrEmpty(to)) {
+            return false;
+        }
+
+        return from.isBefore(target) && to.isAfter(target);
     }
 
     // ------------------------------------------------------------------------- dayStart
@@ -257,12 +291,12 @@ public final class DateUtils {
         return dayStart(now());
     }
 
-    public static LocalDateTime dayStart(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime dayStart(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        return LocalDateTime.of(dateTime.toLocalDate(), LocalTime.MIN);
+        return LocalDateTime.of(target.toLocalDate(), LocalTime.MIN);
     }
 
     // ------------------------------------------------------------------------- dayEnd
@@ -271,12 +305,12 @@ public final class DateUtils {
         return dayEnd(now());
     }
 
-    public static LocalDateTime dayEnd(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime dayEnd(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        return LocalDateTime.of(dateTime.toLocalDate(), LocalTime.MAX);
+        return LocalDateTime.of(target.toLocalDate(), LocalTime.MAX);
     }
 
     // ------------------------------------------------------------------------- weekStart
@@ -285,13 +319,13 @@ public final class DateUtils {
         return weekStart(now());
     }
 
-    public static LocalDateTime weekStart(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime weekStart(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
         TemporalField week = WeekFields.of(Locale.CHINA).dayOfWeek();
-        ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(week, 2);
+        ZonedDateTime zdt = target.atZone(ZoneId.systemDefault()).with(week, 2);
         return dayStart(zdt.toLocalDateTime());
     }
 
@@ -301,13 +335,13 @@ public final class DateUtils {
         return weekEnd(now());
     }
 
-    public static LocalDateTime weekEnd(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime weekEnd(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
         TemporalField week = WeekFields.of(Locale.CHINA).dayOfWeek();
-        ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(week, 7);
+        ZonedDateTime zdt = target.atZone(ZoneId.systemDefault()).with(week, 7);
         return dayEnd(zdt.toLocalDateTime().plusDays(1));
     }
 
@@ -317,12 +351,12 @@ public final class DateUtils {
         return monthStart(now());
     }
 
-    public static LocalDateTime monthStart(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime monthStart(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.firstDayOfMonth());
+        ZonedDateTime zdt = target.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.firstDayOfMonth());
         return dayStart(zdt.toLocalDateTime());
     }
 
@@ -332,12 +366,12 @@ public final class DateUtils {
         return monthEnd(now());
     }
 
-    public static LocalDateTime monthEnd(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime monthEnd(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.lastDayOfMonth());
+        ZonedDateTime zdt = target.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.lastDayOfMonth());
         return dayEnd(zdt.toLocalDateTime());
     }
 
@@ -347,12 +381,12 @@ public final class DateUtils {
         return yearStart(now());
     }
 
-    public static LocalDateTime yearStart(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime yearStart(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.firstDayOfYear());
+        ZonedDateTime zdt = target.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.firstDayOfYear());
         return dayStart(zdt.toLocalDateTime());
     }
 
@@ -362,12 +396,23 @@ public final class DateUtils {
         return yearEnd(now());
     }
 
-    public static LocalDateTime yearEnd(LocalDateTime dateTime) {
-        if (ObjectUtils.isNullOrEmpty(dateTime)) {
+    public static LocalDateTime yearEnd(LocalDateTime target) {
+        if (ObjectUtils.isNullOrEmpty(target)) {
             return null;
         }
 
-        ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.lastDayOfYear());
+        ZonedDateTime zdt = target.atZone(ZoneId.systemDefault()).with(TemporalAdjusters.lastDayOfYear());
         return dayEnd(zdt.toLocalDateTime());
+    }
+
+    public static int lengthOfMonth(LocalDateTime now) {
+        int month = now.getMonthValue();
+        int year = now.getYear();
+        return YearMonth.of(year, month).lengthOfMonth();
+    }
+
+    public static int lengthOfMonth(long ts) {
+        LocalDateTime now = toLocalDateTime(ts);
+        return lengthOfMonth(now);
     }
 }
