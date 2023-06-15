@@ -15,6 +15,7 @@
  */
 package com.photowey.component.common.enums;
 
+import com.photowey.component.common.constant.PopupConstants;
 import com.photowey.component.common.date.DateUtils;
 
 /**
@@ -50,14 +51,14 @@ public enum SystemClock {
         ;
 
         public static long now() {
-            return System.currentTimeMillis() / CommonConstants.MILLIS_UNIT * CommonConstants.MILLIS_UNIT;
+            return System.currentTimeMillis() / PopupConstants.MILLIS_UNIT * PopupConstants.MILLIS_UNIT;
         }
 
         public static java.time.LocalDateTime transfer(Long ts) {
             if (null == ts || 0L == ts) {
                 return null;
             }
-            if (String.valueOf(ts).length() < CommonConstants.TIME_STAMP_LENGTH) {
+            if (String.valueOf(ts).length() < PopupConstants.TIME_STAMP_LENGTH) {
                 return transferShort(ts);
             }
 
@@ -68,11 +69,11 @@ public enum SystemClock {
             if (null == ts || 0L == ts) {
                 return null;
             }
-            if (String.valueOf(ts).length() >= CommonConstants.TIME_STAMP_LENGTH) {
+            if (String.valueOf(ts).length() >= PopupConstants.TIME_STAMP_LENGTH) {
                 return transfer(ts);
             }
 
-            return transfer(ts * CommonConstants.MILLIS_UNIT);
+            return transfer(ts * PopupConstants.MILLIS_UNIT);
         }
     }
 

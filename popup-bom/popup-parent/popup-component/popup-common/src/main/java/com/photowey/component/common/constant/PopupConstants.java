@@ -89,6 +89,7 @@ public interface PopupConstants {
     // --------------------------------------------------------- Long
 
     long MILLIS_UNIT = 1000L;
+    long TIME_STAMP_LENGTH = 13;
 
     // --------------------------------------------------------- List
 
