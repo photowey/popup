@@ -15,7 +15,6 @@
  */
 package com.photowey.component.common.enums;
 
-import com.photowey.component.common.constant.PopupConstants;
 import com.photowey.component.common.date.DateUtils;
 
 /**
@@ -29,16 +28,51 @@ public enum SystemClock {
 
     ;
 
+    public enum Strings {
+
+        ;
+
+        public static String now() {
+            return DateUtils.nowStr();
+        }
+
+        public static java.time.LocalDateTime transfer(String dateTime) {
+            return DateUtils.toLocalDateTime(dateTime);
+        }
+
+        public static java.time.LocalDateTime transfer(String dateTime, String pattern) {
+            return DateUtils.toLocalDateTime(dateTime, pattern);
+        }
+    }
+
     public enum Timestamp {
 
         ;
 
         public static long now() {
-            return System.currentTimeMillis() / PopupConstants.MILLIS_UNIT * PopupConstants.MILLIS_UNIT;
+            return System.currentTimeMillis() / CommonConstants.MILLIS_UNIT * CommonConstants.MILLIS_UNIT;
         }
 
         public static java.time.LocalDateTime transfer(Long ts) {
+            if (null == ts || 0L == ts) {
+                return null;
+            }
+            if (String.valueOf(ts).length() < CommonConstants.TIME_STAMP_LENGTH) {
+                return transferShort(ts);
+            }
+
             return DateUtils.toLocalDateTime(ts);
+        }
+
+        public static java.time.LocalDateTime transferShort(Long ts) {
+            if (null == ts || 0L == ts) {
+                return null;
+            }
+            if (String.valueOf(ts).length() >= CommonConstants.TIME_STAMP_LENGTH) {
+                return transfer(ts);
+            }
+
+            return transfer(ts * CommonConstants.MILLIS_UNIT);
         }
     }
 
@@ -52,6 +86,14 @@ public enum SystemClock {
 
         public static Long transfer(java.time.LocalDateTime time) {
             return DateUtils.toTimestamp(time);
+        }
+
+        public static String transfers(java.time.LocalDateTime time) {
+            return DateUtils.format(time);
+        }
+
+        public static String transfers(java.time.LocalDateTime time, String pattern) {
+            return DateUtils.format(time, pattern);
         }
     }
 }
