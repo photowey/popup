@@ -15,9 +15,8 @@
  */
 package com.photowey.component.common.converter.currency;
 
-import com.photowey.component.common.number.BigDecimalUtils;
-
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * {@code CurrencyConverter}
@@ -29,22 +28,46 @@ import java.math.BigDecimal;
 public interface CurrencyConverter {
 
     static BigDecimal toFen(BigDecimal cnyYuan) {
-        return BigDecimalUtils.toFen(cnyYuan);
+        if (cnyYuan == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return cnyYuan.movePointRight(2).setScale(0, RoundingMode.DOWN);
     }
 
     static Long toIntFen(BigDecimal cnyYuan) {
         if (cnyYuan == null) {
-            return null;
+            return 0L;
         }
 
-        return BigDecimalUtils.toFen(cnyYuan).longValue();
+        return toFen(toZero(cnyYuan)).longValue();
     }
 
     static BigDecimal toYuan(BigDecimal cnyFen) {
-        return BigDecimalUtils.toYuan(cnyFen);
+        if (cnyFen == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return toZero(cnyFen).movePointLeft(2).setScale(2, RoundingMode.HALF_UP);
     }
 
     static BigDecimal toYuan(Long cnyIntFen) {
-        return BigDecimalUtils.toYuan(BigDecimalUtils.newBigDecimal(cnyIntFen));
+        if (cnyIntFen == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return toYuan(toZero(cnyIntFen));
+    }
+
+    static BigDecimal toZero(Number amount) {
+        if (amount == null) {
+            return BigDecimal.ZERO;
+        }
+
+        if (amount instanceof BigDecimal) {
+            return (BigDecimal) amount;
+        }
+
+        return new BigDecimal(amount.toString());
     }
 }

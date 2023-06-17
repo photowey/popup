@@ -175,7 +175,7 @@ public final class BigDecimalUtils {
 
     public static BigDecimal toFen(BigDecimal yuan) {
         if (yuan == null) {
-            return null;
+            return BigDecimal.ZERO;
         }
 
         return toBigDecimal(yuan.multiply(new BigDecimal(HUNDRED_STRING)));
@@ -183,7 +183,7 @@ public final class BigDecimalUtils {
 
     public static BigDecimal toYuan(BigDecimal cent) {
         if (cent == null) {
-            return null;
+            return BigDecimal.ZERO;
         }
 
         return divide(cent, new BigDecimal(HUNDRED_STRING));
