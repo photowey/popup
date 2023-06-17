@@ -37,7 +37,7 @@ public class App {
 
     private static void headless() {
         // System.setProperty("jdk.tls.client.protocols", "TLSv1.2");
-        System.setProperty("java.awt.headless", "false");
+        System.setProperty("java.awt.headless", "true");
     }
 
     private static void runApp(String[] args) {
