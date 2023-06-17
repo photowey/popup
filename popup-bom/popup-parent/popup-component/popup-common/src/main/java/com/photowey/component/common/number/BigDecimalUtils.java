@@ -15,6 +15,7 @@
  */
 package com.photowey.component.common.number;
 
+import com.photowey.component.common.converter.currency.CurrencyConverter;
 import com.photowey.component.common.thrower.AssertionErrorThrower;
 import com.photowey.component.common.util.ObjectUtils;
 
@@ -178,15 +179,15 @@ public final class BigDecimalUtils {
             return BigDecimal.ZERO;
         }
 
-        return toBigDecimal(yuan.multiply(new BigDecimal(HUNDRED_STRING)));
+        return toBigDecimal(CurrencyConverter.toFen(yuan));
     }
 
-    public static BigDecimal toYuan(BigDecimal cent) {
-        if (cent == null) {
+    public static BigDecimal toYuan(BigDecimal fen) {
+        if (fen == null) {
             return BigDecimal.ZERO;
         }
 
-        return divide(cent, new BigDecimal(HUNDRED_STRING));
+        return CurrencyConverter.toYuan(fen);
     }
 
     // ------------------------------------------------------------------------- exception

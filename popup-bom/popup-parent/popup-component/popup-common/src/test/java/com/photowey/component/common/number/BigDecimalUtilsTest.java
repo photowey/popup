@@ -85,30 +85,30 @@ class BigDecimalUtilsTest {
 
     @Test
     void testToYuan() {
-        BigDecimal cent = new BigDecimal("1000.1234");
-        BigDecimal yuan = BigDecimalUtils.toYuan(cent);
+        BigDecimal fen = new BigDecimal("1000.1234");
+        BigDecimal yuan = BigDecimalUtils.toYuan(fen);
 
         Assertions.assertEquals(new BigDecimal("10.00"), yuan);
 
-        cent = new BigDecimal("900.1254");
-        yuan = BigDecimalUtils.toYuan(cent);
+        fen = new BigDecimal("900.1254");
+        yuan = BigDecimalUtils.toYuan(fen);
         Assertions.assertEquals(new BigDecimal("9.00"), yuan);
 
-        cent = new BigDecimal("900.5254");
-        yuan = BigDecimalUtils.toYuan(cent);
+        fen = new BigDecimal("900.5254");
+        yuan = BigDecimalUtils.toYuan(fen);
         Assertions.assertEquals(new BigDecimal("9.01"), yuan);
     }
 
     @Test
     void testToCent() {
         BigDecimal yuan = new BigDecimal("1000.1234");
-        BigDecimal cent = BigDecimalUtils.toFen(yuan);
+        BigDecimal fen = BigDecimalUtils.toFen(yuan);
 
-        Assertions.assertEquals(new BigDecimal("100012.34"), cent);
+        Assertions.assertEquals(new BigDecimal("100012.00"), fen);
 
         yuan = new BigDecimal("1000.123451");
-        cent = BigDecimalUtils.toFen(yuan);
+        fen = BigDecimalUtils.toFen(yuan);
 
-        Assertions.assertEquals(new BigDecimal("100012.35"), cent);
+        Assertions.assertEquals(new BigDecimal("100012.00"), fen);
     }
 }
