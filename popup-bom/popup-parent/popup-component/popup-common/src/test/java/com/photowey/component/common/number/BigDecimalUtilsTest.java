@@ -104,11 +104,11 @@ class BigDecimalUtilsTest {
         BigDecimal yuan = new BigDecimal("1000.1234");
         BigDecimal fen = BigDecimalUtils.toFen(yuan);
 
-        Assertions.assertEquals(new BigDecimal("100012.00"), fen);
+        Assertions.assertEquals(new BigDecimal("100012"), fen);
 
         yuan = new BigDecimal("1000.123451");
         fen = BigDecimalUtils.toFen(yuan);
 
-        Assertions.assertEquals(new BigDecimal("100012.00"), fen);
+        Assertions.assertEquals(new BigDecimal("100012"), fen);
     }
 }

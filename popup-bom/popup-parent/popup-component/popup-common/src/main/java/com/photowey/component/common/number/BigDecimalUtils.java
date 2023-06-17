@@ -179,7 +179,7 @@ public final class BigDecimalUtils {
             return BigDecimal.ZERO;
         }
 
-        return toBigDecimal(CurrencyConverter.toFen(yuan));
+        return CurrencyConverter.toFen(yuan);
     }
 
     public static BigDecimal toYuan(BigDecimal fen) {
