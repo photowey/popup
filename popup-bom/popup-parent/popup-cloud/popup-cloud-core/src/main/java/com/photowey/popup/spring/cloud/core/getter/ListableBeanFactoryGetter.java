@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.spring.cloud.core.engine;
+package com.photowey.popup.spring.cloud.core.getter;
 
-import com.photowey.popup.spring.cloud.core.getter.ApplicationContextGetter;
-import com.photowey.popup.spring.cloud.core.getter.EnvironmentGetter;
-import com.photowey.popup.spring.cloud.core.getter.ListableBeanFactoryGetter;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.EnvironmentAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 
 /**
- * {@code Engine}
+ * {@code ListableBeanFactoryGetter}
  *
  * @author photowey
- * @date 2023/05/06
+ * @date 2023/06/18
  * @since 1.0.0
  */
-public interface Engine extends BeanFactoryAware, ApplicationContextAware, EnvironmentAware,
-        ListableBeanFactoryGetter, ApplicationContextGetter, EnvironmentGetter {
+public interface ListableBeanFactoryGetter {
 
+    ListableBeanFactory beanFactory();
 }
