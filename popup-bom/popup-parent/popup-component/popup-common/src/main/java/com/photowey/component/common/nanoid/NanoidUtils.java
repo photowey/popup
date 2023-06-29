@@ -37,8 +37,12 @@ public final class NanoidUtils {
 
     public static final String ALPHABET_NUMBER_STRING = "123456789";
     public static final String ALPHABET_NUMBER_WITH_ZERO_STRING = "0" + ALPHABET_NUMBER_STRING;
+    public static final String NORMAL_ALPHABET_STRING = "0123456789abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXY";
+
     public static final char[] ALPHABET_NUMBER = ALPHABET_NUMBER_STRING.toCharArray();
     public static final char[] ALPHABET_NUMBER_WITH_ZERO = ALPHABET_NUMBER_WITH_ZERO_STRING.toCharArray();
+
+    public static final char[] NORMAL_ALPHABET = NORMAL_ALPHABET_STRING.toCharArray();
 
     public static final SecureRandom DEFAULT_NUMBER_GENERATOR = new SecureRandom();
     public static final int DEFAULT_PASSWORD_SIZE = 16;
@@ -62,7 +66,7 @@ public final class NanoidUtils {
         return randomNanoId(DEFAULT_NUMBER_GENERATOR, alphabet, size);
     }
 
-// ----------------------------------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------
 
     public static String randomLowerNanoId() {
         return randomNanoId(DEFAULT_NUMBER_GENERATOR, NANOID_LOWER_ALPHABET, NanoIdUtils.DEFAULT_SIZE);
@@ -76,7 +80,17 @@ public final class NanoidUtils {
         return randomNanoId(DEFAULT_NUMBER_GENERATOR, alphabet, size);
     }
 
-// ----------------------------------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------
+
+    public static String randomNormalNanoId(Integer size) {
+        return NanoidUtils.randomNanoId(NanoidUtils.NORMAL_ALPHABET, size);
+    }
+
+    public static String randomShuffleNormalNanoId(Integer size) {
+        return NanoidUtils.randomNanoId(shuffleChars(NanoidUtils.NORMAL_ALPHABET_STRING), size);
+    }
+
+    // ----------------------------------------------------------------------------------------------------------------
 
     public static String randomNumberNanoId() {
         return randomNanoId(DEFAULT_NUMBER_GENERATOR, NANOID_NUMBER_ALPHABET, NanoIdUtils.DEFAULT_SIZE);
@@ -104,5 +118,27 @@ public final class NanoidUtils {
 
     public static String randomPassword(int size) {
         return randomNanoId(DEFAULT_NUMBER_GENERATOR, PASSWORD_ALPHABET, size);
+    }
+
+    public static String shuffle(String alphabet) {
+        char[] arr = shuffleChars(alphabet);
+        return String.valueOf(arr);
+    }
+
+    public static char[] shuffleChars(String alphabet) {
+        char[] ctx = alphabet.toCharArray();
+        SecureRandom random = new SecureRandom();
+
+        char tmp;
+        int j;
+
+        for (int i = ctx.length; i > 1; i--) {
+            j = random.nextInt(i);
+            tmp = ctx[i - 1];
+            ctx[i - 1] = ctx[j];
+            ctx[j] = tmp;
+        }
+
+        return ctx;
     }
 }
