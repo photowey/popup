@@ -26,6 +26,7 @@ public interface DatePatternConstants {
 
     String yyyy_MM_dd = "yyyy-MM-dd ";
     String HH_mm_ss = "HH:mm:ss";
+
     String yyyyMMdd = "yyyyMMdd";
     String yyyyMM = "yyyyMM";
     String yyMM = "yyMM";
@@ -35,6 +36,8 @@ public interface DatePatternConstants {
     String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
     String yyyy_MM_dd_HH_mm_ss_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
 
+    String MMddHHmmss = "MMddHHmmss";
+    String yyMMddHHmmss = "yyMMddHHmmss";
     String yyyyMMddHHmmss = "yyyyMMddHHmmss";
     String yyyyMMddHHmmssSSS = "yyyyMMddHHmmssSSS";
     String yyyy_MM_dd_T_HH_mm_ss_Z = "yyyy-MM-dd'T'HH:mm:ss'Z'";
