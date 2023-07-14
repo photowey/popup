@@ -110,14 +110,48 @@ public final class ObjectUtils {
     // -------------------------------------------------------------------------
 
     public static <T> void callbackEmpty(T target, Consumer<T> fx) {
-        if (isNullOrEmpty(target)) {
+        callbackTrue(isNullOrEmpty(target), target, fx);
+    }
+
+    public static <T> void callbackNotEmpty(T target, Consumer<T> fx) {
+        callbackTrue(isNotNullOrEmpty(target), target, fx);
+    }
+
+    public static <T> void callbackTrue(boolean expression, T target, Consumer<T> fx) {
+        if (expression) {
             fx.accept(target);
         }
     }
 
-    public static <T> void callbackNotEmpty(T target, Consumer<T> fx) {
-        if (isNotNullOrEmpty(target)) {
-            fx.accept(target);
+    public static <T> void callbackFalse(boolean expression, T target, Consumer<T> fx) {
+        callbackTrue(!expression, target, fx);
+    }
+
+    public static <T> void callbackEquals(T v1, T v2, Consumer<T> fx) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && v2.equals(v1)) {
+            fx.accept(v2);
+        }
+    }
+
+    public static <T> void callbackNotEquals(T v1, T v2, Consumer<T> fx) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && !v2.equals(v1)) {
+            fx.accept(v2);
+        }
+    }
+
+    public static <T> void callbackEquals(T v1, T v2, Consumer<T> fx, Runnable callback) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && v2.equals(v1)) {
+            fx.accept(v2);
+        } else {
+            callback.run();
+        }
+    }
+
+    public static <T> void callbackNotEquals(T v1, T v2, Consumer<T> fx, Runnable callback) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && !v2.equals(v1)) {
+            fx.accept(v2);
+        } else {
+            callback.run();
         }
     }
 
