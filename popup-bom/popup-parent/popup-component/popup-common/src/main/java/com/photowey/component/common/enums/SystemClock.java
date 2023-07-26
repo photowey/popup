@@ -82,7 +82,7 @@ public enum SystemClock {
         ;
 
         public static java.time.LocalDateTime now() {
-            return LocalDateTime.now();
+            return java.time.LocalDateTime.now();
         }
 
         public static Long transfer(java.time.LocalDateTime time) {
