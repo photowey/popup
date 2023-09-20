@@ -19,6 +19,8 @@
         <module>popup-starter-cache-redis</module>
         <module>popup-starter-elasticsearch</module>
         <module>popup-starter-logging</module>
+        <module>popup-starter-message</module>
+        <module>popup-starter-message-rabbitmq</module>
         <module>popup-starter-mongo</module>
         <module>popup-starter-reader</module>
         <module>popup-starter-validator</module>
