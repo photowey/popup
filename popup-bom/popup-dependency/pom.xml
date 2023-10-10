@@ -423,6 +423,30 @@
                 <version>${popup.version}</version>
             </dependency>
 
+            <!-- *************************************************************** starter.message -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-autoconfigure</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-handler</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-starter</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+
             <!-- *************************************************************** core -->
 
             <dependency>
