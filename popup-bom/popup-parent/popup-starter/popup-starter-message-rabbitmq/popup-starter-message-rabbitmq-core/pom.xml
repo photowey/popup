@@ -13,6 +13,10 @@
     <artifactId>popup-starter-message-rabbitmq-core</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>popup-starter-message-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
