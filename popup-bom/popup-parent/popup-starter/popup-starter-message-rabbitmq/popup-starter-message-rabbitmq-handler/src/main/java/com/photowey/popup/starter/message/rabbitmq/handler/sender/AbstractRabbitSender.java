@@ -13,21 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.message.rabbitmq.handler;
+package com.photowey.popup.starter.message.rabbitmq.handler.sender;
 
 import com.photowey.popup.starter.message.handler.sender.MessageSender;
+import com.photowey.popup.starter.message.handler.sender.MessageSenderManager;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * {@code RabbitMessageSender}
+ * {@code AbstractRabbitSender}
  *
  * @author photowey
- * @date 2023/10/21
+ * @date 2023/10/25
  * @since 1.0.0
  */
-public interface RabbitMessageSender extends MessageSender, RabbitSender {
+public abstract class AbstractRabbitSender implements SmartInitializingSingleton, MessageSender {
+
+    @Autowired
+    protected RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    protected MessageSenderManager senderManager;
 
     @Override
-    default int getOrder() {
-        return 0;
+    public void afterSingletonsInstantiated() {
+        this.senderManager.register(this);
     }
 }

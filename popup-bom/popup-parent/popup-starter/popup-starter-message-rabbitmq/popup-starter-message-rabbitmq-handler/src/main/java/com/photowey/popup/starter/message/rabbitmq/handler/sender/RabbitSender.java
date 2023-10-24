@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.message.rabbitmq.handler;
+package com.photowey.popup.starter.message.rabbitmq.handler.sender;
 
 import com.photowey.component.common.formatter.StringFormatter;
 import com.photowey.component.common.nanoid.NanoidUtils;
