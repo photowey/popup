@@ -17,8 +17,11 @@ package com.photowey.popup.starter.autoconfigure.config;
 
 import com.photowey.popup.spring.cloud.core.config.serializer.LocalDateTimeTimeStampFormatterConfigurer;
 import com.photowey.popup.spring.cloud.core.config.trimmer.SpaceTrimmerConfigure;
+import com.photowey.popup.spring.cloud.core.converter.json.DefaultJacksonJsonConverter;
+import com.photowey.popup.spring.cloud.core.converter.json.JsonConverter;
 import com.photowey.popup.starter.autoconfigure.cleaner.ResourceCleaner;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
@@ -41,4 +44,9 @@ public class PopupAutoConfigure {
         return new ResourceCleaner();
     }
 
+    @Bean
+    @ConditionalOnMissingBean(JsonConverter.class)
+    public JsonConverter json() {
+        return new DefaultJacksonJsonConverter();
+    }
 }
