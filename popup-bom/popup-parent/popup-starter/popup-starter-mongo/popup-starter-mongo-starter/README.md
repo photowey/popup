@@ -1,3 +1,3 @@
 # `popup-starter-mongo-starter`
 
-> `Popup` mongodb starter starter module
+> `Popup` mongodb starter autoconfigure starter module

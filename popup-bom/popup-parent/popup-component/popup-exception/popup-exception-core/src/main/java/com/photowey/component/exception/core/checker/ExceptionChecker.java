@@ -24,4 +24,8 @@ package com.photowey.component.exception.core.checker;
  */
 public interface ExceptionChecker extends Checker {
 
+    default Class<?> primaryThrowable() {
+        return RuntimeException.class;
+    }
+
 }

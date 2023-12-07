@@ -1,0 +1,89 @@
+/*
+ * Copyright © 2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.photowey.popup.starter.message.handler.sender.impl;
+
+import com.photowey.popup.starter.message.core.exception.MessageSenderNotFoundException;
+import com.photowey.popup.starter.message.handler.sender.DelayedMessageSender;
+import com.photowey.popup.starter.message.handler.sender.DelayedSenderManager;
+import com.photowey.popup.starter.message.handler.sender.MessageSender;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * {@code AbstractDelayedSenderManager}
+ *
+ * @author photowey
+ * @date 2023/10/06
+ * @since 1.0.0
+ */
+public abstract class AbstractDelayedSenderManager extends AbstractNormalSenderManager implements DelayedSenderManager {
+
+    protected final ConcurrentHashMap<String, DelayedMessageSender> delayedSenders = new ConcurrentHashMap<>();
+
+    protected final Lock delayedLock = new ReentrantLock();
+
+    /**
+     * Register delayed {@link MessageSender}
+     * <pre>
+     * |- RabbitMQ
+     * |- |- rabbit -> {@code RabbitDelayedMessageSender}
+     * |- |- kafka -> {@code KafkaDelayedMessageSender}
+     * |- |- rocket -> {@code RocketDelayedMessageSender}
+     * |- ...
+     * </pre>
+     *
+     * @param sender {@link DelayedMessageSender}
+     */
+    @Override
+    public <T extends DelayedMessageSender> void delayedRegister(T sender) {
+        delayedLock.lock();
+        try {
+            this.delayedSenders.computeIfAbsent(sender.name(), (x) -> sender);
+        } finally {
+            delayedLock.unlock();
+        }
+    }
+
+    @Override
+    public DelayedMessageSender delayedAcquire(String sender) {
+        if (this.delayedSenders.containsKey(sender)) {
+            return this.delayedSenders.get(sender);
+        }
+
+        throw new MessageSenderNotFoundException("Delayed MessageSender({}) not found.", sender);
+    }
+
+    @Override
+    public DelayedMessageSender tryDelayedAcquire(String sender) {
+        return this.delayedSenders.get(sender);
+    }
+
+    @Override
+    public List<String> delayedCandidates() {
+        return new ArrayList<>(this.delayedSenders.keySet());
+    }
+
+    @Override
+    public List<DelayedMessageSender> delayedSenders() {
+        Collection<DelayedMessageSender> values = this.delayedSenders.values();
+        return List.copyOf(values);
+    }
+}

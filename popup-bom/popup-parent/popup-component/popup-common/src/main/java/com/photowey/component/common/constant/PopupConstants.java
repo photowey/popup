@@ -15,6 +15,9 @@
  */
 package com.photowey.component.common.constant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * {@code PopupConstants}
  *
@@ -60,6 +63,7 @@ public interface PopupConstants {
     // ------------------------------------------------------------------------- SQL
 
     String LIMIT_1 = "LIMIT 1";
+    String LIMIT_2 = "LIMIT 2";
 
     // --------------------------------------------------------- Pattern
 
@@ -79,7 +83,25 @@ public interface PopupConstants {
     String DOLLAR_SEPARATOR = "$";
     String COMMA_SEPARATOR = ",";
 
-    // ------------------------------------------------------------------------- Boolean
+    // --------------------------------------------------------- Secret
+
+    String SENSITIVE_FIELD = "****************";
+
+    // --------------------------------------------------------- Long
+
+    long MILLIS_UNIT = 1000L;
+    long TIME_STAMP_LENGTH = 13;
+
+    // --------------------------------------------------------- Day
+
+    int MAX_DAY_OF_MONTH = 31;
+    int MIN_DAY_OF_MONTH = 28;
+
+    // --------------------------------------------------------- List
+
+    static <T> List<T> emptyList() {
+        return new ArrayList<>(0);
+    }
 
     /**
      * {@code API} response status

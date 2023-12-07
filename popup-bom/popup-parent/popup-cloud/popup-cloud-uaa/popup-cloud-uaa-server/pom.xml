@@ -12,6 +12,16 @@
 
     <artifactId>popup-cloud-uaa-server</artifactId>
 
+    <properties>
+        <!--
+            skip deploy/install for popup-test-queue-delayed web module
+            https://maven.apache.org/plugins/maven-deploy-plugin/deploy-mojo.html#skip
+            https://maven.apache.org/plugins/maven-install-plugin/install-mojo.html#skip
+        -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.install.skip>true</maven.install.skip>
+    </properties>
+
     <dependencies>
     </dependencies>
 

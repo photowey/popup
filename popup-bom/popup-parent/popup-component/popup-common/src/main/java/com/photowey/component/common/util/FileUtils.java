@@ -15,6 +15,8 @@
  */
 package com.photowey.component.common.util;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
+
 import java.nio.charset.StandardCharsets;
 import java.util.function.Predicate;
 
@@ -29,7 +31,7 @@ public final class FileUtils {
 
     private FileUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(FileUtils.class);
     }
 
     public static void write(final String file, final String data) {

@@ -109,29 +109,39 @@
 
       - > `components`:
 
-      - `Common`
-      
-      - `Core`
-      
+      - `common`
+
+      - `core`
+
+      - `crypto`
+
+      - `eventbus`
+
+      - `queue`
+
+      - `sync`
+
+      - `test`
+
       - `...`
     
     - `popup-starter`
 
       - > 各种 `starter`
 
-      - `Autoconfigure`
+      - `autoconfigure`
 
-      - `Redis`
+      - `redis`
 
-      - `MongoDB`
+      - `mongodb`
 
-      - `Elasticsearch`
+      - `elasticsearch`
 
-      - `Logging`
+      - `logging`
 
-      - `Classpath reader`
+      - `classpath reader`
 
-      - `Entity validator`
+      - `entity validator`
 
       - `...`
 

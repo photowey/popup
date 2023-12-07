@@ -15,7 +15,7 @@
  */
 package com.photowey.popup.spring.cloud.gateway.app.swagger;
 
-import com.photowey.component.common.util.StringFormatUtils;
+import com.photowey.component.common.formatter.StringFormatter;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
@@ -88,6 +88,6 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
             return location;
         }
 
-        return StringFormatUtils.format(API_GROUP_TEMPLATE, location, serviceId);
+        return StringFormatter.format(API_GROUP_TEMPLATE, location, serviceId);
     }
 }

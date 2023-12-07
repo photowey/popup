@@ -15,12 +15,14 @@
  */
 package com.photowey.component.common.util;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,15 +37,23 @@ public final class ObjectUtils {
 
     private ObjectUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(ObjectUtils.class);
     }
 
     public static <T> T defaultIfNull(T target, T defaultValue) {
         return defaultIfNullOrEmpty(target, defaultValue);
     }
 
+    public static <T> T defaultIfNull(T target, Supplier<T> fx) {
+        return defaultIfNullOrEmpty(target, fx);
+    }
+
     public static <T> T defaultIfNullOrEmpty(final T target, final T defaultValue) {
         return isNotNullOrEmpty(target) ? target : defaultValue;
+    }
+
+    public static <T> T defaultIfNullOrEmpty(final T target, Supplier<T> fx) {
+        return isNotNullOrEmpty(target) ? target : fx.get();
     }
 
     // -------------------------------------------------------------------------
@@ -100,14 +110,48 @@ public final class ObjectUtils {
     // -------------------------------------------------------------------------
 
     public static <T> void callbackEmpty(T target, Consumer<T> fx) {
-        if (isNullOrEmpty(target)) {
+        callbackTrue(isNullOrEmpty(target), target, fx);
+    }
+
+    public static <T> void callbackNotEmpty(T target, Consumer<T> fx) {
+        callbackTrue(isNotNullOrEmpty(target), target, fx);
+    }
+
+    public static <T> void callbackTrue(boolean expression, T target, Consumer<T> fx) {
+        if (expression) {
             fx.accept(target);
         }
     }
 
-    public static <T> void callbackNotEmpty(T target, Consumer<T> fx) {
-        if (isNotNullOrEmpty(target)) {
-            fx.accept(target);
+    public static <T> void callbackFalse(boolean expression, T target, Consumer<T> fx) {
+        callbackTrue(!expression, target, fx);
+    }
+
+    public static <T> void callbackEquals(T v1, T v2, Consumer<T> fx) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && v2.equals(v1)) {
+            fx.accept(v2);
+        }
+    }
+
+    public static <T> void callbackNotEquals(T v1, T v2, Consumer<T> fx) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && !v2.equals(v1)) {
+            fx.accept(v2);
+        }
+    }
+
+    public static <T> void callbackEquals(T v1, T v2, Consumer<T> fx, Runnable callback) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && v2.equals(v1)) {
+            fx.accept(v2);
+        } else {
+            callback.run();
+        }
+    }
+
+    public static <T> void callbackNotEquals(T v1, T v2, Consumer<T> fx, Runnable callback) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && !v2.equals(v1)) {
+            fx.accept(v2);
+        } else {
+            callback.run();
         }
     }
 

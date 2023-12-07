@@ -124,7 +124,7 @@ public class PopupException extends RuntimeException {
         return message;
     }
 
-    public ResponseWrapper toExceptionWrapper() {
+    public ResponseWrapper toResponseWrapper() {
         return new ResponseWrapper(this.status, this.code, this.message);
     }
 }

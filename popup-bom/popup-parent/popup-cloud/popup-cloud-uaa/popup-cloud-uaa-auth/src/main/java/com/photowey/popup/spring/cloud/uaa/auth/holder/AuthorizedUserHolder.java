@@ -15,6 +15,7 @@
  */
 package com.photowey.popup.spring.cloud.uaa.auth.holder;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
 import com.photowey.component.common.util.ObjectUtils;
 import com.photowey.component.exception.core.enums.ResponseStatusEnum;
 import com.photowey.component.exception.core.model.PopupException;
@@ -35,7 +36,7 @@ public final class AuthorizedUserHolder {
 
     private AuthorizedUserHolder() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(AuthorizedUserHolder.class);
     }
 
     public static void set(LoginUser loginUser) {

@@ -110,39 +110,39 @@ English | [中文](./README_CN.md)
 
       - > `components`:
 
-      - `Common`
+      - `common`
 
-      - `Core`
+      - `core`
 
-      - `Crypto`
+      - `crypto`
 
-      - `Eventbus`
+      - `eventbus`
 
-      - `Queue`
+      - `queue`
 
-      - `Sync`
+      - `sync`
 
-      - `Test`
+      - `test`
 
       - `...`
 
     - `popup-starter`
 
-      - > 各种 `starter`
+      - > All `starter`
 
-      - `Autoconfigure`
+      - `autoconfigure`
 
-      - `Redis`
+      - `redis`
 
-      - `MongoDB`
+      - `mongodb`
 
-      - `Elasticsearch`
+      - `elasticsearch`
 
-      - `Logging`
+      - `logging`
 
-      - `Classpath reader`
+      - `classpath reader`
 
-      - `Entity validator`
+      - `entity validator`
 
       - `...`
 

@@ -15,6 +15,8 @@
  */
 package com.photowey.component.common.async;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
@@ -30,7 +32,7 @@ public final class FutureGetter {
 
     private FutureGetter() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(FutureGetter.class);
     }
 
     public static <T> T quietGet(Future<T> future) {

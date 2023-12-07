@@ -15,6 +15,8 @@
  */
 package com.photowey.component.common.util;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -30,22 +32,14 @@ public final class URLUtils {
 
     private URLUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(URLUtils.class);
     }
 
     public static String encode(String url) {
-        try {
-            return URLEncoder.encode(url, StandardCharsets.UTF_8.displayName());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return URLEncoder.encode(url, StandardCharsets.UTF_8);
     }
 
     public static String decode(String url) {
-        try {
-            return URLDecoder.decode(url, StandardCharsets.UTF_8.displayName());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return URLDecoder.decode(url, StandardCharsets.UTF_8);
     }
 }

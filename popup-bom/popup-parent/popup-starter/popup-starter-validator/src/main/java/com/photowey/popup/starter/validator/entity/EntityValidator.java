@@ -23,6 +23,7 @@ import org.springframework.util.ObjectUtils;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * {@code EntityValidator}
@@ -39,25 +40,54 @@ public class EntityValidator {
         this.validator = validator;
     }
 
+    @SuppressWarnings("unchecked")
     public <T> void validate(T t) {
         this.validates(t);
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> void validate(Consumer<String> fx, T t) {
+        this.validates(fx, t);
+    }
+
+    @SuppressWarnings("unchecked")
     public <T> void validates(T... ts) {
         this.validates(Arrays.asList(ts));
     }
 
-    public <T> void validates(Collection<T> ts, Class<?>... groups) {
+    @SuppressWarnings("unchecked")
+    public <T> void validates(Consumer<String> fx, T... ts) {
+        this.validates(fx, Arrays.asList(ts));
+    }
+
+    public <T> void validates(Collection<T> ts) {
+        this.validatez(ts);
+    }
+
+    public <T> void validates(Consumer<String> fx, Collection<T> ts) {
+        this.validatez(fx, ts);
+    }
+
+    public <T> void validatez(Collection<T> ts, Class<?>... groups) {
+        this.validatez(PopupExceptionChecker::throwUnchecked, ts, groups);
+    }
+
+    public <T> void validatez(Consumer<String> fx, Collection<T> ts, Class<?>... groups) {
         ts.forEach((t) -> {
             Set<ConstraintViolation<T>> violations = this.validator.validate(t, groups);
-            if (!ObjectUtils.isEmpty(violations)) {
-                StringBuilder buf = new StringBuilder();
+            StringBuilder buf = new StringBuilder();
+            if (isNotEmpty(violations)) {
                 violations.forEach(v -> {
                     buf.append(v.getMessage()).append(";");
                 });
 
-                PopupExceptionChecker.throwException(buf.toString().replaceAll(";*$", ""));
+                String message = buf.toString().replaceAll(";*$", "");
+                fx.accept(message);
             }
         });
+    }
+
+    private static <T> boolean isNotEmpty(Collection<T> ts) {
+        return !ObjectUtils.isEmpty(ts);
     }
 }

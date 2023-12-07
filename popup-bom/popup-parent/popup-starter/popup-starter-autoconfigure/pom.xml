@@ -35,5 +35,13 @@
             <artifactId>popup-starter-validator</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>popup-cloud-uaa-auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>popup-cloud-core</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -15,7 +15,7 @@
  */
 package com.photowey.popup.http.api.request;
 
-import com.photowey.component.common.util.StringFormatUtils;
+import com.photowey.component.common.formatter.StringFormatter;
 import com.photowey.popup.http.api.enums.HttpMethod;
 import com.photowey.popup.http.api.model.header.HttpHeaders;
 import com.photowey.popup.http.api.request.body.RequestBody;
@@ -128,7 +128,7 @@ public class HttpRequest implements Serializable {
                         this.body
                 );
             } catch (URISyntaxException e) {
-                throw new RuntimeException(StringFormatUtils.format("Convert url: [{}] to uri failed.", url), e);
+                throw new RuntimeException(StringFormatter.format("Convert url: [{}] to uri failed.", url), e);
             }
         }
     }

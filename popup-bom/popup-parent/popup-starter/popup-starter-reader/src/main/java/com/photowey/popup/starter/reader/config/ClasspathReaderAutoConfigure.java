@@ -15,7 +15,7 @@
  */
 package com.photowey.popup.starter.reader.config;
 
-import com.photowey.popup.starter.reader.classpath.ClasspathReader;
+import com.photowey.popup.starter.reader.resource.ResourceReader;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Bean;
 public class ClasspathReaderAutoConfigure {
 
     @Bean
-    public ClasspathReader classpathReader() {
-        return new ClasspathReader();
+    public ResourceReader resourceReader() {
+        return new ResourceReader();
     }
 }

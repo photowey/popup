@@ -39,9 +39,9 @@ public class PrepareAppBasedirApplicationListener extends AppStartingListener im
     public static final int DEFAULT_ORDER = Ordered.HIGHEST_PRECEDENCE;
     public static final String PROVIDER_HOME_KEY = "app.base";
     public static final String SLASH = "/";
-    public static final String CLASSPATH = "";
+    public static final String CLASSPATH_ROOT = "";
 
-    protected static AtomicBoolean started = new AtomicBoolean(false);
+    protected final AtomicBoolean started = new AtomicBoolean(false);
 
     private Environment environment;
 
@@ -52,17 +52,15 @@ public class PrepareAppBasedirApplicationListener extends AppStartingListener im
 
     @Override
     public void handleApplicationStartingEvent(ApplicationStartingEvent event) {
-        if (started.compareAndSet(false, true)) {
+        if (this.started.compareAndSet(false, true)) {
             this.tryInitAppHome();
         }
     }
 
     protected void tryInitAppHome() {
-        String path = this.getClass().getClassLoader().getResource(CLASSPATH).getPath();
-        try {
-            path = URLDecoder.decode(path, StandardCharsets.UTF_8.name());
-        } catch (Exception ignored) {
-        }
+        String path = this.getClass().getClassLoader().getResource(CLASSPATH_ROOT).getPath();
+        path = URLDecoder.decode(path, StandardCharsets.UTF_8);
+
         String[] supports = new String[]{
                 "(file:)?(.*/).*\\.jar!.*",
                 "(file:)?(.*/target/)test-classes.*",
@@ -75,6 +73,7 @@ public class PrepareAppBasedirApplicationListener extends AppStartingListener im
                 break;
             }
         }
+
         if (path.endsWith(SLASH)) {
             path = path.substring(0, path.length() - 1);
         }

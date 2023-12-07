@@ -15,7 +15,7 @@
  */
 package com.photowey.popup.http.api.constant;
 
-import com.photowey.component.common.util.StringFormatUtils;
+import com.photowey.component.common.formatter.StringFormatter;
 
 /**
  * {@code HttpConstants}
@@ -51,6 +51,6 @@ public interface HttpConstants {
     static String determineUserAgent() {
         String version = HttpConstants.determineJavaVersion();
 
-        return StringFormatUtils.format(HttpConstants.USER_AGENT_TEMPLATE, HttpConstants.OS, version);
+        return StringFormatter.format(HttpConstants.USER_AGENT_TEMPLATE, HttpConstants.OS, version);
     }
 }

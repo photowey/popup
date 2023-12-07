@@ -140,6 +140,29 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- *************************************************************** popup.cloud.uaa -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-uaa-auth</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-uaa-client</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-uaa-enum</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-cloud-uaa-protocol</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** component -->
 
             <dependency>
@@ -330,6 +353,26 @@
                 <version>${popup.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-elasticsearch-autoconfigure
+                </artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-elasticsearch-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-elasticsearch-starter</artifactId>
+                <type>pom</type>
+                <version>${popup.version}</version>
+            </dependency>
+
             <!-- *************************************************************** starter.logging -->
 
             <dependency>
@@ -378,6 +421,55 @@
                 <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-validator</artifactId>
                 <version>${popup.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** starter.message -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-autoconfigure</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-handler</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-starter</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <!-- *************************************************************** starter.message.rabbitmq -->
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-rabbitmq-autoconfigure
+                </artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-rabbitmq-core</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-rabbitmq-handler</artifactId>
+                <version>${popup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-message-rabbitmq-starter</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
             </dependency>
 
             <!-- *************************************************************** core -->
@@ -515,6 +607,14 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15on</artifactId>
                 <version>${bouncycastle-jdk15on.version}</version>
+            </dependency>
+
+            <!-- *************************************************************** geodesy -->
+
+            <dependency>
+                <groupId>org.gavaghan</groupId>
+                <artifactId>geodesy</artifactId>
+                <version>${geodesy.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

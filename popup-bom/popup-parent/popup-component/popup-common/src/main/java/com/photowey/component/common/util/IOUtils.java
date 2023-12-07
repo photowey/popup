@@ -16,6 +16,7 @@
 package com.photowey.component.common.util;
 
 import com.photowey.component.common.constant.PopupConstants;
+import com.photowey.component.common.thrower.AssertionErrorThrower;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -41,8 +42,8 @@ public final class IOUtils {
     public static final int DEFAULT_BUFFER_SIZE = 4 * 1024;
 
     private IOUtils() {
-        // utils class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        // utility class; can't create
+        AssertionErrorThrower.throwz(IOUtils.class);
     }
 
     public static byte[] toBytes(InputStream input) throws IOException {

@@ -11,6 +11,13 @@
     </parent>
 
     <artifactId>popup-starter-elasticsearch</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>popup-starter-elasticsearch-autoconfigure</module>
+        <module>popup-starter-elasticsearch-core</module>
+        <module>popup-starter-elasticsearch-starter</module>
+    </modules>
 
     <dependencies>
     </dependencies>

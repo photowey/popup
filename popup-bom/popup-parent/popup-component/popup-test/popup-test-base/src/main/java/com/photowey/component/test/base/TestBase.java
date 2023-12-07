@@ -18,6 +18,8 @@ package com.photowey.component.test.base;
 import com.alibaba.fastjson2.JSON;
 import com.photowey.component.common.constant.PopupConstants;
 import com.photowey.component.common.util.ObjectUtils;
+import com.photowey.component.test.base.query.DefaultQuery;
+import jakarta.servlet.Filter;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +28,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -56,6 +59,9 @@ public abstract class TestBase {
     @Autowired
     protected WebApplicationContext applicationContext;
 
+    @Autowired
+    private Filter springSecurityFilterChain;
+
     protected MockMvc mockMvc;
 
     @BeforeEach
@@ -70,7 +76,9 @@ public abstract class TestBase {
     }
 
     private void mockMvc() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.applicationContext)
+                .addFilter(this.springSecurityFilterChain)
+                .build();
     }
 
     private void mockUser() {
@@ -83,14 +91,16 @@ public abstract class TestBase {
         this.mockMvc.perform(MockMvcRequestBuilders.get(HEALTH_API))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
 
     }
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    protected <T> void doPostRequest(T payload, String route) throws Exception {
-        this.doPostRequest(payload, route, (actions) -> {
+    protected <T> String doPostRequest(T payload, String route) throws Exception {
+        return this.doPostRequest(payload, route, (actions) -> {
             try {
                 actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
             } catch (Exception e) {
@@ -99,40 +109,152 @@ public abstract class TestBase {
         });
     }
 
-    protected <T> void doPostRequest(T payload, String route, Consumer<ResultActions> fx) throws Exception {
-        String body = JSON.toJSONString(payload);
-
-        ResultActions actions = this.mockMvc.perform(MockMvcRequestBuilders.post(route).contentType(MediaType.APPLICATION_JSON_VALUE).content(body))
-                .andExpect(status().isOk());
-
-        fx.accept(actions);
-
-        actions.andDo(print())
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+    protected <T> String doPostRequestB(T payload, String route, Consumer<MockHttpServletRequestBuilder> fn) throws Exception {
+        return this.doPostRequest(payload, route, fn, (actions) -> {
+            try {
+                actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
-    protected <T> void doPutRequest(T payload, String route) throws Exception {
-        String body = JSON.toJSONString(payload);
+    protected <T> String doPostRequest(T payload, String route, Consumer<ResultActions> fx) throws Exception {
+        return this.doPostRequest(payload, route, (builder) -> {
+        }, fx);
+    }
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put(route).contentType(MediaType.APPLICATION_JSON_VALUE).content(body))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK))
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+    protected <T> String doPostRequest(
+            T payload,
+            String route,
+            Consumer<MockHttpServletRequestBuilder> fn,
+            Consumer<ResultActions> fx) throws Exception {
+
+        String body = JSON.toJSONString(payload);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post(route)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(body);
+        fn.accept(requestBuilder);
+
+        ResultActions actions = this.mockMvc.perform(requestBuilder).andExpect(status().isOk());
+        fx.accept(actions);
+
+        String content = actions.andDo(print())
+                .andReturn()
+                .getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+        return content;
+    }
+
+    protected <T> String doPutRequest(T payload, String route) throws Exception {
+        return this.doPutRequest(payload, route, (actions) -> {
+            try {
+                actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    protected <T> String doPutRequest(
+            T payload,
+            String route,
+            Consumer<ResultActions> fx) throws Exception {
+        return this.doPutRequest(payload, route, (builder) -> {
+        }, fx);
+    }
+
+    protected <T> String doPutRequestB(
+            T payload,
+            String route,
+            Consumer<MockHttpServletRequestBuilder> fn) throws Exception {
+        return this.doPutRequest(payload, route, fn, (actions) -> {
+            try {
+                actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    protected <T> String doPutRequest(
+            T payload,
+            String route,
+            Consumer<MockHttpServletRequestBuilder> fn,
+            Consumer<ResultActions> fx) throws Exception {
+
+        String body = JSON.toJSONString(payload);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .put(route)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(body);
+        fn.accept(requestBuilder);
+
+        ResultActions actions = this.mockMvc.perform(requestBuilder).andExpect(status().isOk());
+        fx.accept(actions);
+
+        String content = actions.andDo(print())
+                .andReturn()
+                .getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+        return content;
     }
 
     protected <T> void doDeleteRequest(T payload, String route) throws Exception {
-        String body = JSON.toJSONString(payload);
+        this.doDeleteRequest(payload, route, (actions) -> {
+            try {
+                actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
-        this.mockMvc.perform(MockMvcRequestBuilders.delete(route).contentType(MediaType.APPLICATION_JSON_VALUE).content(body))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK))
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+    protected <T> void doDeleteRequest(
+            T payload,
+            String route,
+            Consumer<ResultActions> fx) throws Exception {
+        this.doDeleteRequest(payload, route, (builder) -> {
+        }, fx);
+    }
+
+    protected <T> void doDeleteRequestB(
+            T payload,
+            String route,
+            Consumer<MockHttpServletRequestBuilder> fn) throws Exception {
+        this.doDeleteRequest(payload, route, fn, (actions) -> {
+            try {
+                actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    protected <T> void doDeleteRequest(
+            T payload,
+            String route,
+            Consumer<MockHttpServletRequestBuilder> fn,
+            Consumer<ResultActions> fx) throws Exception {
+
+        String body = JSON.toJSONString(payload);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete(route)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(body);
+        fn.accept(requestBuilder);
+
+        ResultActions actions = this.mockMvc.perform(requestBuilder).andExpect(status().isOk());
+        fx.accept(actions);
+
+        actions.andDo(print())
+                .andReturn()
+                .getResponse().getContentAsString(StandardCharsets.UTF_8);
+
     }
 
     protected void doDeleteRequest(String route) throws Exception {
-
         this.mockMvc.perform(MockMvcRequestBuilders.delete(route))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK))
@@ -140,15 +262,60 @@ public abstract class TestBase {
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
     }
 
-    protected void doGetResult(String route, Consumer<ResultActions> fx) throws Exception {
+    protected String doGetResult(String route) throws Exception {
+        return this.doGetResult(DefaultQuery.empty(), route, (b) -> {
+        }, (actions) -> {
+            try {
+                actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
-        ResultActions actions = this.mockMvc.perform(MockMvcRequestBuilders.get(route))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+    protected String doGetResult(String route, Consumer<ResultActions> fx) throws Exception {
+        return this.doGetResult(DefaultQuery.empty(), route, (b) -> {
+        }, fx);
+    }
+
+    protected String doGetResult(String route, Consumer<MockHttpServletRequestBuilder> fn, Consumer<ResultActions> fx) throws Exception {
+        return this.doGetResult(DefaultQuery.empty(), route, fn, fx);
+    }
+
+    protected String doGetResultB(String route, Consumer<MockHttpServletRequestBuilder> fn) throws Exception {
+        return this.doGetResult(DefaultQuery.empty(), route, fn, (actions) -> {
+            try {
+                actions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(PopupConstants.API_OK));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    protected <Q> String doGetResult(
+            Q query,
+            String route,
+            Consumer<MockHttpServletRequestBuilder> fn,
+            Consumer<ResultActions> fx) throws Exception {
+        MultiValueMap<String, String> params = this.getMultiValueMap(query);
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get(route)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+        if (ObjectUtils.isNotNullOrEmpty(params)) {
+            builder.queryParams(params);
+        }
+
+        fn.accept(builder);
+        ResultActions actions = this.mockMvc
+                .perform(builder)
+                .andExpect(MockMvcResultMatchers.status().isOk());
         fx.accept(actions);
 
-        actions.andDo(print())
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        String content = actions.andDo(print())
+                .andReturn()
+                .getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+        return content;
     }
 
     protected <Q> void doGetResult(Q query, String route, Consumer<ResultActions> fx) throws Exception {
@@ -161,11 +328,16 @@ public abstract class TestBase {
         fx.accept(actions);
 
         actions.andDo(print())
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+                .andReturn()
+                .getResponse().getContentAsString(StandardCharsets.UTF_8);
     }
 
     private <Q> MultiValueMap<String, String> getMultiValueMap(Q query) throws IllegalAccessException {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+
+        if (ObjectUtils.isNullOrEmpty(query) || query instanceof DefaultQuery) {
+            return params;
+        }
 
         Class<?> clazz = query.getClass();
         while (Object.class != clazz) {

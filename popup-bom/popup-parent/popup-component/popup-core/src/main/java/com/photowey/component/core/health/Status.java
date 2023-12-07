@@ -18,6 +18,7 @@ package com.photowey.component.core.health;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -31,6 +32,7 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("Service status-data.model")

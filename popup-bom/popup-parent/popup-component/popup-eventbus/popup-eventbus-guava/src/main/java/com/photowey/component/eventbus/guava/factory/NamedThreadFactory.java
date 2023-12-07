@@ -15,7 +15,7 @@
  */
 package com.photowey.component.eventbus.guava.factory;
 
-import com.photowey.component.common.shared.google.guava.concurrent.ThreadFactoryBuilder;
+import com.photowey.component.common.shared.google.com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import java.util.concurrent.ThreadFactory;
 

@@ -15,10 +15,14 @@
  */
 package com.photowey.component.common.util;
 
+import com.photowey.component.common.thrower.AssertionErrorThrower;
+
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,7 +37,7 @@ public final class LambdaUtils {
 
     private LambdaUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(LambdaUtils.class);
     }
 
     public static <T, D> List<D> toList(Collection<T> from, Function<T, D> mapper) {
@@ -43,12 +47,20 @@ public final class LambdaUtils {
                 .collect(Collectors.toList());
     }
 
+    public static <T, D> List<D> toUniqueList(Collection<T> from, Function<T, D> mapper) {
+        return new ArrayList<>(toSet(from, mapper));
+    }
+
     public static <T, D> List<D> toList(Collection<T> from, Predicate<T> predicate, Function<T, D> mapper) {
         return from.stream()
                 .filter(predicate)
                 .map(mapper)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
+
+    public static <T, D> List<D> toUniqueList(Collection<T> from, Predicate<T> predicate, Function<T, D> mapper) {
+        return new ArrayList<>(toSet(from, predicate, mapper));
     }
 
     public static <T, MIDDLE, D> List<D> toListm(Collection<T> from, Function<T, Stream<MIDDLE>> mapper, Function<MIDDLE, D> fx) {
@@ -131,6 +143,19 @@ public final class LambdaUtils {
                 .map(function)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    public static <T> Integer sumInt(Collection<T> from, ToIntFunction<T> function) {
+        return from.stream()
+                .mapToInt(function)
+                .sum();
+    }
+
+    public static <T> Long sumLong(Collection<T> from, ToLongFunction<T> function) {
+        return from.stream()
+                .mapToLong(function)
+                .sum();
+    }
+
 
     public static <T> long count(Collection<T> from, Predicate<T> predicate) {
         return from.stream().filter(predicate).count();
