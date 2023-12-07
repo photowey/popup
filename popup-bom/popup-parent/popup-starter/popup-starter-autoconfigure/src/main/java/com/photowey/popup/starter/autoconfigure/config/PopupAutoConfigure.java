@@ -19,10 +19,12 @@ import com.photowey.popup.spring.cloud.core.config.serializer.LocalDateTimeTimeS
 import com.photowey.popup.spring.cloud.core.config.trimmer.SpaceTrimmerConfigure;
 import com.photowey.popup.spring.cloud.core.converter.json.DefaultJacksonJsonConverter;
 import com.photowey.popup.spring.cloud.core.converter.json.JsonConverter;
+import com.photowey.popup.spring.cloud.core.injector.ApplicationContextInjector;
 import com.photowey.popup.starter.autoconfigure.cleaner.ResourceCleaner;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -36,12 +38,22 @@ import org.springframework.context.annotation.Import;
 @Import(value = {
         LocalDateTimeTimeStampFormatterConfigurer.class,
         SpaceTrimmerConfigure.class,
+        PopupAutoConfigure.InfrasConfigure.class,
 })
 public class PopupAutoConfigure {
 
-    @Bean
-    public ResourceCleaner resourceCleaner() {
-        return new ResourceCleaner();
+    @Configuration
+    class InfrasConfigure {
+
+        @Bean
+        public ResourceCleaner resourceCleaner() {
+            return new ResourceCleaner();
+        }
+
+        @Bean
+        public ApplicationContextInjector applicationContextInjector() {
+            return new ApplicationContextInjector();
+        }
     }
 
     @Bean

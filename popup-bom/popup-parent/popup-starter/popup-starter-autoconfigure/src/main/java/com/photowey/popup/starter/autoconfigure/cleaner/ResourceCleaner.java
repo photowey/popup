@@ -15,6 +15,7 @@
  */
 package com.photowey.popup.starter.autoconfigure.cleaner;
 
+import com.photowey.popup.spring.cloud.core.holder.ApplicationContextHolder;
 import com.photowey.popup.spring.cloud.uaa.auth.holder.AuthorizedUserHolder;
 import org.springframework.beans.factory.DisposableBean;
 
@@ -31,5 +32,6 @@ public class ResourceCleaner implements DisposableBean {
     public void destroy() throws Exception {
         AuthorizedUserHolder.clean();
         AuthorizedUserHolder.cleanJwt();
+        ApplicationContextHolder.clean();
     }
 }
