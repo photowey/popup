@@ -53,11 +53,11 @@ public final class PlaceholderResolver {
      * @return resolved value.
      */
     public static String resolve(String candidate, Map<String, Object> context) {
-        List<String> expressions = parseExpress(candidate);
+        List<String> expressions = expresssion(candidate);
         for (String expression : expressions) {
             String target = eval(expression, context);
             if (isNotBlank(target)) {
-                candidate = resolve(candidate, expression, target);
+                candidate = parse(candidate, expression, target);
                 return resolve(candidate, context);
             }
         }
@@ -75,11 +75,11 @@ public final class PlaceholderResolver {
      * @return resolved value.
      */
     public static String $resolve(String candidate, Map<String, Object> context) {
-        List<String> expressions = parse$Express(candidate);
+        List<String> expressions = $expresssion(candidate);
         for (String expression : expressions) {
             String target = eval(expression, context);
             if (isNotBlank(target)) {
-                candidate = resolve(candidate, expression, target);
+                candidate = $parse(candidate, expression, target);
                 return $resolve(candidate, context);
             }
         }
@@ -89,7 +89,7 @@ public final class PlaceholderResolver {
 
     // ----------------------------------------------------------------
 
-    private static List<String> parseExpress(String candidate) {
+    private static List<String> expresssion(String candidate) {
         char[] chars = candidate.toCharArray();
         int startDeep = 0;
         int endDeep = 0;
@@ -140,7 +140,7 @@ public final class PlaceholderResolver {
         return keys;
     }
 
-    private static List<String> parse$Express(String candidate) {
+    private static List<String> $expresssion(String candidate) {
         char[] chars = candidate.toCharArray();
         int step = 0;
         StringBuilder buf = new StringBuilder();
@@ -205,12 +205,15 @@ public final class PlaceholderResolver {
 
     // ----------------------------------------------------------------
 
-    private static String resolve(String source, String expression, String target) {
+    private static String $parse(String source, String expression, String target) {
         return source.replaceAll("\\$\\{" + expression + "}", target);
+    }
+
+    private static String parse(String source, String expression, String target) {
+        return source.replaceAll("\\{\\{" + expression + "}}", target);
     }
 
     private static boolean isNotBlank(String source) {
         return null != source && source.trim().length() > 0;
     }
-
 }
