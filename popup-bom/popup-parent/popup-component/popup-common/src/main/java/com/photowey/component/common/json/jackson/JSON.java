@@ -25,11 +25,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.photowey.component.common.thrower.AssertionErrorThrower;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 /**
  * {@code JSON}
@@ -91,6 +93,24 @@ public final class JSON {
         }
     }
 
+    public static <T> T parseObject(byte[] json, Class<T> clazz) {
+        try {
+            ObjectMapper mapper = getObjectMapper();
+            return mapper.readValue(json, clazz);
+        } catch (Exception processingException) {
+            return throwUnchecked(processingException);
+        }
+    }
+
+    public static <T> T parseObject(InputStream json, Class<T> clazz) {
+        try {
+            ObjectMapper mapper = getObjectMapper();
+            return mapper.readValue(json, clazz);
+        } catch (Exception processingException) {
+            return throwUnchecked(processingException);
+        }
+    }
+
     public static <T> T parseObject(String json, TypeReference<T> typeRef) {
         try {
             ObjectMapper mapper = getObjectMapper();
@@ -98,6 +118,40 @@ public final class JSON {
         } catch (JsonProcessingException processingException) {
             return throwUnchecked(processingException);
         }
+    }
+
+    public static <T> T parseObject(byte[] json, TypeReference<T> typeRef) {
+        try {
+            ObjectMapper mapper = getObjectMapper();
+            return mapper.readValue(json, typeRef);
+        } catch (Exception processingException) {
+            return throwUnchecked(processingException);
+        }
+    }
+
+    public static <T> T parseObject(InputStream json, TypeReference<T> typeRef) {
+        try {
+            ObjectMapper mapper = getObjectMapper();
+            return mapper.readValue(json, typeRef);
+        } catch (Exception processingException) {
+            return throwUnchecked(processingException);
+        }
+    }
+
+    public static <T> List<T> parseArray(byte[] json) {
+        return parseObject(json, new TypeReference<List<T>>() {});
+    }
+
+    public static <T> List<T> parseArray(byte[] json, Class<T> clazz) {
+        return parseObject(json, new TypeReference<List<T>>() {});
+    }
+
+    public static <T> List<T> parseArray(InputStream json) {
+        return parseObject(json, new TypeReference<List<T>>() {});
+    }
+
+    public static <T> List<T> parseArray(InputStream json, Class<T> clazz) {
+        return parseObject(json, new TypeReference<List<T>>() {});
     }
 
     // ---------------------------------------------------------------- parse.array
@@ -147,20 +201,23 @@ public final class JSON {
     // ----------------------------------------------------------------
 
     public static <T> String toJSONString(T object) {
-        return toJSONString(object, PublicView.class);
-    }
-
-    public static <T> String toPrivateJSONString(T object) {
-        return toJSONString(object, PrivateView.class);
+        return toJSONString(object, Function.identity());
     }
 
     public static <T> String toJSONString(T object, Class<?> view) {
+        return toJSONString(object, (writer) -> {
+            if (view != null) {
+                return writer.withView(view);
+            }
+            return writer;
+        });
+    }
+
+    public static <T> String toJSONString(T object, Function<ObjectWriter, ObjectWriter> fx) {
         try {
             ObjectMapper mapper = getObjectMapper();
             ObjectWriter objectWriter = mapper.writerWithDefaultPrettyPrinter();
-            if (view != null) {
-                objectWriter = objectWriter.withView(view);
-            }
+            objectWriter = fx.apply(objectWriter);
             return objectWriter.writeValueAsString(object);
         } catch (IOException ioe) {
             return throwUnchecked(ioe, String.class);
@@ -168,8 +225,6 @@ public final class JSON {
     }
 
     public static ObjectMapper getObjectMapper() {
-        // 如果外部有注入: 共享的 ObjectMapper, 那么共享的优先
-        // 建议: 在 App 启动的时候直接注入 IOC 里面的 ObjectMapper 对象
         return sharedObjectMapper != null ? sharedObjectMapper : objectMapperHolder.get();
     }
 
