@@ -18,6 +18,7 @@ package com.photowey.popup.spring.cloud.core.converter.json;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -50,7 +51,35 @@ public interface JacksonJsonConverter extends JsonConverter {
     }
 
     @Override
+    default <T> T parseObject(byte[] body, Class<T> clazz) {
+        try {
+            return this.objectMapper().readValue(body, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    default <T> T parseObject(InputStream body, Class<T> clazz) {
+        try {
+            return this.objectMapper().readValue(body, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     default <T> List<T> parseArray(String body, Class<T> clazz) {
+        return this.parseObject(body, new TypeReference<List<T>>() {});
+    }
+
+    @Override
+    default <T> List<T> parseArray(byte[] body, Class<T> clazz) {
+        return this.parseObject(body, new TypeReference<List<T>>() {});
+    }
+
+    @Override
+    default <T> List<T> parseArray(InputStream body, Class<T> clazz) {
         return this.parseObject(body, new TypeReference<List<T>>() {});
     }
 
@@ -61,4 +90,21 @@ public interface JacksonJsonConverter extends JsonConverter {
             throw new RuntimeException(e);
         }
     }
+
+    default <T> T parseObject(byte[] body, TypeReference<T> clazz) {
+        try {
+            return this.objectMapper().readValue(body, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    default <T> T parseObject(InputStream body, TypeReference<T> clazz) {
+        try {
+            return this.objectMapper().readValue(body, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+

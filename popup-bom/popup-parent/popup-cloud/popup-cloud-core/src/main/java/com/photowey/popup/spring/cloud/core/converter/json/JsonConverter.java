@@ -15,6 +15,7 @@
  */
 package com.photowey.popup.spring.cloud.core.converter.json;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -30,6 +31,14 @@ public interface JsonConverter {
 
     <T> T parseObject(String body, Class<T> clazz);
 
+    <T> T parseObject(byte[] body, Class<T> clazz);
+
+    <T> T parseObject(InputStream body, Class<T> clazz);
+
     <T> List<T> parseArray(String body, Class<T> clazz);
+
+    <T> List<T> parseArray(byte[] body, Class<T> clazz);
+
+    <T> List<T> parseArray(InputStream body, Class<T> clazz);
 
 }
