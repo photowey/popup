@@ -27,15 +27,18 @@ import com.photowey.component.common.thrower.AssertionErrorThrower;
  */
 public final class ApiUtils {
 
+    private static final String PATH_SEPARATOR = "/";
+    private static final String TEMPLATE = "{}{}";
+
     private ApiUtils() {
         // utility class; can't create
         AssertionErrorThrower.throwz(ApiUtils.class);
     }
 
     public static String populateApi(String domain, String api) {
-        return StringFormatter.format("{}{}",
-                domain.endsWith("/") ? domain.substring(0, domain.length() - 1) : domain,
-                api.startsWith("/") ? api : "/" + api
+        return StringFormatter.format(TEMPLATE,
+                domain.endsWith(PATH_SEPARATOR) ? domain.substring(0, domain.length() - 1) : domain,
+                api.startsWith(PATH_SEPARATOR) ? api : PATH_SEPARATOR + api
         );
     }
 

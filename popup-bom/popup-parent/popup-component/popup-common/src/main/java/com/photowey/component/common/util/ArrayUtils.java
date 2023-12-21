@@ -17,9 +17,7 @@ package com.photowey.component.common.util;
 
 import com.photowey.component.common.thrower.AssertionErrorThrower;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -42,43 +40,31 @@ public final class ArrayUtils {
         if (ObjectUtils.isNullOrEmpty(src)) {
             return new String[0];
         }
-        if (src instanceof List) {
-            return src.toArray(new String[0]);
-        }
 
-        return new ArrayList<>(src).toArray(new String[0]);
+        return src.toArray(String[]::new);
     }
 
     public static Long[] toLongArray(Collection<Long> src) {
         if (ObjectUtils.isNullOrEmpty(src)) {
             return new Long[0];
         }
-        if (src instanceof List) {
-            return src.toArray(new Long[0]);
-        }
 
-        return new ArrayList<>(src).toArray(new Long[0]);
+        return src.toArray(Long[]::new);
     }
 
     public static Integer[] toIntArray(Collection<Integer> src) {
         if (ObjectUtils.isNullOrEmpty(src)) {
             return new Integer[0];
         }
-        if (src instanceof List) {
-            return src.toArray(new Integer[0]);
-        }
 
-        return new ArrayList<>(src).toArray(new Integer[0]);
+        return src.toArray(Integer[]::new);
     }
 
     public static <T> CompletableFuture<T>[] toCompletableFutureArray(Collection<CompletableFuture<T>> src) {
         if (ObjectUtils.isNullOrEmpty(src)) {
             return new CompletableFuture[0];
         }
-        if (src instanceof List) {
-            return src.toArray(new CompletableFuture[0]);
-        }
 
-        return new ArrayList<>(src).toArray(new CompletableFuture[0]);
+        return src.toArray(CompletableFuture[]::new);
     }
 }

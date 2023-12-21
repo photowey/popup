@@ -18,10 +18,7 @@ package com.photowey.component.common.util;
 import com.photowey.component.common.constant.PopupConstants;
 import com.photowey.component.common.thrower.AssertionErrorThrower;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
@@ -60,15 +57,20 @@ public final class IOUtils {
         return buf.toByteArray();
     }
 
-    public static String toStr(InputStream input) throws IOException {
+    public static InputStream toInputStream(byte[] input) {
+        return new ByteArrayInputStream(input);
+    }
+
+    public static String read(InputStream input) throws IOException {
         return new String(toBytes(input), StandardCharsets.UTF_8);
     }
 
-    public static String byPath(String path) throws IOException {
+    public static String fromPath(String path) throws IOException {
         try (InputStream input = Files.newInputStream(Paths.get(path))) {
-            return toStr(input);
+            return read(input);
         }
     }
+
     public static void write(final String file, boolean quiet, final byte[] data) {
         try (RandomAccessFile raf = new RandomAccessFile(file, "rw");
              FileChannel channel = raf.getChannel()) {
