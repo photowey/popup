@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.cache.template;
+package com.photowey.popup.starter.cache.redis.template;
+
+import com.photowey.popup.starter.cache.template.ICacheTemplate;
 
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiFunction;
 
 /**
  * {@code IRedisTemplate}
@@ -76,7 +79,15 @@ public interface IRedisTemplate extends ICacheTemplate {
 
     // ---------------------------------------------------------------- zset
 
+    boolean zsetExists(final String key, Object value);
+
+    void zsetTrim(final String key, final long max);
+
+    void zsetRemoveRange(final String key, final long start, final long end);
+
     void zsetAdd(final String key, Object value, Double score);
 
-    <T> List<T> rangeWithScores(final String key, Long start, Long end);
+    <T> List<T> rangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx);
+
+    <T> List<T> reverseRangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx);
 }

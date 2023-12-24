@@ -334,6 +334,13 @@
 
             <dependency>
                 <groupId>com.photowey</groupId>
+                <artifactId>popup-starter-cache-redis-dependency</artifactId>
+                <version>${popup.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
                 <artifactId>popup-starter-cache-redis-lock</artifactId>
                 <version>${popup.version}</version>
             </dependency>

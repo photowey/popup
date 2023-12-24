@@ -1,1 +1,2 @@
 com.photowey.popup.starter.cache.redis.config.PopupCacheRedisAutoConfigure
+com.photowey.popup.starter.cache.redis.config.PopupCacheRedisLockAutoConfigure

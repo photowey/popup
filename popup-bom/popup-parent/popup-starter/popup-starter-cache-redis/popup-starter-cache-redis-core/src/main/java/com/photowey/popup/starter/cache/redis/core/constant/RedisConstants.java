@@ -13,32 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.spring.cloud.core.converter.json;
-
-import java.io.InputStream;
-import java.util.List;
+package com.photowey.popup.starter.cache.redis.core.constant;
 
 /**
- * {@code JsonConverter}
+ * {@code RedisConstants}
  *
- * @author photowey
- * @date 2023/12/06
+ * @author weichangjun
+ * @date 2023/12/24
  * @since 1.0.0
  */
-public interface JsonConverter {
+public interface RedisConstants {
 
-    <P> String toJSONString(P payload);
+    String REDIS_REGISTRY_KEY = "github:popup:redis:lock";
 
-    <T> T parseObject(String body, Class<T> clazz);
+    String CUSTOM_REDIS_TEMPLATE_BEAN_NAME = "cst.redisTemplate";
 
-    <T> T parseObject(byte[] body, Class<T> clazz);
-
-    <T> T parseObject(InputStream body, Class<T> clazz);
-
-    <T> List<T> parseArray(String body, Class<T> clazz);
-
-    <T> List<T> parseArray(byte[] body, Class<T> clazz);
-
-    <T> List<T> parseArray(InputStream body, Class<T> clazz);
-
+    String REDIS_KEY_SERIALIZER_BEAN_NAME = "org.springframework.data.redis.serializer.RedisSerializer.key";
+    String REDIS_VALUE_SERIALIZER_BEAN_NAME = "org.springframework.data.redis.serializer.RedisSerializer.value";
 }

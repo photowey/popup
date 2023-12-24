@@ -50,15 +50,23 @@ public interface ICacheTemplate {
 
     String getString(final String key);
 
-    // ------------------------------------------------------------------------- incr
+    // ---------------------------------------------------------------- incr
 
     Long incr(String key);
 
     Long incr(String key, Long delta);
 
-    // ------------------------------------------------------------------------- decr
+    Long hashIncr(String key, String filed);
+
+    Long hashIncr(String key, String filed, Long delta);
+
+    // ---------------------------------------------------------------- decr
 
     Long decr(String key);
 
     Long decr(String key, Long delta);
+
+    Long hashDecr(String key, String filed);
+
+    Long hashDecr(String key, String filed, Long delta);
 }

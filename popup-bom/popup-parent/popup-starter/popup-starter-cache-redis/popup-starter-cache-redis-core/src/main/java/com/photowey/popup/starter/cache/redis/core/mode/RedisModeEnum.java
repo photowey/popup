@@ -30,5 +30,6 @@ public enum RedisModeEnum {
     STANDALONE,
     CLUSTER,
     SENTINEL,
+
     ;
 }

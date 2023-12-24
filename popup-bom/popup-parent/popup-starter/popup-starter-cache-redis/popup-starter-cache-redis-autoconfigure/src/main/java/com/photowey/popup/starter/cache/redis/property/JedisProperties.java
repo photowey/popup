@@ -13,32 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.spring.cloud.core.converter.json;
+package com.photowey.popup.starter.cache.redis.property;
 
-import java.io.InputStream;
-import java.util.List;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.io.Serializable;
 
 /**
- * {@code JsonConverter}
+ * {@code JedisProperties}
  *
  * @author photowey
- * @date 2023/12/06
+ * @date 2023/12/24
  * @since 1.0.0
  */
-public interface JsonConverter {
+@Data
+@ConfigurationProperties(prefix = "spring.redis.jedis.pool", ignoreUnknownFields = true)
+public class JedisProperties implements Serializable {
 
-    <P> String toJSONString(P payload);
+    private static final long serialVersionUID = 4515226416928528689L;
 
-    <T> T parseObject(String body, Class<T> clazz);
-
-    <T> T parseObject(byte[] body, Class<T> clazz);
-
-    <T> T parseObject(InputStream body, Class<T> clazz);
-
-    <T> List<T> parseArray(String body, Class<T> clazz);
-
-    <T> List<T> parseArray(byte[] body, Class<T> clazz);
-
-    <T> List<T> parseArray(InputStream body, Class<T> clazz);
-
+    private Integer maxTotal = 8;
+    private Integer maxIdle = 8;
+    private Long maxWait = -1L;
+    private Integer minIdle = 0;
 }

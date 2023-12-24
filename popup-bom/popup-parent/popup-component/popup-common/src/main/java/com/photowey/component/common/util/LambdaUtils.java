@@ -180,4 +180,5 @@ public final class LambdaUtils {
         return new ArrayList<>(candidates);
     }
 
+    public static <T> void nothing(T t) {}
 }
