@@ -16,6 +16,7 @@
     <modules>
         <module>popup-starter-cache-redis-autoconfigure</module>
         <module>popup-starter-cache-redis-core</module>
+        <module>popup-starter-cache-redis-dependency</module>
         <module>popup-starter-cache-redis-lock</module>
         <module>popup-starter-cache-redis-starter</module>
     </modules>

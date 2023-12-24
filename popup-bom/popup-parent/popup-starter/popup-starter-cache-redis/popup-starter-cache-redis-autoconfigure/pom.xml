@@ -25,7 +25,16 @@
 
         <dependency>
             <groupId>com.photowey</groupId>
+            <artifactId>popup-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.photowey</groupId>
             <artifactId>popup-starter-cache-redis-lock</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>popup-starter-cache-redis-dependency</artifactId>
+            <type>pom</type>
         </dependency>
     </dependencies>
 
