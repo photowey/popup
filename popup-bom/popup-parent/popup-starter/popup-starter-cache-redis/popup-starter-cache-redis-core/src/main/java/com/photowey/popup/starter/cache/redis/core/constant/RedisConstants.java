@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.cache.redis.core.mode;
+package com.photowey.popup.starter.cache.redis.core.constant;
 
 /**
- * {@code RedisModeEnum}
+ * {@code RedisConstants}
  *
- * @author photowey
- * @date 2023/02/01
+ * @author weichangjun
+ * @date 2023/12/24
  * @since 1.0.0
  */
-public enum RedisModeEnum {
+public interface RedisConstants {
 
-    /**
-     * standalone
-     */
-    STANDALONE,
-    CLUSTER,
-    SENTINEL,
+    String REDIS_REGISTRY_KEY = "github:popup:redis:lock";
 
-    ;
+    String CUSTOM_REDIS_TEMPLATE_BEAN_NAME = "cst.redisTemplate";
+
+    String REDIS_KEY_SERIALIZER_BEAN_NAME = "org.springframework.data.redis.serializer.RedisSerializer.key";
+    String REDIS_VALUE_SERIALIZER_BEAN_NAME = "org.springframework.data.redis.serializer.RedisSerializer.value";
 }

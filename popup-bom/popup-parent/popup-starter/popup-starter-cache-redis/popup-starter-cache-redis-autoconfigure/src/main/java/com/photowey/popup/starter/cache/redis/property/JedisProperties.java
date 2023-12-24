@@ -13,23 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.popup.starter.cache.redis.core.mode;
+package com.photowey.popup.starter.cache.redis.property;
+
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.io.Serializable;
 
 /**
- * {@code RedisModeEnum}
+ * {@code JedisProperties}
  *
  * @author photowey
- * @date 2023/02/01
+ * @date 2023/12/24
  * @since 1.0.0
  */
-public enum RedisModeEnum {
+@Data
+@ConfigurationProperties(prefix = "spring.redis.jedis.pool", ignoreUnknownFields = true)
+public class JedisProperties implements Serializable {
 
-    /**
-     * standalone
-     */
-    STANDALONE,
-    CLUSTER,
-    SENTINEL,
+    private static final long serialVersionUID = 4515226416928528689L;
 
-    ;
+    private Integer maxTotal = 8;
+    private Integer maxIdle = 8;
+    private Long maxWait = -1L;
+    private Integer minIdle = 0;
 }
