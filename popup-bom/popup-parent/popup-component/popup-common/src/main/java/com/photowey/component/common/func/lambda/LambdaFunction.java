@@ -34,7 +34,7 @@ public interface LambdaFunction<T, R> extends Function<T, R> {
         try {
             Method method = fx.getClass().getDeclaredMethod("writeReplace");
             method.setAccessible(Boolean.TRUE);
-            java.lang.invoke.SerializedLambda serializedLambda = (SerializedLambda) method.invoke(fx);
+            SerializedLambda serializedLambda = (SerializedLambda) method.invoke(fx);
             String getter = serializedLambda.getImplMethodName();
             return methodToProperty(getter);
         } catch (ReflectiveOperationException e) {
