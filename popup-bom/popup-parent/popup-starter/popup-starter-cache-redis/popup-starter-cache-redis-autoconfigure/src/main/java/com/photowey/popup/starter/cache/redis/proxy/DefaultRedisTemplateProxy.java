@@ -15,6 +15,7 @@
  */
 package com.photowey.popup.starter.cache.redis.proxy;
 
+import com.photowey.component.common.func.lambda.LambdaFunction;
 import com.photowey.popup.starter.cache.redis.template.RedisTemplateProxy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -145,6 +146,16 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
         return this.redisTemplate.opsForHash().increment(key, filed, Math.abs(delta));
     }
 
+    @Override
+    public <T> Long hashIncr(String key, LambdaFunction<T, ?> filed) {
+        return this.hashIncr(key, filed, 1L);
+    }
+
+    @Override
+    public <T> Long hashIncr(String key, LambdaFunction<T, ?> filed, Long delta) {
+        return this.hashIncr(key, LambdaFunction.resolve(filed), delta);
+    }
+
     // ---------------------------------------------------------------- decr
 
     @Override
@@ -165,6 +176,16 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
     @Override
     public Long hashDecr(String key, String filed, Long delta) {
         return this.redisTemplate.opsForHash().increment(key, filed, Math.abs(delta) * NEGATIVE_SIGN);
+    }
+
+    @Override
+    public <T> Long hashDecr(String key, LambdaFunction<T, ?> filed) {
+        return this.hashDecr(key, filed, 1L);
+    }
+
+    @Override
+    public <T> Long hashDecr(String key, LambdaFunction<T, ?> filed, Long delta) {
+        return this.hashDecr(key, LambdaFunction.resolve(filed), delta);
     }
 
     // ---------------------------------------------------------------- redis

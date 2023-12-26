@@ -15,6 +15,8 @@
  */
 package com.photowey.popup.starter.cache.template;
 
+import com.photowey.component.common.func.lambda.LambdaFunction;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -58,7 +60,12 @@ public interface ICacheTemplate {
 
     Long hashIncr(String key, String filed);
 
+
     Long hashIncr(String key, String filed, Long delta);
+
+    <T> Long hashIncr(String key, LambdaFunction<T, ?> filed);
+
+    <T> Long hashIncr(String key, LambdaFunction<T, ?> filed, Long delta);
 
     // ---------------------------------------------------------------- decr
 
@@ -69,4 +76,8 @@ public interface ICacheTemplate {
     Long hashDecr(String key, String filed);
 
     Long hashDecr(String key, String filed, Long delta);
+
+    <T> Long hashDecr(String key, LambdaFunction<T, ?> filed);
+
+    <T> Long hashDecr(String key, LambdaFunction<T, ?> filed, Long delta);
 }
