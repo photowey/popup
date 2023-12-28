@@ -15,8 +15,13 @@
  */
 package com.photowey.popup.starter.cache.redis.proxy;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photowey.component.common.func.lambda.LambdaFunction;
 import com.photowey.popup.starter.cache.redis.template.RedisTemplateProxy;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -24,6 +29,9 @@ import org.springframework.data.redis.core.ZSetOperations;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * {@code DefaultRedisTemplateProxy}
@@ -32,12 +40,14 @@ import java.util.function.BiFunction;
  * @date 2023/12/24
  * @since 1.0.0
  */
-public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
+public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactoryAware {
 
     private static final long NEGATIVE_SIGN = -1L;
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final StringRedisTemplate stringRedisTemplate;
+
+    private ListableBeanFactory beanFactory;
 
     public DefaultRedisTemplateProxy(
             RedisTemplate<String, Object> redisTemplate,
@@ -45,6 +55,23 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
         this.redisTemplate = redisTemplate;
         this.stringRedisTemplate = stringRedisTemplate;
     }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) beanFactory;
+    }
+
+    public ObjectMapper objectMapper() {
+        return this.beanFactory.getBean(ObjectMapper.class);
+    }
+
+    // ----------------------------------------------------------------
+
+    public <T> T toBean(Map<Object, Object> entries, Class<T> clazz) {
+        return this.objectMapper().convertValue(entries, clazz);
+    }
+
+    // ----------------------------------------------------------------
 
     public boolean expire(final String key, long expireTime) {
         return this.expire(key, expireTime, TimeUnit.SECONDS);
@@ -330,7 +357,7 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
     }
 
     @Override
-    public <T> List<T> rangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx) {
+    public <T> List<T> zsetRangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx) {
         start = null != start ? start : 0;
         end = null != end ? end : -1;
 
@@ -351,7 +378,7 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
     }
 
     @Override
-    public <T> List<T> reverseRangeWithScores(String key, Long start, Long end, BiFunction<Object, Double, T> fx) {
+    public <T> List<T> zsetReverseRangeWithScores(String key, Long start, Long end, BiFunction<Object, Double, T> fx) {
         start = null != start ? start : 0;
         end = null != end ? end : -1;
         Set<ZSetOperations.TypedTuple<Object>> typedTuples = this.redisTemplate.opsForZSet().reverseRangeWithScores(key, start, end);
@@ -368,6 +395,80 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
         }
 
         return ts;
+    }
+
+    // ---------------------------------------------------------------- hash
+
+    @Override
+    public void hashSet(String key, String field, Object value) {
+        this.redisTemplate.opsForHash().put(key, field, value);
+    }
+
+    @Override
+    public void hashmSet(String key, Map<Object, Object> entries) {
+        this.redisTemplate.opsForHash().putAll(key, entries);
+    }
+
+    @Override
+    public <T> T hashGet(final String key, final String field) {
+        return (T) this.redisTemplate.opsForHash().get(key, field);
+    }
+
+    @Override
+    public <T, R> R hashGet(final String key, LambdaFunction<T, ?> field) {
+        return this.hashGet(key, LambdaFunction.resolve(field));
+    }
+
+    @Override
+    public <T> T hashmGet(Class<T> clazz, final String key, final String... fields) {
+        List<Object> fs = Arrays.asList(fields);
+        Map<Object, Object> entries = this.hashmGet(key, fs);
+        return this.toBean(entries, clazz);
+    }
+
+    @Override
+    public <T> T hashmGet(final String key, Function<Map<Object, Object>, T> fx, final String... fields) {
+        List<Object> fs = Arrays.asList(fields);
+        Map<Object, Object> entries = this.hashmGet(key, fs);
+
+        return fx.apply(entries);
+    }
+
+    @Override
+    public <T, R> R hashmGet(final String key, Function<Map<Object, Object>, R> fx, LambdaFunction<T, ?>... fields) {
+        List<Object> fs = Stream.of(fields).map(LambdaFunction::resolve).collect(Collectors.toList());
+        Map<Object, Object> entries = this.hashmGet(key, fs);
+
+        return fx.apply(entries);
+    }
+
+    @Override
+    public <T, R> R hashmGet(Class<R> clazz, String key, LambdaFunction<T, ?>... fields) {
+        List<Object> fs = Stream.of(fields).map(LambdaFunction::resolve).collect(Collectors.toList());
+        Map<Object, Object> entries = this.hashmGet(key, fs);
+        return this.toBean(entries, clazz);
+    }
+
+    @Override
+    public <T> T hashEntries(Class<T> clazz, final String key) {
+        Map<Object, Object> entries = this.redisTemplate.opsForHash().entries(key);
+        return this.toBean(entries, clazz);
+    }
+
+    @Override
+    public Map<Object, Object> hashmGet(String key, List<Object> fields) {
+        List<Object> values = this.redisTemplate.opsForHash().multiGet(key, fields);
+
+        Map<Object, Object> entries = new HashMap<>();
+
+        for (int i = 0; i < fields.size(); i++) {
+            Object k = fields.get(i);
+            Object v = values.get(i);
+
+            entries.put(k, v);
+        }
+
+        return entries;
     }
 
     // ---------------------------------------------------------------- template

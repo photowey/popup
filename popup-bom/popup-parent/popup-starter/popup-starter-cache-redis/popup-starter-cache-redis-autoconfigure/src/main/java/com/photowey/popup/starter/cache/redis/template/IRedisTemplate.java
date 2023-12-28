@@ -15,12 +15,15 @@
  */
 package com.photowey.popup.starter.cache.redis.template;
 
+import com.photowey.component.common.func.lambda.LambdaFunction;
 import com.photowey.popup.starter.cache.template.ICacheTemplate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * {@code IRedisTemplate}
@@ -87,7 +90,29 @@ public interface IRedisTemplate extends ICacheTemplate {
 
     void zsetAdd(final String key, Object value, Double score);
 
-    <T> List<T> rangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx);
+    <T> List<T> zsetRangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx);
 
-    <T> List<T> reverseRangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx);
+    <T> List<T> zsetReverseRangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx);
+
+    // ---------------------------------------------------------------- hash
+
+    void hashSet(final String key, final String field, Object value);
+
+    void hashmSet(final String key, Map<Object, Object> entries);
+
+    <T> T hashGet(final String key, String field);
+
+    <T, R> R hashGet(final String key, LambdaFunction<T, ?> field);
+
+    <T> T hashmGet(Class<T> clazz, final String key, String... fields);
+
+    <T> T hashmGet(final String key, Function<Map<Object, Object>, T> fx, String... fields);
+
+    <T, R> R hashmGet(final String key, Function<Map<Object, Object>, R> fx, LambdaFunction<T, ?>... fields);
+
+    <T, R> R hashmGet(Class<R> clazz, final String key, LambdaFunction<T, ?>... fields);
+
+    Map<Object, Object> hashmGet(final String key, List<Object> fields);
+
+    <T> T hashEntries(Class<T> clazz, final String key);
 }
