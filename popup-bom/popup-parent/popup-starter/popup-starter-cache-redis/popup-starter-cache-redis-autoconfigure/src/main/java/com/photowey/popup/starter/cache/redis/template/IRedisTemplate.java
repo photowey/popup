@@ -82,6 +82,8 @@ public interface IRedisTemplate extends ICacheTemplate {
 
     // ---------------------------------------------------------------- zset
 
+    Long zsetSize(final String key);
+
     boolean zsetExists(final String key, Object value);
 
     void zsetTrim(final String key, final long max);
@@ -89,6 +91,17 @@ public interface IRedisTemplate extends ICacheTemplate {
     void zsetRemoveRange(final String key, final long start, final long end);
 
     void zsetAdd(final String key, Object value, Double score);
+
+    void zsetAdd(final String key, Object value, Long score);
+
+    void zsetAdd(final String key, Object value, Integer score);
+
+    void zsetScoreIncr(final String key, Object value, Double score);
+
+    void zsetScoreIncr(final String key, Object value, Long score);
+
+    void zsetScoreIncr(final String key, Object value, Integer score);
+
 
     <T> List<T> zsetRangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx);
 

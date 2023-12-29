@@ -15,6 +15,7 @@
  */
 package com.photowey.popup.starter.cache.template;
 
+import com.photowey.component.common.counter.SafeCounter;
 import com.photowey.component.common.func.lambda.LambdaFunction;
 
 import java.util.concurrent.TimeUnit;
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2023/05/13
  * @since 1.0.0
  */
-public interface ICacheTemplate {
+public interface ICacheTemplate extends SafeCounter {
 
     boolean exists(final String key);
 

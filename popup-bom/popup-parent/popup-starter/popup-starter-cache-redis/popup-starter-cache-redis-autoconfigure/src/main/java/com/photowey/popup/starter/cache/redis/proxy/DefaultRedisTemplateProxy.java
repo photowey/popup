@@ -323,7 +323,7 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     }
 
     @Override
-    public <T> List<T> setRandomMembers(String key, long count) {
+    public <T> List<T> setRandomMembers(final String key, long count) {
         List<Object> objects = this.redisTemplate.opsForSet().randomMembers(key, count);
         if (null == objects) {
             objects = this.emptyList();
@@ -333,13 +333,18 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     }
 
     @Override
-    public boolean zsetExists(String key, Object value) {
+    public Long zsetSize(final String key) {
+        return this.determineCounter(() -> this.redisTemplate.opsForZSet().size(key));
+    }
+
+    @Override
+    public boolean zsetExists(final String key, Object value) {
         Double score = this.redisTemplate.opsForZSet().score(key, value);
         return null != score;
     }
 
     @Override
-    public void zsetTrim(String key, long max) {
+    public void zsetTrim(final String key, long max) {
         long size = this.redisTemplate.opsForZSet().size(key);
         if (size > max) {
             this.zsetRemoveRange(key, 0, size - (max + 1));
@@ -347,13 +352,38 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     }
 
     @Override
-    public void zsetRemoveRange(String key, long start, long end) {
+    public void zsetRemoveRange(final String key, long start, long end) {
         this.redisTemplate.opsForZSet().removeRange(key, start, end);
     }
 
     @Override
-    public void zsetAdd(String key, Object value, Double score) {
+    public void zsetAdd(final String key, Object value, Double score) {
         this.redisTemplate.opsForZSet().add(key, value, score);
+    }
+
+    @Override
+    public void zsetAdd(final String key, Object value, Long score) {
+        this.redisTemplate.opsForZSet().add(key, value, score);
+    }
+
+    @Override
+    public void zsetAdd(final String key, Object value, Integer score) {
+        this.redisTemplate.opsForZSet().add(key, value, score);
+    }
+
+    @Override
+    public void zsetScoreIncr(String key, Object value, Double score) {
+        this.redisTemplate.opsForZSet().incrementScore(key, value, score);
+    }
+
+    @Override
+    public void zsetScoreIncr(String key, Object value, Long score) {
+        this.redisTemplate.opsForZSet().incrementScore(key, value, score);
+    }
+
+    @Override
+    public void zsetScoreIncr(String key, Object value, Integer score) {
+        this.redisTemplate.opsForZSet().incrementScore(key, value, score);
     }
 
     @Override
