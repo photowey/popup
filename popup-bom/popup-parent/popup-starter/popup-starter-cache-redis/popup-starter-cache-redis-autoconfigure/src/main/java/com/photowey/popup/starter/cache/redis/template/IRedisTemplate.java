@@ -15,8 +15,10 @@
  */
 package com.photowey.popup.starter.cache.redis.template;
 
+import com.photowey.component.common.func.ThreeConsumer;
 import com.photowey.component.common.func.lambda.LambdaFunction;
 import com.photowey.popup.starter.cache.template.ICacheTemplate;
+import org.springframework.data.redis.connection.RedisZSetCommands;
 
 import java.util.List;
 import java.util.Map;
@@ -102,10 +104,13 @@ public interface IRedisTemplate extends ICacheTemplate {
 
     void zsetScoreIncr(final String key, Object value, Integer score);
 
-
     <T> List<T> zsetRangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx);
 
     <T> List<T> zsetReverseRangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx);
+
+    <T, V> Integer zsetRemovePipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx);
+
+    <T, V> Integer zsetPipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisZSetCommands, byte[], byte[]> fx);
 
     // ---------------------------------------------------------------- hash
 

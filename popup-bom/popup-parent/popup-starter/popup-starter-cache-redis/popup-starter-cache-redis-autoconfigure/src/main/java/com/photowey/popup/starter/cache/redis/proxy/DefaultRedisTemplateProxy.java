@@ -16,15 +16,19 @@
 package com.photowey.popup.starter.cache.redis.proxy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.photowey.component.common.func.ThreeConsumer;
 import com.photowey.component.common.func.lambda.LambdaFunction;
+import com.photowey.popup.starter.cache.redis.core.constant.RedisConstants;
 import com.photowey.popup.starter.cache.redis.template.RedisTemplateProxy;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -63,6 +67,14 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
 
     public ObjectMapper objectMapper() {
         return this.beanFactory.getBean(ObjectMapper.class);
+    }
+
+    public RedisSerializer<String> redisKeySerializer() {
+        return this.beanFactory.getBean(RedisConstants.REDIS_KEY_SERIALIZER_BEAN_NAME, RedisSerializer.class);
+    }
+
+    public RedisSerializer<Object> redisValueSerializer() {
+        return this.beanFactory.getBean(RedisConstants.REDIS_VALUE_SERIALIZER_BEAN_NAME, RedisSerializer.class);
     }
 
     // ----------------------------------------------------------------
@@ -425,6 +437,37 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
         }
 
         return ts;
+    }
+
+    @Override
+    public <T, V> Integer zsetRemovePipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx) {
+        return this.zsetPipeline(actors, kfx, vfx, RedisZSetCommands::zRem);
+    }
+
+    @Override
+    public <T, V> Integer zsetPipeline(
+            List<T> actors,
+            Function<T, String> kfx,
+            Function<T, V> vfx,
+            ThreeConsumer<RedisZSetCommands, byte[], byte[]> fx) {
+        if (null == actors) {
+            return 0;
+        }
+
+        return this.redisTemplate.execute((conn) -> {
+            conn.openPipeline();
+            actors.forEach(actor -> {
+                String key = kfx.apply(actor);
+                V member = vfx.apply(actor);
+
+                byte[] keyBytes = redisKeySerializer().serialize(key);
+                byte[] memberBytes = redisValueSerializer().serialize(member);
+
+                fx.accept(conn.zSetCommands(), keyBytes, memberBytes);
+            });
+
+            return 1;
+        }, false, true);
     }
 
     // ---------------------------------------------------------------- hash
