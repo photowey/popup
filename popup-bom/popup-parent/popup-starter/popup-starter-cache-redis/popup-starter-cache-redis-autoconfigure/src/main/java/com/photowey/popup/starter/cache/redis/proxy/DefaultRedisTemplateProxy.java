@@ -456,6 +456,7 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
 
         return this.redisTemplate.execute((conn) -> {
             conn.openPipeline();
+
             actors.forEach(actor -> {
                 String key = kfx.apply(actor);
                 V member = vfx.apply(actor);
@@ -463,8 +464,10 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
                 byte[] keyBytes = redisKeySerializer().serialize(key);
                 byte[] memberBytes = redisValueSerializer().serialize(member);
 
-                fx.accept(conn.zSetCommands(), keyBytes, memberBytes);
+                fx.accept(conn.zSetCommands(), Objects.requireNonNull(keyBytes), Objects.requireNonNull(memberBytes));
             });
+
+            conn.closePipeline();
 
             return 1;
         }, false, true);
