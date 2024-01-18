@@ -16,6 +16,7 @@
 package com.photowey.popup.starter.cache.redis.proxy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.photowey.component.common.func.FourConsumer;
 import com.photowey.component.common.func.ThreeConsumer;
 import com.photowey.component.common.func.lambda.LambdaFunction;
 import com.photowey.popup.starter.cache.redis.core.constant.RedisConstants;
@@ -24,6 +25,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -384,17 +386,17 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     }
 
     @Override
-    public void zsetScoreIncr(String key, Object value, Double score) {
+    public void zsetScoreIncr(final String key, Object value, Double score) {
         this.redisTemplate.opsForZSet().incrementScore(key, value, score);
     }
 
     @Override
-    public void zsetScoreIncr(String key, Object value, Long score) {
+    public void zsetScoreIncr(final String key, Object value, Long score) {
         this.redisTemplate.opsForZSet().incrementScore(key, value, score);
     }
 
     @Override
-    public void zsetScoreIncr(String key, Object value, Integer score) {
+    public void zsetScoreIncr(final String key, Object value, Integer score) {
         this.redisTemplate.opsForZSet().incrementScore(key, value, score);
     }
 
@@ -404,39 +406,15 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
         end = null != end ? end : -1;
 
         Set<ZSetOperations.TypedTuple<Object>> typedTuples = this.redisTemplate.opsForZSet().rangeWithScores(key, start, end);
-        Iterator<ZSetOperations.TypedTuple<Object>> iterator = typedTuples.iterator();
-
-        List<T> ts = new ArrayList<>(typedTuples.size());
-        while (iterator.hasNext()) {
-            ZSetOperations.TypedTuple<Object> next = iterator.next();
-            Object value = next.getValue();
-            Double score = next.getScore();
-
-            T t = fx.apply(value, score);
-            ts.add(t);
-        }
-
-        return ts;
+        return this.toList(fx, typedTuples);
     }
 
     @Override
-    public <T> List<T> zsetReverseRangeWithScores(String key, Long start, Long end, BiFunction<Object, Double, T> fx) {
+    public <T> List<T> zsetReverseRangeWithScores(final String key, Long start, Long end, BiFunction<Object, Double, T> fx) {
         start = null != start ? start : 0;
         end = null != end ? end : -1;
         Set<ZSetOperations.TypedTuple<Object>> typedTuples = this.redisTemplate.opsForZSet().reverseRangeWithScores(key, start, end);
-        Iterator<ZSetOperations.TypedTuple<Object>> iterator = typedTuples.iterator();
-        List<T> ts = new ArrayList<>(typedTuples.size());
-
-        while (iterator.hasNext()) {
-            ZSetOperations.TypedTuple<Object> next = iterator.next();
-            Object value = next.getValue();
-            Double score = next.getScore();
-
-            T t = fx.apply(value, score);
-            ts.add(t);
-        }
-
-        return ts;
+        return this.toList(fx, typedTuples);
     }
 
     @Override
@@ -445,43 +423,53 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     }
 
     @Override
-    public <T, V> Integer zsetPipeline(
-            List<T> actors,
-            Function<T, String> kfx,
-            Function<T, V> vfx,
-            ThreeConsumer<RedisZSetCommands, byte[], byte[]> fx) {
+    public <T, V> Integer zsetPipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisZSetCommands, byte[], byte[]> fx) {
+        return this.pipeline(actors, kfx, vfx, (conn, k, v) -> {
+            fx.accept(conn.zSetCommands(), k, v);
+        });
+    }
+
+    @Override
+    public <T, V> Integer pipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisConnection, byte[], byte[]> fx) {
+        return this.pipeline(actors, false, (conn, kSerializer, vSerializer, actor) -> {
+            String cacheKey = kfx.apply(actor);
+            V value = vfx.apply(actor);
+
+            byte[] keyBytes = kSerializer.serialize(cacheKey);
+            byte[] valueBytes = vSerializer.serialize(value);
+
+            fx.accept(conn, Objects.requireNonNull(keyBytes), Objects.requireNonNull(valueBytes));
+        });
+    }
+
+    @Override
+    public <T> Integer pipeline(List<T> actors, boolean exposeConnection, FourConsumer<RedisConnection, RedisSerializer<String>, RedisSerializer<Object>, T> fx) {
         if (null == actors) {
             return 0;
         }
 
         return this.redisTemplate.execute((conn) -> {
-            conn.openPipeline();
+            // conn.openPipeline();
 
-            actors.forEach(actor -> {
-                String key = kfx.apply(actor);
-                V member = vfx.apply(actor);
+            for (T actor : actors) {
+                fx.accept(conn, redisKeySerializer(), redisValueSerializer(), actor);
+            }
 
-                byte[] keyBytes = redisKeySerializer().serialize(key);
-                byte[] memberBytes = redisValueSerializer().serialize(member);
-
-                fx.accept(conn.zSetCommands(), Objects.requireNonNull(keyBytes), Objects.requireNonNull(memberBytes));
-            });
-
-            conn.closePipeline();
+            // conn.closePipeline();
 
             return 1;
-        }, false, true);
+        }, exposeConnection, true);
     }
 
     // ---------------------------------------------------------------- hash
 
     @Override
-    public void hashSet(String key, String field, Object value) {
+    public void hashSet(final String key, String field, Object value) {
         this.redisTemplate.opsForHash().put(key, field, value);
     }
 
     @Override
-    public void hashmSet(String key, Map<Object, Object> entries) {
+    public void hashmSet(final String key, Map<Object, Object> entries) {
         this.redisTemplate.opsForHash().putAll(key, entries);
     }
 
@@ -519,7 +507,7 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     }
 
     @Override
-    public <T, R> R hashmGet(Class<R> clazz, String key, LambdaFunction<T, ?>... fields) {
+    public <T, R> R hashmGet(Class<R> clazz, final String key, LambdaFunction<T, ?>... fields) {
         List<Object> fs = Stream.of(fields).map(LambdaFunction::resolve).collect(Collectors.toList());
         Map<Object, Object> entries = this.hashmGet(key, fs);
         return this.toBean(entries, clazz);
@@ -532,7 +520,7 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     }
 
     @Override
-    public Map<Object, Object> hashmGet(String key, List<Object> fields) {
+    public Map<Object, Object> hashmGet(final String key, List<Object> fields) {
         List<Object> values = this.redisTemplate.opsForHash().multiGet(key, fields);
 
         Map<Object, Object> entries = new HashMap<>();
@@ -557,15 +545,5 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     @Override
     public StringRedisTemplate stringRedis() {
         return this.stringRedisTemplate;
-    }
-
-    // ---------------------------------------------------------------- empty.collection
-
-    private <T> List<T> emptyList() {
-        return new ArrayList<>(0);
-    }
-
-    private <T> Set<T> emptySet() {
-        return new HashSet<>(0);
     }
 }

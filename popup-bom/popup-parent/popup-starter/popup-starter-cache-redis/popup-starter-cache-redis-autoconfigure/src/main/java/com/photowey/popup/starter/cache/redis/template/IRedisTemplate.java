@@ -15,10 +15,13 @@
  */
 package com.photowey.popup.starter.cache.redis.template;
 
+import com.photowey.component.common.func.FourConsumer;
 import com.photowey.component.common.func.ThreeConsumer;
 import com.photowey.component.common.func.lambda.LambdaFunction;
 import com.photowey.popup.starter.cache.template.ICacheTemplate;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.List;
 import java.util.Map;
@@ -111,6 +114,10 @@ public interface IRedisTemplate extends ICacheTemplate {
     <T, V> Integer zsetRemovePipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx);
 
     <T, V> Integer zsetPipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisZSetCommands, byte[], byte[]> fx);
+
+    <T, V> Integer pipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisConnection, byte[], byte[]> fx);
+
+    <T> Integer pipeline(List<T> actors, boolean exposeConnection, FourConsumer<RedisConnection, RedisSerializer<String>, RedisSerializer<Object>, T> fx);
 
     // ---------------------------------------------------------------- hash
 

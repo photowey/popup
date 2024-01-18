@@ -17,6 +17,13 @@ package com.photowey.popup.starter.cache.redis.template;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.function.BiFunction;
 
 /**
  * {@code RedisTemplateProxy}
@@ -30,4 +37,24 @@ public interface RedisTemplateProxy extends IRedisTemplate {
     RedisTemplate<String, Object> redis();
 
     StringRedisTemplate stringRedis();
+
+    default <T> List<T> toList(BiFunction<Object, Double, T> fx, Set<ZSetOperations.TypedTuple<Object>> typedTuples) {
+        if (null == typedTuples) {
+            return this.emptyList();
+        }
+
+        Iterator<ZSetOperations.TypedTuple<Object>> iterator = typedTuples.iterator();
+        List<T> ts = new ArrayList<>(typedTuples.size());
+
+        while (iterator.hasNext()) {
+            ZSetOperations.TypedTuple<Object> next = iterator.next();
+            Object value = next.getValue();
+            Double score = next.getScore();
+
+            T t = fx.apply(value, score);
+            ts.add(t);
+        }
+
+        return ts;
+    }
 }
