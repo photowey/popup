@@ -15,6 +15,7 @@
  */
 package com.photowey.component.common.counter;
 
+import java.math.BigDecimal;
 import java.util.function.Supplier;
 
 /**
@@ -30,6 +31,18 @@ public interface Counter {
         Long counter = fx.get();
 
         return null != counter ? counter : 0L;
+    }
+
+    default Integer determineIntegerCounter(Supplier<Integer> fx) {
+        Integer counter = fx.get();
+
+        return null != counter ? counter : 0;
+    }
+
+    default BigDecimal determineBigDecimalCounter(Supplier<BigDecimal> fx) {
+        BigDecimal counter = fx.get();
+
+        return null != counter ? counter : BigDecimal.ZERO;
     }
 
 }
