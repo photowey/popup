@@ -18,6 +18,8 @@ package com.photowey.popup.starter.cache.redis.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.photowey.popup.starter.cache.redis.core.constant.RedisConstants;
+import com.photowey.popup.starter.cache.redis.engine.DefaultRedisEngine;
+import com.photowey.popup.starter.cache.redis.engine.RedisEngine;
 import com.photowey.popup.starter.cache.redis.property.RedisProperties;
 import com.photowey.popup.starter.cache.redis.proxy.DefaultRedisTemplateProxy;
 import com.photowey.popup.starter.cache.redis.template.RedisTemplateProxy;
@@ -156,4 +158,13 @@ public class PopupCacheRedisAutoConfigure {
     public RedisTemplateProxy redisTemplateProxy(RedisTemplate<String, Object> redisTemplate, StringRedisTemplate stringRedisTemplate) {
         return new DefaultRedisTemplateProxy(redisTemplate, stringRedisTemplate);
     }
+
+    // ----------------------------------------------------------------
+
+    @Bean
+    public RedisEngine redisEngine() {
+        return new DefaultRedisEngine();
+    }
 }
+
+
