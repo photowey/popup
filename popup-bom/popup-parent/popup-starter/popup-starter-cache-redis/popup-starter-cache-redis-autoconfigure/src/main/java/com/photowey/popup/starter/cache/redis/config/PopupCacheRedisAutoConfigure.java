@@ -20,6 +20,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.photowey.popup.starter.cache.redis.core.constant.RedisConstants;
 import com.photowey.popup.starter.cache.redis.engine.DefaultRedisEngine;
 import com.photowey.popup.starter.cache.redis.engine.RedisEngine;
+import com.photowey.popup.starter.cache.redis.engine.RedisEngineAwareBeanPostProcessor;
 import com.photowey.popup.starter.cache.redis.property.RedisProperties;
 import com.photowey.popup.starter.cache.redis.proxy.DefaultRedisTemplateProxy;
 import com.photowey.popup.starter.cache.redis.template.RedisTemplateProxy;
@@ -58,6 +59,7 @@ import redis.clients.jedis.JedisPoolConfig;
 @EnableConfigurationProperties(value = {
         JedisPoolConfigure.class,
         JedisConfigure.class,
+        RedisEngineAwareBeanPostProcessor.class,
 })
 public class PopupCacheRedisAutoConfigure {
 
