@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photowey.component.common.func.FourConsumer;
 import com.photowey.component.common.func.ThreeConsumer;
 import com.photowey.component.common.func.lambda.LambdaFunction;
+import com.photowey.component.common.util.ObjectUtils;
 import com.photowey.popup.starter.cache.redis.core.constant.RedisConstants;
 import com.photowey.popup.starter.cache.redis.template.RedisTemplateProxy;
 import org.springframework.beans.BeansException;
@@ -113,7 +114,6 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
 
     @Override
     public synchronized <T> void reset(final String key, T value) {
-        this.delete(key);
         this.set(key, value);
     }
 
@@ -240,17 +240,33 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
 
     @Override
     public void remove(String... keys) {
-        for (String key : keys) {
-            this.remove(key);
+        if (ObjectUtils.isNullOrEmpty(keys)) {
+            return;
         }
+
+        List<String> actors = Arrays.asList(keys);
+        this.remove(actors);
+    }
+
+    @Override
+    public void remove(Collection<String> keys) {
+        if (ObjectUtils.isNullOrEmpty(keys)) {
+            return;
+        }
+
+        List<String> actors = new ArrayList<>(keys);
+        this.pipeline(actors, false, (conn, ks, vs, actor) -> {
+            byte[] keyBytes = ks.serialize(actor);
+            conn.keyCommands().del(keyBytes);
+        });
     }
 
     @Override
     public void removePattern(String pattern) {
         Set<String> keys = this.redisTemplate.keys(pattern);
         if (null != keys) {
-            if (Objects.requireNonNull(keys).size() > 0) {
-                this.redisTemplate.delete(keys);
+            if (ObjectUtils.isNotNullOrEmpty(keys)) {
+                this.remove(keys);
             }
         }
     }
@@ -258,7 +274,6 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     @Override
     public <T> long leftPush(final String key, T value) {
         Long length = this.redisTemplate.opsForList().leftPush(key, value);
-
         return length != null ? length : 0L;
     }
 
@@ -352,7 +367,7 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     }
 
     @Override
-    public boolean zsetExists(final String key, Object value) {
+    public boolean zsetIsMember(final String key, Object value) {
         Double score = this.redisTemplate.opsForZSet().score(key, value);
         return null != score;
     }
@@ -487,6 +502,7 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     public <T> T hashmGet(Class<T> clazz, final String key, final String... fields) {
         List<Object> fs = Arrays.asList(fields);
         Map<Object, Object> entries = this.hashmGet(key, fs);
+
         return this.toBean(entries, clazz);
     }
 
@@ -510,12 +526,14 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     public <T, R> R hashmGet(Class<R> clazz, final String key, LambdaFunction<T, ?>... fields) {
         List<Object> fs = Stream.of(fields).map(LambdaFunction::resolve).collect(Collectors.toList());
         Map<Object, Object> entries = this.hashmGet(key, fs);
+
         return this.toBean(entries, clazz);
     }
 
     @Override
     public <T> T hashEntries(Class<T> clazz, final String key) {
         Map<Object, Object> entries = this.redisTemplate.opsForHash().entries(key);
+
         return this.toBean(entries, clazz);
     }
 

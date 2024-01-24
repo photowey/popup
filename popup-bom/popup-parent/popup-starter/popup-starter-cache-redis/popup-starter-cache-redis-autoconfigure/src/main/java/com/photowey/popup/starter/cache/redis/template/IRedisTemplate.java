@@ -23,6 +23,7 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,6 +45,8 @@ public interface IRedisTemplate extends ICacheTemplate {
     void remove(final String key);
 
     void remove(final String... keys);
+
+    void remove(final Collection<String> keys);
 
     void removePattern(final String pattern);
 
@@ -89,7 +92,7 @@ public interface IRedisTemplate extends ICacheTemplate {
 
     Long zsetSize(final String key);
 
-    boolean zsetExists(final String key, Object value);
+    boolean zsetIsMember(final String key, Object value);
 
     void zsetTrim(final String key, final long max);
 

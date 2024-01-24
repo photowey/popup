@@ -41,6 +41,10 @@ public interface ICacheTemplate extends SafeCounter {
 
     <T> void reset(final String key, T value);
 
+    void set(final String key, Object value, long expireTime);
+
+    void reset(final String key, Object value, long expireTime);
+
     <T> void set(final String key, T value, long expires, TimeUnit timeUnit);
 
     <T> void reset(final String key, T value, long expires, TimeUnit timeUnit);
