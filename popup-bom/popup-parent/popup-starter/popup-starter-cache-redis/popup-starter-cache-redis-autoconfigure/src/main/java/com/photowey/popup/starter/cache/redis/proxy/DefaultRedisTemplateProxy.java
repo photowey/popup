@@ -254,21 +254,13 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
             return;
         }
 
-        List<String> actors = new ArrayList<>(keys);
-        this.pipeline(actors, false, (conn, ks, vs, actor) -> {
-            byte[] keyBytes = ks.serialize(actor);
-            conn.keyCommands().del(keyBytes);
-        });
+        this.redisTemplate.delete(keys);
     }
 
     @Override
     public void removePattern(String pattern) {
         Set<String> keys = this.redisTemplate.keys(pattern);
-        if (null != keys) {
-            if (ObjectUtils.isNotNullOrEmpty(keys)) {
-                this.remove(keys);
-            }
-        }
+        this.remove(keys);
     }
 
     @Override
