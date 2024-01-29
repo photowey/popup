@@ -260,6 +260,9 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     @Override
     public void removePattern(String pattern) {
         Set<String> keys = this.redisTemplate.keys(pattern);
+        if (ObjectUtils.isNullOrEmpty(keys)) {
+            return;
+        }
         this.remove(keys);
     }
 
